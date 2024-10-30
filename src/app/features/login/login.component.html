@@ -7,11 +7,13 @@
     </div>
     <div class="grid lg:w-[700px] grid-cols-1">
         <div class=" flex justify-center items-center flex-col">
-            <h1 class="text-primary font-bold text-[100px]">Active+</h1>
             <div
                 class=" lg:w-[700px] border-[3px] border-[rgba(131,_166,_211,_0.64)] rounded-[20px] flex flex-col justify-center items-center p-5 py-10">
                 <form [formGroup]="formLogin" class="flex flex-col gap-7 w-[80%]">
-
+                    <div class="w-full flex justify-center items-center">
+                        <img src="../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" class="w-[100px] h-[100px] object-cover" />
+                    </div>
+                   
                     <div class="flex flex-col">
                         <label for="userName" class="w-52">{{'Login.username'|translate}}</label>
                         <mat-form-field class="custom-input" appearance="outline">

@@ -62,11 +62,6 @@ const routes: Routes = [
       //     ),
       //   // title: 'Unit',
       // },
-
-      {
-        path: '**',
-        redirectTo: '/',
-      },
     ],
   },
 ];

@@ -1,1 +1,35 @@
-<p>management-list works!</p>
+<div class="bg-primaryBG h-[100vh] w-full p-10">
+    <div class="mb-8 flex justify-between items-center">
+        <h3 class="uppercase text-primary text-[18px] font-medium">{{'Management.userList'| translate }}</h3>
+        <div (click)="handelOpenPopUpAddManagement()" class="px-[12px] py-[8px] rounded-[6px] border border-primary text-primary cursor-pointer hover:bg-primary hover:text-[#fff]" >{{'Button.add'| translate }}</div>
+    </div>
+    <app-share-table [pageIndex]="params.page" [pageSize]="params.pageSize" [loaded]="!isLoading" [data]="listUserManagements" [total]="totalCount"
+      [maxHeight]="'calc(100vh - 150px)'" (pageIndexChange)="changePage($event)"
+      (pageSizeChange)="changePageSize($event)">
+      <ng-template #headers>
+        <th scope="col" class="font-semibold !text-center">STT</th>
+        <th scope="col" class="!text-start">TỔ CHỨC</th>
+        <th scope="col" class="!text-start">TÊN TÀI KHOẢN</th>
+        <th scope="col" class="!text-start">EMAIL</th>
+        <th scope="col" class="!text-start">SĐT</th>
+        <th scope="col" class="!text-start">PHÂN QUYỀN</th>
+        <th scope="col" class="!text-start">TRẠNG THÁI</th>
+        <th scope="col" class="!text-center">THAO TÁC</th>
+      </ng-template>
+      <ng-template #rows let-row let-index="index">
+        <td class="!text-center">{{ index + 1 + (params.page - 1) * params.pageSize }}</td>
+        <td scope="col" >{{ row.tenantName }}</td>
+        <td scope="col" >{{ row.userName }}</td>
+        <td scope="col" >{{ row.email }}</td>
+        <td scope="col" >{{ row.numberPhone }}</td>
+        <td scope="col" >{{ row.roleUser }}</td>
+        <td scope="col" [ngClass]="{'text-green-500': row.status === 'Đang hoạt động', 'text-red-600': row.status === 'Không hoạt động'}">
+          {{ row.status }}
+        </td>
+        <td (click)="handelOpenPopUpEditManagement(row.id)" scope="col" class="!text-center cursor-pointer">
+          <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
+          <span>Chỉnh sửa</span>
+        </td>
+      </ng-template>
+    </app-share-table>
+</div>

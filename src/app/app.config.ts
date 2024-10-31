@@ -33,8 +33,6 @@ import { AppConfigService } from './core/config/config.service';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { authCodeFlowConfig } from '../environments/auth/auth-config';
 import { provideEffects } from '@ngrx/effects';
-import { TodoEffect } from './store/ToDo.effect';
-import { UnitEffect } from './store/Unit.effect';
 import { SocialLoginModule, FacebookLoginProvider, SocialAuthService, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 
 
@@ -99,6 +97,5 @@ export const appConfig: ApplicationConfig = {
     { provide: OAuthStorage, useFactory: storageFactory },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
-    provideEffects(TodoEffect, UnitEffect),
   ],
 };

@@ -31,13 +31,7 @@ import {
   NzContextMenuService,
   NzDropdownMenuComponent,
 } from 'ng-zorro-antd/dropdown';
-import { GetListUnitBodyService } from '../../core/services/get-list-unit-body.service';
-import { loadUnits, loadUnitsByTenant } from '../../store/Unit.action';
-import { GetListTodoBodyService } from '../../core/services/get-list-todo-body.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { TenantService } from '../../core/api/tenant.service';
-import { unitService } from '../../core/api/unit.service';
-import { ValueUnitService } from '../../core/shared/value-unit.service';
 
 
 @Component({
@@ -107,13 +101,8 @@ export class MainComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private OauthService: OAuthService,
     private nzContextMenuService: NzContextMenuService,
-    private GetListUnitBodyService: GetListUnitBodyService,
-    private GetListTodoBodyService: GetListTodoBodyService,
     private router: Router,
     private authService2: SocialAuthService,
-    private tenantService: TenantService,
-    private unitService: unitService,
-    private valueUnitService: ValueUnitService,
   ) {
     if (navigator.language.includes('vi')) {
       this.translate.use('vi');
@@ -176,10 +165,10 @@ export class MainComponent implements OnInit, OnChanges {
     MainComponent.getData();
     if (this.OauthService.hasValidIdToken()) {
       this.OauthService.refreshToken().then(() => {
-        this._store.dispatch(loadUnits());
+        
       });
     } else {
-      this._store.dispatch(loadUnits());
+      
     }
   }
   changeTab(index: number) {
@@ -262,27 +251,8 @@ export class MainComponent implements OnInit, OnChanges {
   }
 
   handleLogout() {
-    // localStorage.clear();
-    // window.location.reload();
-    this.GetListTodoBodyService.body.unitId = null;
     this.authService.logout();
     this.authService2.signOut();
-    // this.OauthService.refreshToken();
-  }
-
-  units: any = [];
-  currentTenantId: string | null = null;
-  loadUnitbytenant(e: any, event: Event) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.idTenant = e;
-    console.log("AA: ", e)
-    this.valueUnitService.setTenantId(e);
-    this.unitService.getListUnitsByTenant(e).subscribe((units: any) => {
-      this.units = units.data;
-      this.currentTenantId = e;
-      this.cdr.detectChanges();
-    });
   }
 
   contextMenuOrgnization(

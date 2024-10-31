@@ -25,28 +25,6 @@ import { TabComponent } from '../../shared/components/tab/tab.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import 'zone.js';
 import { Store } from '@ngrx/store';
-import {
-  arrowsDownIcon,
-  arrowsUpIcon,
-  ascSortIcon,
-  circle,
-  descSortIcon,
-  detailTaskIcon,
-  ghostIcon,
-  groupUser,
-  logoutIcon,
-  organizationIcon,
-  pinIcon,
-  resizeColIcon,
-  schoolDocumentIcon,
-  tabTaskIcon,
-  taskIcon,
-  threeDots,
-  userInforIcon,
-  ghost,
-  manager,
-  edit
-} from '../../shared/components/iconAntd/iconAddOnAntd.component';
 import { AuthService } from '../../core/api/auth.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import {
@@ -91,6 +69,9 @@ import { ValueUnitService } from '../../core/shared/value-unit.service';
 export class MainComponent implements OnInit, OnChanges {
   isCollapsed = false;
   isReverseArrow = false;
+  idOwner: any;
+  nameOwner: any;
+  canActive: boolean = false;
   viewDetailUnit = false;
   width = 280;
   language: string = 'vi';
@@ -143,56 +124,34 @@ export class MainComponent implements OnInit, OnChanges {
     }
     let keysPressed: any = {};
 
-    document.addEventListener('keydown', (event: any) => {
-      keysPressed[event.keyCode] = true;
-      if (keysPressed[16] && keysPressed[90]) {
-        this.handleOpenAddTask();
-      }
-    });
-
     document.addEventListener('keyup', (event: any) => {
       delete keysPressed[event.keyCode];
     });
-    this.iconService.addIconLiteral('groupUserIcon:antd', groupUser);
-    this.iconService.addIconLiteral('ghostIcon:antd', ghostIcon);
-    this.iconService.addIconLiteral('ghost:antd', ghost);
-    this.iconService.addIconLiteral('taskIcon:antd', taskIcon);
-    this.iconService.addIconLiteral('circleIcon:antd', circle);
-    this.iconService.addIconLiteral('tabTaskIcon:antd', tabTaskIcon);
-    this.iconService.addIconLiteral('resizeColIcon:antd', resizeColIcon);
-    this.iconService.addIconLiteral('ascSortIcon:antd', ascSortIcon);
-    this.iconService.addIconLiteral('descSortIcon:antd', descSortIcon);
-    this.iconService.addIconLiteral('detailTaskIcon:antd', detailTaskIcon);
-    this.iconService.addIconLiteral(
-      'schoolDocumentIcon:antd',
-      schoolDocumentIcon,
-    );
-    this.iconService.addIconLiteral('arrowsUpIcon:antd', arrowsUpIcon);
-    this.iconService.addIconLiteral('arrowsDownIcon:antd', arrowsDownIcon);
-    this.iconService.addIconLiteral('logoutIcon:antd', logoutIcon);
-    this.iconService.addIconLiteral('organizationIcon:antd', organizationIcon);
-    this.iconService.addIconLiteral('userInforIcon:antd', userInforIcon);
-    this.iconService.addIconLiteral('threeDots:antd', threeDots);
-    this.iconService.addIconLiteral('pinIcon:antd', pinIcon);
-    this.iconService.addIconLiteral('manager:antd', manager);
-    this.iconService.addIconLiteral('edit:antd', edit);
-
-    const body = {
-      pageNumber: 1,
-      pageSize: 30,
-    };
-    GetListUnitBodyService.body = { ...body };
   }
   count: number;
   userInfor: any = JSON.parse(
     localStorage.getItem('id_token_claims_obj') || '{}',
   );
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadTenants();
   }
   ngOnInit(): void {
+    // Xem quyền người dùng để hiển thị menu
+    this.idOwner = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.sub;
+    this.nameOwner = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.name;
+    this.role = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.role;
+    if(this.role[0] === 'Administrator'){
+      this.canActive = true;
+    } else if(this.role[0] === 'User') {
+      this.canActive = false;
+    }
+
     console.log(this.OauthService.hasValidAccessToken());
-    this.loadTenants();
     
     setInterval(() => {
       this.OauthService.refreshToken()
@@ -222,30 +181,12 @@ export class MainComponent implements OnInit, OnChanges {
     } else {
       this._store.dispatch(loadUnits());
     }
-
-    this.getData();
   }
   changeTab(index: number) {
     this.tabActive = index;
     this.cdr.detectChanges();
   }
 
-  loadTenants() {
-    this.tenantService.getListTenant().subscribe((res: any) => {
-      this.tenants = res.data;
-      this.originalTenantsOrder = [...this.tenants];
-
-      const pinnedTenantId = localStorage.getItem('pinnedTenantId');
-      if (pinnedTenantId) {
-        const pinnedTenant = this.tenants.find((tenant: any) => tenant.id === +pinnedTenantId);
-        if (pinnedTenant) {
-          this.tenants = this.tenants.filter((tenant: any) => tenant.id !== +pinnedTenantId);
-          this.tenants.unshift(pinnedTenant);
-        }
-      }
-    });
-    // this.loadUnitbytenant()
-  }
 
   getDeviceType = () => {
     const ua = navigator.userAgent;
@@ -261,79 +202,12 @@ export class MainComponent implements OnInit, OnChanges {
     }
     return 'desktop';
   };
-  handelAddTask() {
-    console.log('add');
-  }
-  idUnit: string | undefined;
-  visibleList: boolean = false;
-  handleVisibleList(e: boolean) {
-    this.visibleList = e;
-  }
 
   visibleListObject: boolean = false;
   handleVisibleListObject(e: boolean) {
     this.visibleListObject = e;
   }
 
-  handleOpenObject(unitID: any, event: Event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.idUnit = unitID;
-    this.visibleListObject = true;
-  }
-
-  handleOpenAddTask(unitId?: string, event?: Event) {
-    event?.stopPropagation();
-    event?.preventDefault();
-    this.idUnit = '';
-    this.visibleList = true;
-    this.idUnit = unitId;
-  }
-
-  handleOpenEditUnit(e: any, x: any, event: Event) {
-    event.preventDefault();  
-    event.stopPropagation();
-    this.idUnit = e;
-    // this.idTenant = x;
-    console.log("IDDIDID: ", this.idTenant);
-    this.visibleAddUnit = true;
-    this.viewDetailUnit = true
-    this.cdr.detectChanges();
-    
-  }  
-  handleOpenEditTenant(e: any) {
-    console.log(e);
-  }
-
-  visibleAddUnit: boolean = false;
-  handleVisibleAddUnit(e: boolean) {
-    this.visibleAddUnit = e;
-  }
-  handleOpenAddUnit(e: any, event: Event) {
-    event.preventDefault();  
-    event.stopPropagation();
-    this.viewDetailUnit = false;
-    this.visibleAddUnit = true;
-    this.idTenant = e;
-    this.idUnit = '';
-    this.idParentUnit = '';
-  }
-
-  handleOpenAddUnit2() {
-    this.visibleAddUnit = true;
-    this.viewDetailUnit = false;
-    this.idUnit = '';
-  }
-
-  handleOpenAddUnit3(a: any, b: any, event: Event) {
-    this.idUnit = '';
-    event.stopPropagation();
-    event.preventDefault();
-    this.visibleAddUnit = true;
-    this.viewDetailUnit = false;
-    this.idTenant = a;
-    this.idParentUnit = b;
-  }
   public static data: any = [];
   public static getData: any = () => {
     // console.log('á');
@@ -378,128 +252,9 @@ export class MainComponent implements OnInit, OnChanges {
       this.tenants.push(a);
     }
   }
-  
-  handleUnitCreated(updatedUnit: any): void {
-    const unitIndex = this.units.findIndex((unit: any) => unit.id === updatedUnit.id);
-    if (unitIndex !== -1) {
-      this.units[unitIndex] = updatedUnit;
-    } else {
-      this.units.push(updatedUnit);
-    }
-    this.cdr.detectChanges();
-  }
-  
-  handleUnitChilCreated(updatedUnit: any): void {
-    const unitIndex = this.childrenUnits.findIndex((unitChil: any) => unitChil.id === updatedUnit.id);
-    if (unitIndex !== -1) {
-      this.childrenUnits[unitIndex] = updatedUnit;
-    } else {
-      this.childrenUnits.push(updatedUnit);
-    }
-    this.cdr.detectChanges();
-  }
-
-  handleUnitDeleted(unitId: any): void {
-    this.units = this.units.filter((unit: any) => unit.id !== unitId); 
-    this.cdr.detectChanges(); 
-  }
-
-  listID = [
-    {
-      id: 1235435,
-    },
-    {
-      id: 558,
-    },
-  ];
-  dropdownMenus: { [key: number]: NzDropdownMenuComponent } = {};
-
-  dropdownTenantMenus: { [key: number]: NzDropdownMenuComponent } = {};
-  @ViewChildren('menuTenant')
-  dropdownMenuTenantComponents!: QueryList<NzDropdownMenuComponent>;
-
-  contextTenantMenu($event: MouseEvent, itemId: any): void {
-    $event.preventDefault();  
-    $event.stopPropagation();
-    const menu = this.dropdownTenantMenus[itemId];
-    console.log("Menu: ", menu)
-    this.nzContextMenuService.create($event, menu);
-  }
-
-  dropdownUnitMenus: { [key: number]: NzDropdownMenuComponent } = {};
-  @ViewChildren('menuUnit')
-  dropdownMenuUnitComponents!: QueryList<NzDropdownMenuComponent>;
-
-  contextUnitMenu($event: MouseEvent, itemId: any): void {
-    $event.preventDefault();  
-    $event.stopPropagation();
-    const menu = this.dropdownUnitMenus[itemId];
-    console.log("Menu2: ", menu)
-    this.nzContextMenuService.create($event, menu);
-  }
-
-  dropdownUnitChilMenus: { [key: number]: NzDropdownMenuComponent } = {};
-  @ViewChildren('menuUnitChil')
-  dropdownMenuUnitChilComponents!: QueryList<NzDropdownMenuComponent>;
-  contextUnitChilMenu($event: MouseEvent, itemId: any): void {
-    $event.preventDefault();  
-    $event.stopPropagation();
-    const menu = this.dropdownUnitChilMenus[itemId];
-    console.log("Menu3: ", menu)
-    this.nzContextMenuService.create($event, menu);
-  }
-
-  @ViewChildren('menu')
-  dropdownMenuComponents!: QueryList<NzDropdownMenuComponent>;
-
-  dropdownIndividualMenus: { [key: number]: NzDropdownMenuComponent } = {};
-
-  @ViewChildren('menuIndividual')
-  dropdownMenuIndividualComponents!: QueryList<NzDropdownMenuComponent>;
-
-  ngAfterViewChecked() {
-    this.dropdownMenuTenantComponents.forEach((menu, index) => {
-      const tenant = this.tenants[index];
-      if (tenant && tenant.id) {
-        this.dropdownTenantMenus[tenant.id] = menu;
-      }
-    });
-    this.dropdownMenuUnitComponents.forEach((menu, index) => {
-      const unit = this.units[index];
-      if (unit && unit.id) {
-        this.dropdownUnitMenus[unit.id] = menu;
-      }
-    });
-    this.dropdownMenuUnitChilComponents.forEach((menu, index) => {
-      const childUnit = this.childrenUnits[index];
-      if (childUnit && childUnit.id) {
-        this.dropdownUnitChilMenus[childUnit.id] = menu;
-      }
-    });
-    this.dropdownMenuIndividualComponents.forEach((menu, index) => {
-      const listItem = this.listID[index];
-      if (listItem && listItem.id) {
-        this.dropdownIndividualMenus[listItem.id] = menu;
-      }
-    });
-  }
-
-  contextMenuIndividual($event: MouseEvent, itemId: number): void {
-    const menu = this.dropdownIndividualMenus[itemId];
-    this.nzContextMenuService.create($event, menu);
-    $event.stopPropagation();
-  }
 
   closeMenuIndividual(): void {
     this.nzContextMenuService.close();
-  }
-
-  contextMenu($event: any, itemId: any): void {
-    if (!$event.target.offsetParent.attributes.hasOwnProperty('nz-menu-item')) {
-      const menu = this.dropdownMenus[itemId];
-      this.nzContextMenuService.create($event, menu);
-      $event.stopPropagation();
-    }
   }
 
   closeMenu(): void {
@@ -513,13 +268,6 @@ export class MainComponent implements OnInit, OnChanges {
     this.authService.logout();
     this.authService2.signOut();
     // this.OauthService.refreshToken();
-  }
-  listmenu: any;
-  listmenuIndividual: any = [];
-  getData() {
-    this._store.select('unitReduce').subscribe((data: any) => {
-      this.listmenu = data?.data;
-    });
   }
 
   units: any = [];
@@ -535,29 +283,6 @@ export class MainComponent implements OnInit, OnChanges {
       this.currentTenantId = e;
       this.cdr.detectChanges();
     });
-  }
-
-  childrenUnits: any = [];
-  loadUnitChildren(id: any, event: Event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.router.navigate(['/unit/othertask', id]);
-    this.unitService.getListUnitByParentUnit(id).subscribe(res => {
-      this.childrenUnits = res.data;
-      this.valueUnitService.setChildrenUnits(res.data);
-      this.cdr.detectChanges();
-      console.log("ChildrenUnits: ", this.childrenUnits)
-    })
-  }
-
-  listObjectByUnit(unitId: string, event: Event) {
-    event.stopPropagation();
-    this.valueUnitService.setUnitId(unitId);
-  }
-
-  UnitChildren(id: any, event: Event){
-    event.stopPropagation();
-    event.preventDefault();
   }
 
   contextMenuOrgnization(
@@ -641,10 +366,6 @@ export class MainComponent implements OnInit, OnChanges {
     } else {
         this.hiddenTenantIds.add(tenantId); 
     }
-  }
-
-  isTenantHidden(tenantId: number): boolean {
-    return this.hiddenTenantIds.has(tenantId);
   }
 
 }

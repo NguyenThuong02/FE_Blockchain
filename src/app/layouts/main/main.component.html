@@ -4,9 +4,9 @@
     class="!fixed px-4 left-0  z-10 !h-screen overflow-y-auto !overflow-x-hidden bg-primaryBG border-r-2 border-solid text-textColor shadow-[2px_0px_7px_0px_rgba(1,87,155,0.30)]">
     <div class="relative">
       <div [routerLink]="['/']" routerLinkActive="router-link-active"
-        class="cursor-pointer logo mb-2 mt-4  m-auto flex flex-col h-10 items-center justify-center  rounded-md">
-        <div class="text-[20px] flex gap-3 items-center">
-          <i class="text-[26px] fa-regular fa-circle-user"></i>
+        class="cursor-pointer logo mb-8 mt-8  m-auto flex flex-col h-10 items-center justify-center  rounded-md">
+        <div class="text-[20px] flex flex-col justify-center gap-3 items-center">
+          <img src="../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" alt="logo" class="w-[50px] h-[50px] rounded-[50%]">
           <span>{{userName}}</span>
         </div>
       </div>
@@ -22,8 +22,13 @@
       <span nz-icon nzType="logoutIcon:antd" class="icon" nzTheme="outline"></span>
       <span class="select-none">Đăng xuất</span>
     </div>
-    <div>
+    <!-- Admin -->
+    <div *ngIf="canActive">
       <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" class="border-none">
+        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
+          <i class="fa-solid fa-chart-simple"></i>
+          <span class="ml-3">Thống kê</span>
+        </li>
         <ul nz-submenu nzTitle="{{'Menu.setting'| translate }}" nzIcon="setting" class="menu-item">
           <li nz-menu-item [routerLink]="['/', 'user-infor',userInfor.sub]" nzMatchRouter>
             <span nz-icon nzType="userInforIcon:antd" class="icon" nzTheme="outline"></span>
@@ -38,138 +43,29 @@
           <span nz-icon nzType="manager:antd" class="icon" nzTheme="outline"></span>
           <span>{{'Menu.userManagement'| translate }}</span>
         </li>
-        <li nz-submenu nzTitle="{{'Menu.organization'| translate}}" nzIcon="organizationIcon:antd" class="menu-item"
-          nzOpen nzMenuClassName="test" (contextmenu)="contextMenuOrgnization($event, menuOrganization)">
-          <nz-dropdown-menu #menuOrganization="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item (click)="handelOpenPopUpChangeOrgnization()">{{'Button.edit'| translate}}</li>
-            </ul>
-            <ul nz-menu>
-              <li nz-menu-item (click)="handelOpenPopUpCreateOrgnization()">{{'Button.add'| translate}}</li>
-            </ul>
-          </nz-dropdown-menu>
-          <!-- Tenant -->
-          <ul [hidden]="isTenantHidden(tenant.id)" (contextmenu)="contextTenantMenu($event, tenant.id)" [(nzOpen)]="openSubMap[index]" (nzOpenChange)="openHandler(index, true)"
-          *ngFor="let tenant of tenants; let index = index" (click)="loadUnitbytenant(tenant.id, $event)" [id]='tenant.id' nz-submenu [nzTitle]="tenant.name" nzIcon="groupUserIcon:antd" class="menu-item">
-            <nz-dropdown-menu #menuTenant="nzDropdownMenu">
-              <ul nz-menu>
-                <li nz-menu-item (click)="handelOpenPopUpCreateOrgnization(tenant.id, $event)">Chỉnh sửa</li>
-              </ul>
-            </nz-dropdown-menu>
-            <!-- Unit Cha -->
-            <ul (contextmenu)="contextUnitMenu($event, unit.id)" nz-submenu *ngFor="let unit of units; let index = index" [(nzOpen)]="openSubMap2[index]" (nzOpenChange)="openHandler2(index, true)" (click)="loadUnitChildren(unit.id, $event)" (click)="listObjectByUnit(unit.id, $event)"  [nzTitle]="unit.name" nzIcon="ghostIcon:antd" class="menu-item">
-                <nz-dropdown-menu #menuUnit="nzDropdownMenu">
-                  <ul nz-menu>
-                    <li nz-menu-item (click)="handleOpenEditUnit(unit.id, tenant.id, $event)">Chỉnh sửa</li>
-                  </ul>
-                </nz-dropdown-menu>
-                <!-- Unit Con -->
-                <ul (contextmenu)="contextUnitChilMenu($event, chilUnit.id)" nz-submenu *ngFor="let chilUnit of childrenUnits; let index = index" [(nzOpen)]="openSubMap3[index]" (nzOpenChange)="openHandler3(index, true)" (click)="UnitChildren(chilUnit.id, $event)" 
-                (click)="listObjectByUnit(chilUnit.id, $event)" [nzTitle]="chilUnit.name" nzIcon="ghostIcon:antd" class="menu-item">
-                  <nz-dropdown-menu #menuUnitChil="nzDropdownMenu">
-                    <ul nz-menu>
-                      <li nz-menu-item (click)="handleOpenEditUnit(chilUnit.id, tenant.id, $event)">Chỉnh sửa</li>
-                    </ul>
-                  </nz-dropdown-menu>
-                  <ul>
-                    <li nz-menu-item [routerLink]="['/unit/othertask',chilUnit.id]" nzMatchRouter class="!pl-[100px]">
-                      <span>{{'Menu.otherTasks'| translate}}</span>
-                    </li>
-                  </ul>
-                  <div class="!translate-x-[45%] flex flex-col gap-3 ">
-                    <div class="hover:text-[#1890ff] w-fit">
-                      <span nz-icon nzType="taskIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                      <span nz-icon nzType="plus-circle" (click)="handleOpenAddTask(unit.id)"
-                        class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                        nzTheme="outline"></span>
-                    </div>
-                  </div>
-                </ul>
-                <ul>
-                  <li nz-menu-item [routerLink]="['/unit/othertask',unit.id]" nzMatchRouter class="!pl-[80px]">
-                    <span>{{'Menu.otherTasks'| translate}}</span>
-                  </li>
-                </ul>
-                <!-- Thêm mới Unit con -->
-                <div class="!translate-x-[38%] flex flex-col gap-3 ">
-                  <div class="hover:text-[#1890ff] w-fit">
-                    <span nz-icon nzType="ghostIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                    <span nz-icon nzType="plus-circle" (click)="handleOpenAddUnit3(tenant.id, unit.id, $event)"
-                      class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                      nzTheme="outline"></span>
-                  </div>
-                  <div class="hover:text-[#1890ff] w-fit">
-                    <span nz-icon nzType="taskIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                    <span nz-icon nzType="plus-circle"  (click)="handleOpenObject(unit.id ,$event)"
-                      class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                      nzTheme="outline"></span>
-                  </div>
-                  <div class="hover:text-[#1890ff] w-fit">
-                    <span nz-icon nzType="circleIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                    <span nz-icon nzType="plus-circle" (click)="handleOpenAddTask(unit.id, $event)" class="cursor-pointer icon inline-block bg-white rounded-[50%] !translate-x-[-50%]" nzTheme="outline"></span>
-                  </div>
-                </div>
-
-            </ul>
-            <!-- Thêm mới unit cha -->
-            <div class="!translate-x-[29%] flex flex-col gap-3 mt-3 ">
-              <div class="hover:text-[#1890ff] w-fit">
-                <span nz-icon nzType="ghostIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                <span nz-icon nzType="plus-circle" (click)="handleOpenAddUnit(tenant.id, $event)"
-                  class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                  nzTheme="outline"></span>
-              </div>
-            </div>
-          </ul>
-        </li>
       </ul>
+    </div>
 
-      <!-- Cá nhân -->
+    <!-- Users -->
+    <div *ngIf="!canActive">
       <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" class="border-none">
-        <li nz-submenu nzTitle="{{'Menu.individual'| translate}}" nzIcon="user" class="menu-item">
-          <ul *ngFor="let menu of listmenuIndividual">
-            <li nz-submenu [nzTitle]="menu.name" nzIcon="ghostIcon:antd" class="menu-item"
-              (contextmenu)="contextMenuIndividual($event, menu.id)">
-              <nz-dropdown-menu #menuIndividual="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item (click)="handleOpenEditUnit(menu.id, '',$event)">Chỉnh sửa</li>
-                </ul>
-              </nz-dropdown-menu>
-              <ul *ngIf="menu.subUnits.length>0">
-                <li nz-menu-item [routerLink]="['/', 'individual-task',1]" nzMatchRouter class="menu-item"
-                  *ngFor="let sub of menu.subUnits">
-                  <span nz-icon nzType="taskIcon:antd" class="icon" nzTheme="outline"></span><span
-                    class=" inline-block">{{sub.name}}</span>
-                </li>
-              </ul>
-              <div class="!translate-x-[30%] flex flex-col gap-3 ">
-                <div class="hover:text-[#1890ff] w-fit">
-                  <span nz-icon nzType="taskIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                  <span nz-icon nzType="plus-circle" (click)="handleOpenAddUnit2()"
-                    class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                    nzTheme="outline"></span>
-                </div>
-                <div class="hover:text-[#1890ff] w-fit">
-                  <span nz-icon nzType="circleIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-                  <span nz-icon nzType="plus-circle" (click)="handleOpenAddTask()" class="cursor-pointer icon inline-block bg-white rounded-[50%]
-                              !translate-x-[-50%]" nzTheme="outline"></span>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="!translate-x-[10%] flex flex-col gap-3 ">
-            <div class="hover:text-[#1890ff] w-fit">
-              <span nz-icon nzType="ghostIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-              <span nz-icon nzType="plus-circle" (click)="handleOpenAddUnit2()"
-                class="icon inline-block !translate-x-[-50%] bg-white rounded-[50%] cursor-pointer"
-                nzTheme="outline"></span>
-            </div>
-            <div class="hover:text-[#1890ff] w-fit">
-              <span nz-icon nzType="circleIcon:antd" class="icon inline-block" nzTheme="outline"></span>
-              <span nz-icon nzType="plus-circle" (click)="handleOpenAddTask()" class="cursor-pointer icon inline-block bg-white rounded-[50%]
-            !translate-x-[-50%]" nzTheme="outline"></span>
-            </div>
-          </div>
+        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
+          <i class="fa-solid fa-chart-simple"></i>
+          <span class="ml-3">Quân số</span>
+        </li>
+        <ul nz-submenu nzTitle="{{'Menu.setting'| translate }}" nzIcon="setting" class="menu-item">
+          <li nz-menu-item [routerLink]="['/', 'user-infor',userInfor.sub]" nzMatchRouter>
+            <span nz-icon nzType="userInforIcon:antd" class="icon" nzTheme="outline"></span>
+            <span>Không có gì</span>
+          </li>
+        </ul>
+        <li nz-menu-item [routerLink]="['/', 'task']" nzMatchRouter class="menu-item">
+          <span nz-icon nzType="tabTaskIcon:antd" class="icon" nzTheme="outline"></span>
+          <span>Đừng mà</span>
+        </li>
+        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
+          <span nz-icon nzType="manager:antd" class="icon" nzTheme="outline"></span>
+          <span>Khó</span>
         </li>
       </ul>
     </div>

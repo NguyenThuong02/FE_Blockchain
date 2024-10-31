@@ -15,12 +15,18 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'user-management',
+        path: 'statistical',
         loadChildren: () =>
           import('../../features/statistical/statistical.routing.module').then(
             (m) => m.StatisticalRoutingModule,
           ),
-        // title: 'Unit',
+      },
+      {
+        path: 'user-management',
+        loadChildren: () =>
+          import('../../features/management/management.routing.module').then(
+            (m) => m.ManagementRoutingModule,
+          ),
       },
     ],
   },

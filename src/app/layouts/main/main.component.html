@@ -25,9 +25,13 @@
     <!-- Admin -->
     <div *ngIf="canActive">
       <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" class="border-none">
-        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
+        <li nz-menu-item [routerLink]="['/', 'statistical']" nzMatchRouter class="menu-item">
           <i class="fa-solid fa-chart-simple"></i>
           <span class="ml-3">Thống kê</span>
+        </li>
+        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
+          <i class="fa-solid fa-users"></i>
+          <span class="ml-3">{{'Menu.userManagement'| translate }}</span>
         </li>
         <ul nz-submenu nzTitle="{{'Menu.setting'| translate }}" nzIcon="setting" class="menu-item">
           <li nz-menu-item [routerLink]="['/', 'user-infor',userInfor.sub]" nzMatchRouter>
@@ -38,10 +42,6 @@
         <li nz-menu-item [routerLink]="['/', 'task']" nzMatchRouter class="menu-item">
           <span nz-icon nzType="tabTaskIcon:antd" class="icon" nzTheme="outline"></span>
           <span>{{'Menu.task'| translate }}</span>
-        </li>
-        <li nz-menu-item [routerLink]="['/', 'user-management']" nzMatchRouter class="menu-item">
-          <span nz-icon nzType="manager:antd" class="icon" nzTheme="outline"></span>
-          <span>{{'Menu.userManagement'| translate }}</span>
         </li>
       </ul>
     </div>

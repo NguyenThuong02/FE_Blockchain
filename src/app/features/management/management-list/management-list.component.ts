@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ShareTableModule } from '../../../shared/components/share-table/share-table.module';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManagermentService } from '../../../core/api/managerment.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { ManagementAddComponent } from '../management-add/management-add.component';
 
 @Component({
   selector: 'app-management-list',
@@ -20,19 +24,60 @@ import { ManagermentService } from '../../../core/api/managerment.service';
     RouterModule,
     NzIconModule,
     TranslateModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    ManagementAddComponent
   ],
   templateUrl: './management-list.component.html',
   styleUrl: './management-list.component.scss'
 })
 export class ManagementListComponent implements OnInit{
   public isLoading: boolean = false;
-  public totalCount: number = 0;
+  public totalCount: number = 10;
   public listUserManagements : any = [];
   public role: string;
   public params = {
     page: 1,
     pageSize:10
   }
+
+  listStatus = [
+    {
+      label: 'Chưa đổi mật khẩu',
+      value: 0,
+    },
+    {
+      label: 'Hoạt động',
+      value: 1,
+    },
+    {
+      label: 'Khoá',
+      value: 2,
+    },
+  ];
+
+  listRoles = [
+    {
+      label: 'Quản trị viên',
+      value: 0,
+    },
+    {
+      label: 'Người dùng thường',
+      value: 1,
+    }
+  ];
+
+  form: FormGroup = this.fb.group({
+    fullName: [''],
+    email: [null],
+    cellPhone: [null],
+    createdDate: [null],
+    status: [null],
+    roles: [null],
+  });
+
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +122,15 @@ export class ManagementListComponent implements OnInit{
   handelOpenPopUpEditManagement(id: string) {
     console.log("Id: ", id)
     this.isVisiblePopUpEditManagement = true;
+  }
+
+  handleCancel() {
+    this.form.reset({ emitEvent: true });
+    this.handleSearch();
+  }
+
+  handleSearch() {
+
   }
 
   changePage(e: number) {

@@ -25,6 +25,6 @@ export class ManagermentService {
   }
 
   addAccountManagementOwner(body?: any): Observable<any> {
-    return this.http.post(this.apiUrl + `/api/user/create`, body);
+    return this.http.post(this.apiUrl + `/api/user/register`, body);
   }
 }

@@ -22,7 +22,7 @@ export class AuthService {
   ) {}
 
   register(body: registerModel): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/user/create', body);
+    return this.http.post(this.apiUrl + '/api/user/register', body);
   }
 
   logout(): void {
@@ -33,6 +33,6 @@ export class AuthService {
 
   handleOAuthLogin(token: string, email: string): Observable<any> {
     const body = { token, email };
-    return this.http.post(this.apiUrl + '/api/user/create', body);
+    return this.http.post(this.apiUrl + '/api/user/register', body);
   }
 }

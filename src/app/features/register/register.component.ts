@@ -27,6 +27,8 @@ import { rePassValidator } from '../../shared/validate/check-repass.directive';
 import { AuthService } from '../../core/api/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { passWordValidator } from '../../shared/validate/check-password.directive';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-register',
@@ -42,6 +44,8 @@ import { passWordValidator } from '../../shared/validate/check-password.directiv
     TranslateModule,
     NzButtonModule,
     MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -63,19 +67,15 @@ export class RegisterComponent implements OnInit {
     this.form.reset();
     this.isVisiblePopUpOpen.emit(false);
   }
-  memberList = [
+  listGender = [
     {
-      label: 'Member 1',
-      value: 1,
+      label: 'Nam',
+      value: true,
     },
     {
-      label: 'Member 2',
-      value: 2,
-    },
-    {
-      label: 'Member 3',
-      value: 3,
-    },
+      label: 'Nữ',
+      value: false,
+    }
   ];
   constructor(
     private fb: FormBuilder,
@@ -92,6 +92,7 @@ export class RegisterComponent implements OnInit {
     identityCardPlace: [null, Validators.required],
     username: [null, Validators.required],
     email: [null, Validators.email],
+    birthday: [null, Validators.required],
     address: [null, Validators.required],
     gender: [null, Validators.required],
     cellPhone: [null, [phoneNumberValidator()]],
@@ -133,22 +134,36 @@ export class RegisterComponent implements OnInit {
       userName: this.form.get('username')?.value,
       fullName: this.form.get('fullName')?.value,
       cellPhone: this.form.get('cellPhone')?.value,
-      password: this.form.get('password')?.value,
-      repassword: this.form.get('rePass')?.value,
+      identityCardNumber: this.form.get('identityCardNumber')?.value,
+      identityCardDate: this.form.get('identityCardDate')?.value,
+      identityCardPlace: this.form.get('identityCardPlace')?.value,
       email: this.form.get('email')?.value,
+      address: this.form.get('address')?.value,
+      birthday: this.form.get('birthday')?.value,
+      gender: this.form.get('gender')?.value,
+      isAdmin: false,
     };
     if (this.form.invalid) {
       this.form.get('username')?.markAsTouched();
       this.form.get('fullName')?.markAsTouched();
+      this.form.get('identityCardNumber')?.markAsTouched();
+      this.form.get('identityCardDate')?.markAsTouched();
+      this.form.get('identityCardPlace')?.markAsTouched();
       this.form.get('cellPhone')?.markAsTouched();
-      this.form.get('password')?.markAsTouched();
-      this.form.get('rePass')?.markAsTouched();
+      this.form.get('address')?.markAsTouched();
+      this.form.get('birthday')?.markAsTouched();
+      this.form.get('gender')?.markAsTouched();
       this.form.get('email')?.markAsTouched();
       return;
     }
-    this.authService.register(body).subscribe((data) => {
-      this._snack.success(this.registerSuccess);
-      this.form.reset();
+    this.authService.register(body).subscribe({
+      next: (res) => {
+        this._snack.success(this.registerSuccess);
+        this.form.reset();
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
     this.isVisiblePopUpOpen.emit(false);
   }

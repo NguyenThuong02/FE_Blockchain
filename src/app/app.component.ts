@@ -67,7 +67,7 @@ const MY_DATE_FORMAT = {
   ],
 })
 export class AppComponent implements OnInit {
-  title = 'A+';
+  title = 'Bầu cử điện tử';
   language: string = 'vi';
   constructor(
     private auth: AuthService,

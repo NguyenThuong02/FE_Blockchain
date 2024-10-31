@@ -40,14 +40,8 @@
                         class="text-red-500 text-[8px] cursor-pointer translate-y-[-5px] px-1 ml-1 inline-block border border-red-500"
                         (click)="showAlerPhoneNumber()">i</span></span>
                 <mat-form-field class="custom-input col-span-2" appearance="outline">
-                    <input matInput formControlName="phoneNumber" maxlength="10" />
-
-                    <!-- <mat-error
-                        *ngIf="form.get('phoneNumber')?.errors?.['required']&& (form.get('phoneNumber')?.dirty || form.get('phoneNumber')?.touched)"
-                        class="text-red-600">
-                        {{'PopUpRegister.noEmty'|translate}}
-                    </mat-error> -->
-                    <mat-error *ngIf="form.get('phoneNumber')?.errors?.['phoneNumberCheck']" class="text-red-600">
+                    <input matInput formControlName="cellPhone" maxlength="10" />
+                    <mat-error *ngIf="form.get('cellPhone')?.errors?.['phoneNumberCheck']" class="text-red-600">
                         {{'PopUpRegister.wrongPhoneNumber'|translate}}
                     </mat-error>
 

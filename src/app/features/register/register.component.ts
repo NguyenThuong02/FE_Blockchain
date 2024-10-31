@@ -86,12 +86,15 @@ export class RegisterComponent implements OnInit {
   ) {}
   _snack = inject(SnackbarService);
   public form: FormGroup = this.fb.group({
-    username: [null, Validators.required],
     fullName: [null, Validators.required],
-    phoneNumber: [null, [phoneNumberValidator()]],
-    password: [null, [Validators.required, passWordValidator()]],
-    rePass: [null, Validators.required],
+    identityCardNumber: [null, Validators.required],
+    identityCardDate: [null, Validators.required],
+    identityCardPlace: [null, Validators.required],
+    username: [null, Validators.required],
     email: [null, Validators.email],
+    address: [null, Validators.required],
+    gender: [null, Validators.required],
+    cellPhone: [null, [phoneNumberValidator()]],
   });
   ngOnInit(): void {
     this.form
@@ -129,7 +132,7 @@ export class RegisterComponent implements OnInit {
     const body = {
       userName: this.form.get('username')?.value,
       fullName: this.form.get('fullName')?.value,
-      phoneNumber: this.form.get('phoneNumber')?.value,
+      cellPhone: this.form.get('cellPhone')?.value,
       password: this.form.get('password')?.value,
       repassword: this.form.get('rePass')?.value,
       email: this.form.get('email')?.value,
@@ -137,7 +140,7 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) {
       this.form.get('username')?.markAsTouched();
       this.form.get('fullName')?.markAsTouched();
-      this.form.get('phoneNumber')?.markAsTouched();
+      this.form.get('cellPhone')?.markAsTouched();
       this.form.get('password')?.markAsTouched();
       this.form.get('rePass')?.markAsTouched();
       this.form.get('email')?.markAsTouched();

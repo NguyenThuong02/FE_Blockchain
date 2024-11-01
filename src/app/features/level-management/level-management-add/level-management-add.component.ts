@@ -40,6 +40,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 })
 export class LevelManagementAddComponent implements OnInit{
   @Input() isVisiblePopUpAddLevelManagement: boolean = true;
+  @Input() idLevelManagement: any;
   @Output() visiblePopUpAddLevelManagement = new EventEmitter<boolean>();
   public hideOldPass: boolean = true;
   public hidePass: boolean = true;

@@ -71,3 +71,7 @@ span.ant-progress-text.ng-star-inserted {
 .ant-menu-title-content {
   @apply flex items-center;
 }
+
+.ant-modal-content {
+  border-radius: 12px !important;
+}

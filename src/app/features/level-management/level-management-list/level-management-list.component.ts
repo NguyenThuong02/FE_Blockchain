@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { LevelManagementAddComponent } from '../level-management-add/level-management-add.component';
+import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 
 @Component({
   selector: 'app-level-management-list',
@@ -28,7 +29,8 @@ import { LevelManagementAddComponent } from '../level-management-add/level-manag
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    LevelManagementAddComponent
+    LevelManagementAddComponent,
+    PopupDeleteComponent
   ],
   templateUrl: './level-management-list.component.html',
   styleUrl: './level-management-list.component.scss'
@@ -36,39 +38,21 @@ import { LevelManagementAddComponent } from '../level-management-add/level-manag
 export class LevelManagementListComponent implements OnInit{
   public isLoading: boolean = false;
   public totalCount: number = 10;
-  public listUserManagements : any = [];
+  public idLevelManagement: any = '';
+  public nameLevel: any = '';
+  public listUserManagements: any = [
+    {
+      id: '1',
+      fullName: 'Nguyễn Văn A',
+      email: '',
+    }
+  ];
   public searchQuery: string = '';
   public role: string;
   public params = {
     page: 1,
     pageSize:10
   }
-
-  listStatus = [
-    {
-      label: 'Chưa đổi mật khẩu',
-      value: 0,
-    },
-    {
-      label: 'Hoạt động',
-      value: 1,
-    },
-    {
-      label: 'Khoá',
-      value: 2,
-    },
-  ];
-
-  listRoles = [
-    {
-      label: 'Quản trị viên',
-      value: 0,
-    },
-    {
-      label: 'Người dùng thường',
-      value: 1,
-    }
-  ];
 
   form: FormGroup = this.fb.group({
     fullName: [''],
@@ -90,20 +74,11 @@ export class LevelManagementListComponent implements OnInit{
     
   }
 
-  viewListUserManager() {
+  viewListLevelManager() {
     this.isLoading = true;
     this.managermentService.getAllManagementOwner(this.params.page, this.params.pageSize).subscribe(res => {
       this.isLoading = false;
-      this.listUserManagements = res.data;
-      this.totalCount = res.totalItems;
-    })
-  }
-
-  viewListUserTenant() {
-    this.isLoading = true;
-    this.managermentService.getAllManagementTenant(this.params.page, this.params.pageSize).subscribe(res => {
-      this.isLoading = false;
-      this.listUserManagements = res.data;
+      // this.listUserManagements = res.data;
       this.totalCount = res.totalItems;
     })
   }
@@ -111,17 +86,30 @@ export class LevelManagementListComponent implements OnInit{
   isVisiblePopUpAddLevelManagement: boolean = false;
   handelVisiblePopUpAddLevelManagement(e: boolean) {
     this.isVisiblePopUpAddLevelManagement = e;
+    this.cdr.detectChanges();
   }
   handelOpenPopUpAddLevelManagement() {
     this.isVisiblePopUpAddLevelManagement = true;
+    this.cdr.detectChanges();
   }
 
-  isVisiblePopUpEditManagement: boolean = false;
-  handelVisiblePopUpEditManagement(e: boolean) {
-    this.isVisiblePopUpEditManagement = e;
-  }
   handelOpenPopUpEditManagement(id: string) {
-    this.isVisiblePopUpEditManagement = true;
+    this.idLevelManagement = id;
+    this.isVisiblePopUpAddLevelManagement = true;
+    this.cdr.detectChanges();
+  }
+
+  openDeletePopup(id?: string, name?: any) {
+    this.isVisible = true;
+    this.nameLevel = name;
+    this.idLevelManagement = id;
+  }
+  isVisible: boolean = false;
+  handleChangeVisible(data: any) {
+    this.isVisible = data.visible;
+    if (data.isSuccess == true) {
+      this.viewListLevelManager();
+    }
   }
 
   handleCancel() {
@@ -135,10 +123,10 @@ export class LevelManagementListComponent implements OnInit{
 
   changePage(e: number) {
     this.params.page = e;
-    this.viewListUserManager();
+    this.viewListLevelManager();
   }
   changePageSize(e: number) {
     this.params.pageSize = e;
-    this.viewListUserManager();
+    this.viewListLevelManager();
   }
 }

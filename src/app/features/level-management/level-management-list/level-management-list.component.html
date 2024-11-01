@@ -34,9 +34,11 @@
             <td scope="col" [ngClass]="{'text-green-500': row.status === 'Đang hoạt động', 'text-red-600': row.status === 'Không hoạt động'}">
               {{ row.status }}
             </td>
-            <td (click)="handelOpenPopUpEditManagement(row.id)" scope="col" class="!text-center cursor-pointer">
-              <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
-              <span>Chỉnh sửa</span>
+            <td scope="col" class="!text-center">
+              <div class="flex items-center justify-center h-full gap-2">
+                <span (click)="handelOpenPopUpEditManagement(row?.id)" nz-icon nzType="edit:antd" class="icon text-[20px] cursor-pointer" nzTheme="outline"></span>
+                <i (click)="openDeletePopup(row?.id, row?.levelName)" class="fa-regular fa-trash-can text-red-500 cursor-pointer"></i>
+              </div>
             </td>
           </ng-template>
         </app-share-table>
@@ -44,5 +46,8 @@
 </div>
 
 <app-level-management-add *ngIf="isVisiblePopUpAddLevelManagement"
+[idLevelManagement] = "idLevelManagement"
 [isVisiblePopUpAddLevelManagement]="isVisiblePopUpAddLevelManagement"
 (visiblePopUpAddLevelManagement)="handelVisiblePopUpAddLevelManagement($event)"></app-level-management-add>
+
+<app-popup-delete [isVisible]="isVisible" [nameLevel]="nameLevel" [idLevelManagement]="idLevelManagement" (changeVisibleDelete)="handleChangeVisible($event)"></app-popup-delete>

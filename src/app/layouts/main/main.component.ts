@@ -32,6 +32,7 @@ import {
   NzDropdownMenuComponent,
 } from 'ng-zorro-antd/dropdown';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { edit } from '../../shared/components/iconAntd/iconAddOnAntd.component';
 
 
 @Component({
@@ -116,6 +117,8 @@ export class MainComponent implements OnInit, OnChanges {
     document.addEventListener('keyup', (event: any) => {
       delete keysPressed[event.keyCode];
     });
+
+    this.iconService.addIconLiteral('edit:antd', edit);
   }
   count: number;
   userInfor: any = JSON.parse(

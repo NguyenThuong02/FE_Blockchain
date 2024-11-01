@@ -1,0 +1,40 @@
+<div class=" bg-bgGray w-full p-10">
+    <div class="mb-8 flex justify-between items-center">
+        <h3 class="uppercase text-primary text-[18px] font-medium">QUẢN LÝ CUỘC BẦU CỬ</h3>
+    </div>
+    <div class="bg-white pt-7 pb-3 px-5 mb-10 rounded-lg shadow-shadow-timeword">
+        <ng-container >
+          <form [formGroup]="form" class="grid grid-cols-3 items-center gap-x-4">
+            <mat-form-field class="custom-input" appearance="outline">
+              <mat-label>Tên cuộc bầu cử</mat-label>
+              <input formControlName="name" matInput />
+            </mat-form-field>
+            <mat-form-field class="custom-input" appearance="outline">
+                <mat-label>Trạng thái</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option *ngFor="let status of listStatus" [value]="status.value">
+                    {{ status.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            <div class="custom-input flex w-full gap-3 items-start">
+                <button (click)="handleSearch()"
+                class="bg-primary w-full h-10 px-4 hover:bg-[#10c39f] rounded text-white"
+                  >Tìm kiếm
+                </button>
+                <button (click)="handleCancel()"
+                  class="bg-[#EDEDED] w-full h-10 px-4 rounded text-[#000]"
+                  >Huỷ bỏ
+                </button>
+            </div>
+          </form>
+        </ng-container>
+      </div>
+    <div class="mb-8 flex justify-between items-center">
+        <h3 class="text-primary text-[18px] font-medium">Danh sách cuộc bầu cử</h3>
+        <div (click)="handelOpenPopUpAddLevelManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm cuộc bầu cử mới</div>
+    </div>
+    <ng-container *ngFor="let slection of listSlection, let i = index">
+        <div>{{slection.fullName}}</div>
+    </ng-container>
+</div>

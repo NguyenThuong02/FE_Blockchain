@@ -35,6 +35,13 @@ const routes: Routes = [
             (m) => m.LevelManagementRoutingModule,
           ),
       },
+      {
+        path: 'slection-management',
+        loadChildren: () =>
+          import('../../features/slection-management/slection-management.routing.module').then(
+            (m) => m.SlectionManagementRoutingModule,
+          ),
+      },
     ],
   },
 ];

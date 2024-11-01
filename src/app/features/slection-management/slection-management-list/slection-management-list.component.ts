@@ -36,6 +36,7 @@ export class SlectionManagementListComponent implements OnInit{
   public totalCount: number = 10;
   public idLevelManagement: any = '';
   public nameLevel: any = '';
+  public selectedView: string = 'candidate'; 
   public listUserManagements: any = [];
   public listStatus: any = [
     {
@@ -55,6 +56,56 @@ export class SlectionManagementListComponent implements OnInit{
     {
       id: '1',
       fullName: 'Nguyễn Văn A',
+      array: [
+        {
+          id: 'A',
+          fullName: 'Array 1',
+        },
+        {
+          id: 'B',
+          fullName: 'Array 2',
+        },
+        {
+          id: 'C',
+          fullName: 'Array 3',
+        },
+        {
+          id: 'D',
+          fullName: 'Array 4',
+        },
+        {
+          id: 'A',
+          fullName: 'Array 1',
+        },
+        {
+          id: 'B',
+          fullName: 'Array 2',
+        },
+        {
+          id: 'C',
+          fullName: 'Array 3',
+        },
+        {
+          id: 'D',
+          fullName: 'Array 4',
+        },
+        {
+          id: 'A',
+          fullName: 'Array 1',
+        },
+        {
+          id: 'B',
+          fullName: 'Array 2',
+        },
+        {
+          id: 'C',
+          fullName: 'Array 3',
+        },
+        {
+          id: 'D',
+          fullName: 'Array 4',
+        },
+      ],
       email: '',
     },
     {
@@ -71,7 +122,7 @@ export class SlectionManagementListComponent implements OnInit{
   }
 
   form: FormGroup = this.fb.group({
-    fullName: [''],
+    name: [''],
     status: [null],
   });
 
@@ -84,6 +135,10 @@ export class SlectionManagementListComponent implements OnInit{
   
   ngOnInit(): void {
     
+  }
+
+  selectView(view: string): void {
+    this.selectedView = view;
   }
 
   viewListLevelManager() {

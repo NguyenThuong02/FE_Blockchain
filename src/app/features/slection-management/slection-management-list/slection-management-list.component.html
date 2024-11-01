@@ -35,6 +35,48 @@
         <div (click)="handelOpenPopUpAddLevelManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm cuộc bầu cử mới</div>
     </div>
     <ng-container *ngFor="let slection of listSlection, let i = index">
-        <div>{{slection.fullName}}</div>
+        <div class="flex flex-col w-full mb-10 bg-white shadow-shadow-timeword">
+            <div class="text-center py-2 bg-primary text-white font-medium">{{slection.fullName}}</div>
+            <div class="flex bg-[#e9ecef] gap-3">
+                <div class="w-[40%] flex flex-col justify-center pb-3 bg-white">
+                    <div class="w-full text-center py-2 border-b font-medium border-[#ccc]">Thông tin chung</div>
+                    <ul class="w-full *:text-[14px] py-1">
+                        <li class="mb-1">Thời gian bắt đầu bầu cử: </li>
+                        <li class="mb-1">Thời gian kết thúc bầu cử: </li>
+                        <li class="mb-1">Số ứng viên tối đa cử tri được bầu: </li>
+                        <li class="mb-1">Trạng thái</li>
+                    </ul>
+                    <div class="w-full text-center py-2 border-t font-medium border-b border-[#ccc]">Thông tin nhiệm kỳ</div>
+                    <ul class="w-full *:text-[14px] py-1">
+                        <li class="mb-1">Tên nhiệm kỳ: </li>
+                        <li class="mb-1">Thời gian bắt đầu nhiệm kỳ: </li>
+                        <li class="mb-1">Thời gian kết thúc nhiệm kỳ: </li>
+                    </ul>
+                </div>
+
+                <div class="w-[60%] h-auto bg-white px-2 pb-3">
+                    <div class="flex items-center w-full border-b py-2 border-[#ccc]">
+                        <div (click)="selectView('candidate')" 
+                            [ngClass]="{'text-red-500': selectedView === 'candidate'}"
+                            class="flex-1 text-center font-medium cursor-pointer">Danh sách ứng viên</div>
+                        <div (click)="selectView('voters')" 
+                            [ngClass]="{'text-red-500': selectedView === 'voters'}"
+                            class="flex-1 text-center font-medium cursor-pointer">Danh sách cử chi</div>
+                    </div>
+                    <div *ngIf="selectedView === 'candidate'" class="media-scroller snaps-inline">
+                        <div *ngFor="let array of slection.array, let i2 = index" class="media-element mt-2">
+                          <img src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                          <p class="title">{{array.fullName}}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="selectedView === 'voters'" class="media-scroller snaps-inline">
+                        <div *ngFor="let array of slection.array, let i2 = index" class="media-element mt-2">
+                          <img src="../../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" alt="">
+                          <p class="title">{{array.fullName}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 </div>

@@ -12,6 +12,7 @@ module.exports = {
       },
       boxShadow: {
         'shadow-timeword': '0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px 0px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.20);',
+        'shadow-box': '4.0px 8.0px 8.0px rgba(0,0,0,0.38)]'
       },
     },
   },

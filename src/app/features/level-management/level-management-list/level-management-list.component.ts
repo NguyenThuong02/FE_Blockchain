@@ -10,6 +10,7 @@ import { ManagermentService } from '../../../core/api/managerment.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { LevelManagementAddComponent } from '../level-management-add/level-management-add.component';
 
 @Component({
   selector: 'app-level-management-list',
@@ -27,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
+    LevelManagementAddComponent
   ],
   templateUrl: './level-management-list.component.html',
   styleUrl: './level-management-list.component.scss'
@@ -106,12 +108,12 @@ export class LevelManagementListComponent implements OnInit{
     })
   }
 
-  isVisiblePopUpAddManagement: boolean = false;
-  handelVisiblePopUpAddManagement(e: boolean) {
-    this.isVisiblePopUpAddManagement = e;
+  isVisiblePopUpAddLevelManagement: boolean = false;
+  handelVisiblePopUpAddLevelManagement(e: boolean) {
+    this.isVisiblePopUpAddLevelManagement = e;
   }
-  handelOpenPopUpAddManagement() {
-    this.isVisiblePopUpAddManagement = true;
+  handelOpenPopUpAddLevelManagement() {
+    this.isVisiblePopUpAddLevelManagement = true;
   }
 
   isVisiblePopUpEditManagement: boolean = false;
@@ -119,7 +121,6 @@ export class LevelManagementListComponent implements OnInit{
     this.isVisiblePopUpEditManagement = e;
   }
   handelOpenPopUpEditManagement(id: string) {
-    console.log("Id: ", id)
     this.isVisiblePopUpEditManagement = true;
   }
 

@@ -28,6 +28,13 @@ const routes: Routes = [
             (m) => m.ManagementRoutingModule,
           ),
       },
+      {
+        path: 'level-management',
+        loadChildren: () =>
+          import('../../features/level-management/level-management.routing.module').then(
+            (m) => m.LevelManagementRoutingModule,
+          ),
+      },
     ],
   },
 ];

@@ -40,31 +40,58 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 })
 export class ProceedEvotingComponent implements OnInit{
   @Input() isVisibleEvoting: boolean = true;
-  @Input() idEvoting: any;
   @Input() nameEvoting: any;
+  @Input() idEvoting: any;
   @Output() visiblePopUpEvoting = new EventEmitter<boolean>();
 
+  candidates = [
+    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2000', age: 23 },
+    { id: 2, name: 'Nguyễn Anh Tuấn', birthdate: '05/10/2000', age: 22 },
+    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2000', age: 22 },
+    { id: 4, name: 'Nguyễn Văn Hậu', birthdate: '24/08/2000', age: 22 },
+    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
+  ];
+
+  selectedCandidates: any[] = [];
 
   public form: FormGroup = this.fb.group({
-
+    privateKey: [null, Validators.required],
   });
 
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private modal: NzModalService,
     private message: NzMessageService,
-    private managermentService: ManagermentService,
+    private modal: NzModalService,
   ) {}
-  ngOnInit(): void {
- 
-  }
+
+  ngOnInit(): void {}
 
   handleOk(): void {
-
+    console.log("Các ứng viên đã chọn: ", this.selectedCandidates);
+    if (this.form.invalid) {
+      this.form.get('privateKey')?.markAsTouched();
+      return;
+    }
   }
 
   handleCancel(): void {
     this.visiblePopUpEvoting.emit(false);
+  }
+
+  toggleCandidateSelection(candidate: any) {
+    if (this.selectedCandidates.includes(candidate)) {
+      this.removeCandidate(candidate);
+    } else {
+      if (this.selectedCandidates.length < 3) {
+        this.selectedCandidates.push(candidate);
+      } else {
+        this.message.warning("Bạn chỉ có thể bầu chọn tối đa 3 ứng viên.");
+      }
+    }
+  }
+
+  removeCandidate(candidate: any) {
+    this.selectedCandidates = this.selectedCandidates.filter((c: any) => c.id !== candidate.id);
   }
 }

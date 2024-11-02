@@ -1,24 +1,69 @@
-<nz-modal nzWidth="650px" [(nzVisible)]="isVisibleEvoting" nzCentered [nzContent]="modalContent"
-    [nzFooter]="null" (nzOnCancel)="handleCancel()">
-
+<nz-modal nzWidth="750px" [(nzVisible)]="isVisibleEvoting" nzCentered [nzContent]="modalContent"
+          [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-template #modalContent>
         <div class="text-start border-b border-primary pb-2 text-primary font-medium text-[22px]">
             {{nameEvoting}}
         </div>
-
-        <div class="flex flex-col mt-5 gap-2 h-fit w-full pb-2 overflow-auto">
-            <form [formGroup]="form"
-                class="flex w-full h-fit gap-2 pb-2 overflow-auto">
-
-            </form>
+        <div class="text-sm text-center w-full text-orange-400 py-2">
+            <i class="fa-solid fa-triangle-exclamation text-orange-400"></i> Bạn chỉ có thể bầu cho 3 người trong cuộc bầu cử này
         </div>
+        <div class="flex mt-5 gap-4 w-full">
+            <!-- Candidate List -->
+            <div class="w-1/2 border-r px-2">
+                <div class="text-center font-medium text-[18px] pb-2">Danh sách ứng viên</div>
+                <ul>
+                    <li *ngFor="let candidate of candidates" class="flex items-center border rounded-lg gap-2 mb-2">
+                        <mat-checkbox [checked]="selectedCandidates.includes(candidate)" 
+                                      (change)="toggleCandidateSelection(candidate)">
+                        </mat-checkbox>
+                        <div>
+                            <div>{{ candidate.name }}</div>
+                            <div class="text-sm text-gray-500">
+                                {{ candidate.birthdate }} ({{ candidate.age }} tuổi)
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Selected Candidates -->
+            <div class="w-1/2 px-2">
+                <div class="text-center font-medium text-[18px] pb-2">Danh sách ứng viên bầu chọn</div>
+                <ul>
+                    <li *ngFor="let candidate of selectedCandidates" class="flex items-center justify-between border border-green-500 rounded-lg gap-2 mb-2">
+                        <div>
+                            <div>{{ candidate.name }}</div>
+                            <div class="text-sm text-gray-500">
+                                {{ candidate.birthdate }} ({{ candidate.age }} tuổi)
+                            </div>
+                        </div>
+                        <button nz-button nzType="link" nzDanger (click)="removeCandidate(candidate)">
+                            <i class="fa-regular fa-trash-can text-myRed"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full flex-1 mt-2 mb-24">
+            <span class="font-medium">Khoá bí mật<span class="text-red-500">*</span></span>
+            <mat-form-field class="custom-input " appearance="outline">
+                <textarea matInput formControlName="privateKey" rows="6"></textarea>
+                <mat-error
+                    *ngIf="form.get('privateKey')?.errors?.['required']&& (form.get('privateKey')?.dirty || form.get('privateKey')?.touched)"
+                    class="text-red-600">
+                    {{'PopUpRegister.noEmty'|translate}}
+                </mat-error>
+            </mat-form-field>   
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
         <div class="flex gap-3 justify-center">
-            <button nz-button nzType="primary"
-                class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
-                (click)="handleOk()">Bầu chọn</button>
-            <button nz-button
-                class="!bg-[#969696] font-medium w-[120px] border-none rounded-lg hover:opacity-60 text-white"
-                (click)="handleCancel()">Huỷ bỏ</button>
+            <button class="!bg-primary w-[120px] py-2 text-white border-none rounded-lg"
+                    (click)="handleOk()">Bầu chọn</button>
+            <button class="!bg-[#969696] w-[120px] py-2 border-none rounded-lg text-white"
+                    (click)="handleCancel()">Huỷ bỏ</button>
         </div>
     </ng-template>
 </nz-modal>

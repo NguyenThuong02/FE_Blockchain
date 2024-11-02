@@ -36,9 +36,17 @@
     </div>
     <ng-container *ngFor="let slection of listSlection, let i = index">
         <div class="flex flex-col w-full mb-10 bg-white shadow-shadow-timeword">
-            <div class="text-center py-2 bg-primary text-white font-medium">{{slection.fullName}}</div>
+            <div class="w-full flex gap-2 justify-between">
+              <div class="text-center flex-1 py-2 bg-primary text-white font-medium">{{slection.fullName}}</div>
+              <div (click)="handelOpenPopUpSlectionManagement(slection?.id)" class="text-center py-2 px-2 rounded-lg bg-[#666] text-white font-medium cursor-pointer hover:scale-110">
+                <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
+              </div>
+              <div class="text-center py-2 px-3 rounded-lg bg-myRed text-white font-medium cursor-pointer hover:scale-110">
+                <i class="fa-regular fa-trash-can"></i>
+              </div>
+            </div>
             <div class="flex bg-[#e9ecef] gap-3">
-                <div class="w-[40%] flex flex-col justify-center pb-3 bg-white">
+                <div class="w-[40%] flex flex-col justify-center pb-3 px-2 bg-white">
                     <div class="w-full text-center py-2 border-b font-medium border-[#ccc]">Thông tin chung</div>
                     <ul class="w-full *:text-[14px] py-1">
                         <li class="mb-1">Thời gian bắt đầu bầu cử: </li>

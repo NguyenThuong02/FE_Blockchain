@@ -98,9 +98,12 @@
             </form>
         </div>
         <div class="flex gap-3 justify-center">
-            <button nz-button nzType="primary"
+            <button *ngIf="!edit" nz-button nzType="primary"
                 class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
                 (click)="handleOk()">Thêm mới</button>
+            <button *ngIf="edit" nz-button nzType="primary"
+                class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
+                (click)="handleEdit()">Chỉnh sửa</button>
             <button nz-button
                 class="!bg-[#969696] font-medium w-[120px] border-none rounded-lg hover:opacity-60 text-white"
                 (click)="handleCancel()">Huỷ bỏ</button>

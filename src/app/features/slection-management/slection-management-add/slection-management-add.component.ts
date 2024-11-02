@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -38,13 +38,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   templateUrl: './slection-management-add.component.html',
   styleUrl: './slection-management-add.component.scss'
 })
-export class SlectionManagementAddComponent implements OnInit{
+export class SlectionManagementAddComponent implements OnInit, OnChanges{
   @Input() isVisiblePopUpAddSlectionManagement: boolean = true;
   @Input() idSlectionManagement: any;
   @Output() visiblePopUpAddSlectionManagement = new EventEmitter<boolean>();
-  public hideOldPass: boolean = true;
-  public hidePass: boolean = true;
-  public hideRePass: boolean = true;
+  public edit: boolean = false;
   public listCandidate: any = [];
   public listVoter: any = [];
 
@@ -83,8 +81,24 @@ export class SlectionManagementAddComponent implements OnInit{
     private message: NzMessageService,
     private managermentService: ManagermentService,
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['idSlectionManagement']) {
+      if(this.idSlectionManagement) {
+        this.edit = true;
+      } else {
+        this.edit = false;
+        this.form.reset(); 
+      }
+    }
+  }
   ngOnInit(): void {
     this.form.controls['isAdmin'].disable();
+    if(this.idSlectionManagement) {
+      this.edit = true;
+    } else {
+      this.edit = false;
+      this.form.reset(); 
+    }
   }
 
   handleOk(): void {
@@ -124,6 +138,8 @@ export class SlectionManagementAddComponent implements OnInit{
       this.message.error(errorMessage);
     })
   }
+
+  handleEdit(): void {}
 
   handleCancel(): void {
     this.visiblePopUpAddSlectionManagement.emit(false);

@@ -10,6 +10,7 @@ import { ManagermentService } from '../../../core/api/managerment.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { SlectionManagementAddComponent } from '../slection-management-add/slection-management-add.component';
 
 @Component({
   selector: 'app-slection-management-list',
@@ -27,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
+    SlectionManagementAddComponent
   ],
   templateUrl: './slection-management-list.component.html',
   styleUrl: './slection-management-list.component.scss'
@@ -34,7 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class SlectionManagementListComponent implements OnInit{
   public isLoading: boolean = false;
   public totalCount: number = 10;
-  public idLevelManagement: any = '';
+  public idSlectionManagement: any = '';
   public nameLevel: any = '';
   public selectedView: string = 'candidate'; 
   public listUserManagements: any = [];
@@ -150,26 +152,26 @@ export class SlectionManagementListComponent implements OnInit{
     })
   }
 
-  isVisiblePopUpAddLevelManagement: boolean = false;
-  handelVisiblePopUpAddLevelManagement(e: boolean) {
-    this.isVisiblePopUpAddLevelManagement = e;
+  isVisiblePopUpAddSlectionManagement: boolean = false;
+  handelVisiblePopUpAddSlectionManagement(e: boolean) {
+    this.isVisiblePopUpAddSlectionManagement = e;
     this.cdr.detectChanges();
   }
-  handelOpenPopUpAddLevelManagement() {
-    this.isVisiblePopUpAddLevelManagement = true;
+  handelOpenPopUpAddSlectionManagement() {
+    this.isVisiblePopUpAddSlectionManagement = true;
     this.cdr.detectChanges();
   }
 
-  handelOpenPopUpEditManagement(id: string) {
-    this.idLevelManagement = id;
-    this.isVisiblePopUpAddLevelManagement = true;
+  handelOpenPopUpSlectionManagement(id: string) {
+    this.idSlectionManagement = id;
+    this.isVisiblePopUpAddSlectionManagement = true;
     this.cdr.detectChanges();
   }
 
   openDeletePopup(id?: string, name?: any) {
     this.isVisible = true;
     this.nameLevel = name;
-    this.idLevelManagement = id;
+    this.idSlectionManagement = id;
   }
   isVisible: boolean = false;
   handleChangeVisible(data: any) {

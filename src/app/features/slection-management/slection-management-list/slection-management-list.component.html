@@ -32,7 +32,7 @@
       </div>
     <div class="mb-8 flex justify-between items-center">
         <h3 class="text-primary text-[18px] font-medium">Danh sách cuộc bầu cử</h3>
-        <div (click)="handelOpenPopUpAddLevelManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm cuộc bầu cử mới</div>
+        <div (click)="handelOpenPopUpAddSlectionManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm cuộc bầu cử mới</div>
     </div>
     <ng-container *ngFor="let slection of listSlection, let i = index">
         <div class="flex flex-col w-full mb-10 bg-white shadow-shadow-timeword">
@@ -61,7 +61,7 @@
                             class="flex-1 text-center font-medium cursor-pointer">Danh sách ứng viên</div>
                         <div (click)="selectView('voters')" 
                             [ngClass]="{'text-red-500': selectedView === 'voters'}"
-                            class="flex-1 text-center font-medium cursor-pointer">Danh sách cử chi</div>
+                            class="flex-1 text-center font-medium cursor-pointer">Danh sách cử tri</div>
                     </div>
                     <div *ngIf="selectedView === 'candidate'" class="media-scroller snaps-inline">
                         <div *ngFor="let array of slection.array, let i2 = index" class="media-element mt-2">
@@ -80,3 +80,10 @@
         </div>
     </ng-container>
 </div>
+
+<app-slection-management-add
+*ngIf="isVisiblePopUpAddSlectionManagement"
+[idSlectionManagement] = "idSlectionManagement"
+[isVisiblePopUpAddSlectionManagement]="isVisiblePopUpAddSlectionManagement"
+(visiblePopUpAddSlectionManagement)="handelVisiblePopUpAddSlectionManagement($event)"
+></app-slection-management-add>

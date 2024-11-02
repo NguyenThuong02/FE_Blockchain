@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { DetailCtvComponent } from '../../slection-management/slection-management-list/detail-ctv/detail-ctv.component';
+import { ProceedEvotingComponent } from '../proceed-evoting/proceed-evoting.component';
 
 @Component({
   selector: 'app-slection-evoting-list',
@@ -28,7 +29,8 @@ import { DetailCtvComponent } from '../../slection-management/slection-managemen
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    DetailCtvComponent
+    DetailCtvComponent,
+    ProceedEvotingComponent
   ],
   templateUrl: './slection-evoting-list.component.html',
   styleUrl: './slection-evoting-list.component.scss'
@@ -36,7 +38,10 @@ import { DetailCtvComponent } from '../../slection-management/slection-managemen
 export class SlectionEvotingListComponent {
   public isLoading: boolean = false;
   public isVisibleDetail: boolean = false;
+  public isVisibleEvoting: boolean = false;
   public idCtv: any = '';
+  public idEvoting: any = '';
+  public nameEvoting: any = '';
   public mode: 'create' | 'edit' = 'create';
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
@@ -149,35 +154,14 @@ export class SlectionEvotingListComponent {
     })
   }
 
-  isVisiblePopUpAddSlectionManagement: boolean = false;
-  handelVisiblePopUpAddSlectionManagement(e: boolean) {
-    this.isVisiblePopUpAddSlectionManagement = e;
-    this.cdr.detectChanges();
-  }
-  handelOpenPopUpAddSlectionManagement() {
-    this.mode = 'create';
-    this.idSlectionManagement = null;
-    this.isVisiblePopUpAddSlectionManagement = true;
-    this.cdr.detectChanges();
+  openEvotingPopup(id: string, name?: string) {
+    this.idEvoting = id;
+    this.nameEvoting = name;
+    this.isVisibleEvoting = true;
   }
 
-  handelOpenPopUpSlectionManagement(id: string) {
-    this.mode = 'edit';
-    this.idSlectionManagement = id;
-    this.isVisiblePopUpAddSlectionManagement = true;
-    this.cdr.detectChanges();
-  }
-
-  openDeletePopup(id?: string, name?: any) {
-    this.isVisible = true;
-    this.idSlectionManagement = id;
-  }
-  isVisible: boolean = false;
-  handleChangeVisible(data: any) {
-    this.isVisible = data.visible;
-    if (data.isSuccess == true) {
-      this.viewListLevelManager();
-    }
+  handleChangeVotingVisible(data: any) {
+    this.isVisibleEvoting = data.visible;
   }
 
   openDetailPopup(id?: string) {

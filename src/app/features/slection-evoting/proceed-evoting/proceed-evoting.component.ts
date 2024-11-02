@@ -50,6 +50,11 @@ export class ProceedEvotingComponent implements OnInit{
     { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2000', age: 22 },
     { id: 4, name: 'Nguyễn Văn Hậu', birthdate: '24/08/2000', age: 22 },
     { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
+    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2000', age: 23 },
+    { id: 2, name: 'Nguyễn Anh Tuấn', birthdate: '05/10/2000', age: 22 },
+    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2000', age: 22 },
+    { id: 4, name: 'Nguyễn Văn Hậu', birthdate: '24/08/2000', age: 22 },
+    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
   ];
 
   selectedCandidates: any[] = [];

@@ -11,7 +11,7 @@
             <!-- Candidate List -->
             <div class="w-1/2 border-r px-2">
                 <div class="text-center font-medium text-[18px] pb-2">Danh sách ứng viên</div>
-                <ul>
+                <ul [ngClass]="{'scrollable-list': candidates.length > 5}">
                     <li *ngFor="let candidate of candidates" class="flex items-center border rounded-lg gap-2 mb-2">
                         <mat-checkbox [checked]="selectedCandidates.includes(candidate)" 
                                       (change)="toggleCandidateSelection(candidate)">

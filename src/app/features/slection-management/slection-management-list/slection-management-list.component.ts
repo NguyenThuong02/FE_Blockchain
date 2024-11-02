@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { SlectionManagementAddComponent } from '../slection-management-add/slection-management-add.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
+import { DetailCtvComponent } from './detail-ctv/detail-ctv.component';
 
 @Component({
   selector: 'app-slection-management-list',
@@ -30,13 +31,16 @@ import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
     MatDatepickerModule,
     MatSelectModule,
     SlectionManagementAddComponent,
-    PopupDeleteComponent
+    PopupDeleteComponent,
+    DetailCtvComponent
   ],
   templateUrl: './slection-management-list.component.html',
   styleUrl: './slection-management-list.component.scss'
 })
 export class SlectionManagementListComponent implements OnInit{
   public isLoading: boolean = false;
+  public isVisibleDetail: boolean = false;
+  public idCtv: any = '';
   public mode: 'create' | 'edit' = 'create';
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
@@ -185,6 +189,14 @@ export class SlectionManagementListComponent implements OnInit{
     if (data.isSuccess == true) {
       this.viewListLevelManager();
     }
+  }
+
+  openDetailPopup(id?: string) {
+    this.isVisibleDetail = true;
+    this.idCtv = id;
+  }
+  handleChangeDetailVisible(data: any) {
+    this.isVisibleDetail = data.visible;
   }
 
   handleCancel() {

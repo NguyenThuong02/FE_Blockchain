@@ -25,20 +25,12 @@
 }
 
 .media-element {
-  display: grid;
   height: 100%;
-  grid-template-rows: min-content;
   gap: var(--_spacer);
   padding: var(--_spacer);
   background-color: white;
   border-radius: var(--radius-2);
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-}
-
-.media-element > img {
-  inline-size: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
 }
 
 .snaps-inline {
@@ -68,17 +60,4 @@
   background: var(--gradient-16);
   color: var(--gray-0);
   box-shadow: var(--shadow-2);
-}
-
-.page-title {
-  font-size: var(--font-size-fluid-3);
-}
-
-.page-subtitle {
-  font-size: var(--font-size-fluid-1);
-}
-
-.section-title {
-  padding-inline-start: var(--size-6);
-  margin-block: var(--size-9) var(--size-3);
 }

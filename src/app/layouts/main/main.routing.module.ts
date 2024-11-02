@@ -42,6 +42,13 @@ const routes: Routes = [
             (m) => m.SlectionManagementRoutingModule,
           ),
       },
+      {
+        path: 'slection-ticket',
+        loadChildren: () =>
+          import('../../features/slection-evoting/slection-evoting.routing.module').then(
+            (m) => m.SlectionEvotingRoutingModule,
+          ),
+      },
     ],
   },
 ];

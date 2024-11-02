@@ -90,7 +90,7 @@
 </div>
 
 <app-slection-management-add
-*ngIf="isVisiblePopUpAddSlectionManagement"
+*ngIf="isVisiblePopUpAddSlectionManagement" [mode]="mode"
 [idSlectionManagement] = "idSlectionManagement"
 [isVisiblePopUpAddSlectionManagement]="isVisiblePopUpAddSlectionManagement"
 (visiblePopUpAddSlectionManagement)="handelVisiblePopUpAddSlectionManagement($event)"

@@ -41,6 +41,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 export class SlectionManagementAddComponent implements OnInit, OnChanges{
   @Input() isVisiblePopUpAddSlectionManagement: boolean = true;
   @Input() idSlectionManagement: any;
+  @Input() mode: 'create' | 'edit';
   @Output() visiblePopUpAddSlectionManagement = new EventEmitter<boolean>();
   public edit: boolean = false;
   public listCandidate: any = [];
@@ -83,7 +84,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idSlectionManagement']) {
-      if(this.idSlectionManagement) {
+      if(this.idSlectionManagement && this.mode === 'edit') {
         this.edit = true;
       } else {
         this.edit = false;
@@ -93,7 +94,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   }
   ngOnInit(): void {
     this.form.controls['isAdmin'].disable();
-    if(this.idSlectionManagement) {
+    if(this.idSlectionManagement && this.mode === 'edit') {
       this.edit = true;
     } else {
       this.edit = false;

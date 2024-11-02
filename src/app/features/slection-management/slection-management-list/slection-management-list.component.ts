@@ -35,6 +35,7 @@ import { SlectionManagementAddComponent } from '../slection-management-add/slect
 })
 export class SlectionManagementListComponent implements OnInit{
   public isLoading: boolean = false;
+  public mode: 'create' | 'edit' = 'create';
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
   public nameLevel: any = '';
@@ -158,11 +159,14 @@ export class SlectionManagementListComponent implements OnInit{
     this.cdr.detectChanges();
   }
   handelOpenPopUpAddSlectionManagement() {
+    this.mode = 'create';
+    this.idSlectionManagement = null;
     this.isVisiblePopUpAddSlectionManagement = true;
     this.cdr.detectChanges();
   }
 
   handelOpenPopUpSlectionManagement(id: string) {
+    this.mode = 'edit';
     this.idSlectionManagement = id;
     this.isVisiblePopUpAddSlectionManagement = true;
     this.cdr.detectChanges();

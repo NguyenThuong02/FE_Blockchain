@@ -99,4 +99,10 @@ export class ProceedEvotingComponent implements OnInit{
   removeCandidate(candidate: any) {
     this.selectedCandidates = this.selectedCandidates.filter((c: any) => c.id !== candidate.id);
   }
+
+  handleMaxSelection(candidate: any) {
+    if (this.selectedCandidates.length >= 3 && !this.selectedCandidates.includes(candidate)) {
+      this.message.warning("Bạn chỉ có thể bầu chọn tối đa 3 ứng viên.");
+    }
+  }
 }

@@ -12,9 +12,15 @@
             <div class="w-1/2 border-r px-2">
                 <div class="text-center font-medium text-[18px] pb-2">Danh sách ứng viên</div>
                 <ul [ngClass]="{'scrollable-list': candidates.length > 5}">
-                    <li *ngFor="let candidate of candidates" class="flex items-center border rounded-lg gap-2 mb-2">
+                    <li *ngFor="let candidate of candidates" 
+                    [ngClass]="{'opacity-50 cursor-not-allowed': selectedCandidates.length >= 3 && !selectedCandidates.includes(candidate)}"
+                    class="flex items-center border rounded-lg gap-2 mb-2"
+                    (click)="handleMaxSelection(candidate)"
+                    >
                         <mat-checkbox [checked]="selectedCandidates.includes(candidate)" 
-                                      (change)="toggleCandidateSelection(candidate)">
+                                      (change)="toggleCandidateSelection(candidate)"
+                                      [disabled]="selectedCandidates.length >= 3 && !selectedCandidates.includes(candidate)"
+                        >
                         </mat-checkbox>
                         <div>
                             <div>{{ candidate.name }}</div>

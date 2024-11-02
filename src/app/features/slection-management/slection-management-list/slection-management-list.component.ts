@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { SlectionManagementAddComponent } from '../slection-management-add/slection-management-add.component';
+import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 
 @Component({
   selector: 'app-slection-management-list',
@@ -28,7 +29,8 @@ import { SlectionManagementAddComponent } from '../slection-management-add/slect
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    SlectionManagementAddComponent
+    SlectionManagementAddComponent,
+    PopupDeleteComponent
   ],
   templateUrl: './slection-management-list.component.html',
   styleUrl: './slection-management-list.component.scss'
@@ -38,7 +40,7 @@ export class SlectionManagementListComponent implements OnInit{
   public mode: 'create' | 'edit' = 'create';
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
-  public nameLevel: any = '';
+  public nameSlection: any = '';
   public selectedView: string = 'candidate'; 
   public listUserManagements: any = [];
   public listStatus: any = [
@@ -174,7 +176,7 @@ export class SlectionManagementListComponent implements OnInit{
 
   openDeletePopup(id?: string, name?: any) {
     this.isVisible = true;
-    this.nameLevel = name;
+    this.nameSlection = name;
     this.idSlectionManagement = id;
   }
   isVisible: boolean = false;

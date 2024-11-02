@@ -41,7 +41,7 @@
               <div (click)="handelOpenPopUpSlectionManagement(slection?.id)" class="text-center py-2 px-2 rounded-lg bg-[#666] text-white font-medium cursor-pointer hover:scale-110">
                 <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
               </div>
-              <div class="text-center py-2 px-3 rounded-lg bg-myRed text-white font-medium cursor-pointer hover:scale-110">
+              <div (click)="openDeletePopup(slection?.id, slection?.fullName)" class="text-center py-2 px-3 rounded-lg bg-myRed text-white font-medium cursor-pointer hover:scale-110">
                 <i class="fa-regular fa-trash-can"></i>
               </div>
             </div>
@@ -95,3 +95,5 @@
 [isVisiblePopUpAddSlectionManagement]="isVisiblePopUpAddSlectionManagement"
 (visiblePopUpAddSlectionManagement)="handelVisiblePopUpAddSlectionManagement($event)"
 ></app-slection-management-add>
+
+<app-popup-delete [isVisible]="isVisible" [nameSlection]="nameSlection" [idSlectionManagement]="idSlectionManagement" (changeVisibleDelete)="handleChangeVisible($event)"></app-popup-delete>

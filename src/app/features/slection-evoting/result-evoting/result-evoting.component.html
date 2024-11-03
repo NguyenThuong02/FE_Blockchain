@@ -9,11 +9,11 @@
         <div class="w-[40%] flex flex-col gap-5">
             <div class="w-full bg-white p-4 shadow-shadow-timeword rounded-lg">
                 <div class="w-full font-medium text-primary text-[18px]">Thông tin cuộc bầu cử</div>
-                <div class="w-full font-normal text-[16px]">Tên cuộc bầu cử: <div class="font-medium">Bầu cử chủ tịch nước Việt Nam</div></div>
+                <div class="w-full font-normal text-[16px]">Tên cuộc bầu cử: <div class="font-medium text-myRed">Bầu cử chủ tịch nước Việt Nam</div></div>
                 <ul class="text-[16px] *:mb-[2px] *:ml-3 mt-2">
                     <li><i class="fa-solid fa-right-long text-primary"></i> Thời gian cuộc bầu cử: 14/08/2024</li>
                     <li><i class="fa-solid fa-right-long text-primary"></i> Chức vụ: Chủ tịch nước Việt Nam</li>
-                    <li><i class="fa-solid fa-right-long text-primary"></i> Trạng thái: <div class="px-1 py-[1px] bg-green-500 text-white rounded-xl inline-block">Đang diễn ra</div></li>
+                    <li><i class="fa-solid fa-right-long text-primary"></i> Trạng thái: <div class="px-2 py-[1px] bg-green-500 text-white rounded-xl shadow-shadow-timeword inline-block">Đang diễn ra</div></li>
                 </ul>
             </div>
             <div class="w-full bg-white p-4 shadow-shadow-timeword rounded-lg">
@@ -54,8 +54,24 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1">
-            <app-chart-evoting></app-chart-evoting>
+        <div class="flex-1 flex flex-col bg-white p-4 rounded-lg shadow-shadow-timeword">
+            <div class="w-full flex justify-between gap-2 pl-4">
+                <div class="font-medium text-primary text-[18px]">Biểu đồ thống kê: </div>
+                <div class="flex gap-2">
+                    <i (click)="handleChangeChart('columns')"  
+                        [ngClass]="chartType === 'columns' ? 'text-myRed' : 'text-primary'"
+                        class="fa-solid fa-chart-simple text-[20px] cursor-pointer hover:scale-105"></i>
+                    <i (click)="handleChangeChart('circle')"  
+                        [ngClass]="chartType === 'circle' ? 'text-myRed' : 'text-primary'"
+                        class="fa-solid fa-chart-pie text-[20px] cursor-pointer hover:scale-105"></i>
+                </div>
+            </div>
+            <div *ngIf="chartType === 'columns'">
+                <app-chart-evoting></app-chart-evoting>
+            </div>
+            <div *ngIf="chartType === 'circle'">
+                <app-chart-circle-evoting></app-chart-circle-evoting>
+            </div>
         </div>
     </div>
 </div>

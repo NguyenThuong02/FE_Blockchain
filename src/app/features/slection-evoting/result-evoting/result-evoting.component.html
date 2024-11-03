@@ -1,1 +1,61 @@
-<p>result-evoting works!</p>
+<div class=" bg-bgGray w-full p-10">
+    <div class="mb-8 flex justify-between items-center">
+        <h3 class="uppercase text-primary text-[18px] font-medium">Kết quả bầu cử</h3>
+        <div class="text-white px-4 py-2 rounded-lg bg-primary font-medium cursor-pointer hover:scale-105 shadow-shadow-timeword">
+            <i class="fa-solid fa-arrow-left text-white"></i>  Quay lại
+        </div>
+    </div>
+    <div class="w-full flex gap-5">
+        <div class="w-[40%] flex flex-col gap-5">
+            <div class="w-full bg-white p-4 shadow-shadow-timeword rounded-lg">
+                <div class="w-full font-medium text-primary text-[18px]">Thông tin cuộc bầu cử</div>
+                <div class="w-full font-normal text-[16px]">Tên cuộc bầu cử: <div class="font-medium">Bầu cử chủ tịch nước Việt Nam</div></div>
+                <ul class="text-[16px] *:mb-[2px] *:ml-3 mt-2">
+                    <li><i class="fa-solid fa-right-long text-primary"></i> Thời gian cuộc bầu cử: 14/08/2024</li>
+                    <li><i class="fa-solid fa-right-long text-primary"></i> Chức vụ: Chủ tịch nước Việt Nam</li>
+                    <li><i class="fa-solid fa-right-long text-primary"></i> Trạng thái: <div class="px-1 py-[1px] bg-green-500 text-white rounded-xl inline-block">Đang diễn ra</div></li>
+                </ul>
+            </div>
+            <div class="w-full bg-white p-4 shadow-shadow-timeword rounded-lg">
+                <div class="w-full font-medium text-primary text-[18px]">Người đắc cử</div>
+                <div class="w-full flex justify-between items-end my-3">
+                    <div class="flex flex-col flex-1 items-center gap-2">
+                        <img src="../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" class="w-[100px] h-[100px] object-cover" />
+                        <div class="text-[16px] font-medium">Nguyễn Thanh Thưởng</div>
+                    </div>
+                    <div class="flex flex-col flex-1 justify-end items-center h-full">
+                        <div class="text-[18px] font-medium text-myRed text-bottom">8</div>
+                        <div class="text-[16px] font-normal">Tổng số phiếu bầu</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4 justify-between">
+                <div class="w-full flex justify-between items-center flex-1 bg-white p-4 shadow-shadow-timeword rounded-lg">
+                    <div class="flex flex-col items-center h-full">
+                        <div class="text-center text-[14px] font-normal">Tổng số ứng viên</div>
+                        <div class="text-[18px] font-medium text-myRed text-bottom">8</div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-[50px] h-[50px] rounded-[50px] bg-primary flex items-center justify-center">
+                            <i class="fa-solid fa-user-tie text-white text-[20px]"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full flex justify-between items-center flex-1 bg-white p-4 shadow-shadow-timeword rounded-lg">
+                    <div class="flex flex-col items-center h-full">
+                        <div class="text-center text-[14px] font-normal">Tổng số cử tri</div>
+                        <div class="text-[18px] font-medium text-myRed text-bottom">120</div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-[50px] h-[50px] rounded-[50px] bg-primary flex items-center justify-center">
+                            <i class="fa-solid fa-users text-white text-[22px]"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1">
+            <app-chart-evoting></app-chart-evoting>
+        </div>
+    </div>
+</div>

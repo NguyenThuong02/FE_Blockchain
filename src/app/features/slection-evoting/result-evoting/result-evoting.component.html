@@ -36,7 +36,7 @@
                         <div class="text-[18px] font-medium text-myRed text-bottom">8</div>
                     </div>
                     <div class="flex items-center">
-                        <div class="w-[50px] h-[50px] rounded-[50px] bg-primary flex items-center justify-center">
+                        <div class="w-[50px] h-[50px] shadow-shadow-timeword rounded-[50px] bg-primary flex items-center justify-center">
                             <i class="fa-solid fa-user-tie text-white text-[20px]"></i>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                         <div class="text-[18px] font-medium text-myRed text-bottom">120</div>
                     </div>
                     <div class="flex items-center">
-                        <div class="w-[50px] h-[50px] rounded-[50px] bg-primary flex items-center justify-center">
+                        <div class="w-[50px] h-[50px] shadow-shadow-timeword rounded-[50px] bg-primary flex items-center justify-center">
                             <i class="fa-solid fa-users text-white text-[22px]"></i>
                         </div>
                     </div>
@@ -69,8 +69,8 @@
             <div *ngIf="chartType === 'columns'">
                 <app-chart-evoting></app-chart-evoting>
             </div>
-            <div *ngIf="chartType === 'circle'">
-                <app-chart-circle-evoting></app-chart-circle-evoting>
+            <div *ngIf="chartType === 'circle'" class="w-full h-full flex justify-center">
+                <app-chart-circle-evoting class="mt-9"></app-chart-circle-evoting>
             </div>
         </div>
     </div>

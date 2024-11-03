@@ -21,6 +21,13 @@ const routes: Routes = [
                   ),        
             },
             {
+                path: 'result/:id',
+                loadComponent: () =>
+                  import('../slection-evoting/result-evoting/result-evoting.component').then(
+                    (m) => m.ResultEvotingComponent
+                  ),        
+            },
+            {
                 path:"**",
                 redirectTo:'/',
             },

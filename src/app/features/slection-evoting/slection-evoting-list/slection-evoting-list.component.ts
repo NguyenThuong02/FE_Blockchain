@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ShareTableModule } from '../../../shared/components/share-table/share-table.module';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManagermentService } from '../../../core/api/managerment.service';
@@ -138,6 +138,7 @@ export class SlectionEvotingListComponent {
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
+    private router: Router,
     private managermentService: ManagermentService,
   ){}
   
@@ -152,6 +153,10 @@ export class SlectionEvotingListComponent {
       // this.listUserManagements = res.data;
       this.totalCount = res.totalItems;
     })
+  }
+
+  openResult(id: any) {
+    this.router.navigate([`/slection-ticket/result/${id}`]);
   }
 
   openEvotingPopup(id: string, name?: string) {

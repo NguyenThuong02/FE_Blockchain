@@ -49,6 +49,13 @@ const routes: Routes = [
             (m) => m.SlectionEvotingRoutingModule,
           ),
       },
+      {
+        path: 'user-infor/:id',
+        loadChildren: () =>
+          import('../../features/my-info/my-info.routing.module').then(
+            (m) => m.ManagementRoutingModule,
+          ),
+      },
     ],
   },
 ];

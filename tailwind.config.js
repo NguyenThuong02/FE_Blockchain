@@ -8,6 +8,8 @@ module.exports = {
         primaryBG: "rgba(225,245,254,0.30)",
         bgGray: "#fafafa",
         textColor: "#003560",
+        danger: "#F5222D",
+        info: "#1890FF",
         myRed: "#ED1D24",
       },
       boxShadow: {

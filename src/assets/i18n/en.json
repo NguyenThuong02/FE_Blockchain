@@ -194,5 +194,8 @@
     "required": "Required",
     "wrongPhoneNumber": "Wrong Phone Number",
     "wrongEmail": "Wrong Email"
+  },
+  "profile": {
+    "doNotLeaveEmpty": "Do not leave empty!"
   }
 }

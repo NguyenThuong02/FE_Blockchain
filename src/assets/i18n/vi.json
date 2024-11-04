@@ -197,5 +197,8 @@
     "required": "Không bỏ trống",
     "wrongPhoneNumber": "Sai số điện thoại",
     "wrongEmail": "Sai email"
+  },
+  "profile": {
+    "doNotLeaveEmpty": "Không bỏ trống trường này!"
   }
 }

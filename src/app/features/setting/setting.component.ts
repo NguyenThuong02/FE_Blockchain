@@ -7,6 +7,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { timeZoneList } from '../../core/enums/timeZone.enum';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @Component({
   selector: 'app-setting',
@@ -19,6 +20,7 @@ import { timeZoneList } from '../../core/enums/timeZone.enum';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
+    ChangePasswordComponent
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
@@ -54,5 +56,13 @@ export class SettingComponent {
 
   changeTimeZone(e: any) {
     console.log(e);
+  }
+
+  isVisiblePopUpChangePassword: boolean = false;
+  handelVisiblePopUpChangePassword(e: boolean) {
+    this.isVisiblePopUpChangePassword = e;
+  }
+  handelOpenPopUpChangePassword() {
+    this.isVisiblePopUpChangePassword = true;
   }
 }

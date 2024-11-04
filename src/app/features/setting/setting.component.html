@@ -30,7 +30,7 @@
                 </div>
                 <div class="font-normal text-[#888] text-[16px]">Để đảm bảo an toàn bạn nên đổi mật khẩu ít nhất 6 tháng 1 lần</div>
             </div>
-            <div class="text-white bg-primary text-[16px] px-4 py-2 rounded-xl shadow-shadow-timeword cursor-pointer">Thay đổi mật khẩu</div>
+            <div (click)="handelOpenPopUpChangePassword()" class="text-white bg-primary text-[16px] px-4 py-2 rounded-xl shadow-shadow-timeword cursor-pointer">Thay đổi mật khẩu</div>
         </div>
         <div class="flex justify-between items-center w-full bg-white rounded-lg shadow-shadow-timeword p-4">
             <div class="flex flex-col gap-2 items-start">
@@ -44,3 +44,7 @@
         </div>
     </div>
 </div>
+
+<app-change-password *ngIf="isVisiblePopUpChangePassword"
+[isVisiblePopUpChangePassword]="isVisiblePopUpChangePassword"
+(visiblePopUpChangePassword)="handelVisiblePopUpChangePassword($event)"></app-change-password>

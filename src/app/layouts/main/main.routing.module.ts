@@ -56,6 +56,13 @@ const routes: Routes = [
             (m) => m.ManagementRoutingModule,
           ),
       },
+      {
+        path: 'setting',
+        loadChildren: () =>
+          import('../../features/setting/setting.routing.module').then(
+            (m) => m.SettingRoutingModule,
+          ),
+      },
     ],
   },
 ];

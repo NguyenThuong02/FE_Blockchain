@@ -17,7 +17,7 @@
             <h3 class="text-primary text-[18px] font-medium">Danh sách chức vụ</h3>
             <div (click)="handelOpenPopUpAddLevelManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm chức vụ mới</div>
         </div>
-        <app-share-table [pageIndex]="params.page" [pageSize]="params.pageSize" [loaded]="!isLoading" [data]="listUserManagements" [total]="totalCount"
+        <app-share-table [pageIndex]="params.page" [pageSize]="params.pageSize" [loaded]="!isLoading" [data]="listPosition" [total]="totalCount"
           [maxHeight]="'calc(100vh - 150px)'" (pageIndexChange)="changePage($event)"
           (pageSizeChange)="changePageSize($event)">
           <ng-template #headers>
@@ -29,10 +29,10 @@
           </ng-template>
           <ng-template #rows let-row let-index="index">
             <td class="!text-center">{{ index + 1 + (params.page - 1) * params.pageSize }}</td>
-            <td scope="col" >{{ row.tenantName }}</td>
-            <td scope="col" >{{ row.email }}</td>
-            <td scope="col" [ngClass]="{'text-green-500': row.status === 'Đang hoạt động', 'text-red-600': row.status === 'Không hoạt động'}">
-              {{ row.status }}
+            <td scope="col" >{{ row.positionName }}</td>
+            <td scope="col" >{{ row.positionDescription }}</td>
+            <td scope="col" class="text-center" [ngClass]="{'text-green-500': row.status === true, 'text-red-600': row.status === false}">
+              {{ row.status === true ? 'Hoạt động' : 'Bị khoá' }}
             </td>
             <td scope="col" class="!text-center">
               <div class="flex items-center justify-center h-full gap-2">

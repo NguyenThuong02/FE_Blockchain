@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { phoneNumberValidator } from '../../../shared/validate/check-phone-number.directive';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { AddressService } from '../../../core/api/address.service';
 
 
 @Component({
@@ -40,6 +41,9 @@ export class MyInfoViewComponent implements OnInit {
   isEdit: boolean = false;
   idOwner: any;
   nameOwner: any;
+  cityData: any = [];
+  districtData: any = [];
+  wardsData: any = [];
   public listGender: any = [
     {
       value: 0,
@@ -55,6 +59,8 @@ export class MyInfoViewComponent implements OnInit {
       private translate: TranslateService,
       private message: NzMessageService,
       private modal: NzModalService,
+      private cdr: ChangeDetectorRef,
+      private addressService: AddressService
   ) {
       this.translate
           .get('settings.securityTab.noEmty')
@@ -74,6 +80,7 @@ export class MyInfoViewComponent implements OnInit {
       this.nameOwner = JSON.parse(
         localStorage.getItem('id_token_claims_obj') || '{}',
       )?.name;
+      this.getCity();
   }
   
   handleEdit(): void {
@@ -173,4 +180,37 @@ export class MyInfoViewComponent implements OnInit {
       this.allowUploadAvatar = false
       this.avatarPreview = this.oldAvatar
   }
+
+  changeCity(data: any) {
+    this.getDistricts(data);
+  }
+  getCity() {
+    this.addressService.getListCity().subscribe({
+      next: (data: any) => {
+        this.cityData = data;
+        this.cdr.detectChanges();
+      }
+    }
+    );
+  }
+  getDistricts(data: string) {
+    this.addressService.getDistricts(data).subscribe({
+      next:(value: any) => {
+        this.districtData = value;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  getWards(data: string) {
+    this.addressService.getWards(data).subscribe( {
+      next: (value) => {
+        this.wardsData = value;
+      },
+    });
+  }
+  changeDistrict(data: any) {
+    this.getWards(data);
+  }
+
+
 }

@@ -112,8 +112,8 @@
                     <div class="flex w-full gap-3 mt-2">
                         <mat-form-field class="custom-input flex-1" appearance="outline">
                             <mat-select placeholder="Tỉnh/Thành" formControlName="provice">
-                                <mat-option *ngFor="let gender of listGender" [value]="gender.value">
-                                  {{ gender.label }}
+                                <mat-option *ngFor="let city of cityData" (onSelectionChange)="changeCity(city.value)" [value]="city.value">
+                                  {{ city.label }}
                                 </mat-option>
                             </mat-select>
                             <mat-error
@@ -124,8 +124,8 @@
                         </mat-form-field>
                         <mat-form-field class="custom-input flex-1" appearance="outline">
                             <mat-select placeholder="Quận/Huyện" formControlName="district">
-                                <mat-option *ngFor="let gender of listGender" [value]="gender.value">
-                                  {{ gender.label }}
+                                <mat-option *ngFor="let district of districtData" (onSelectionChange)="changeDistrict(district.value)" [value]="district.value">
+                                  {{ district.label }}
                                 </mat-option>
                             </mat-select>
                             <mat-error
@@ -136,8 +136,8 @@
                         </mat-form-field>
                         <mat-form-field class="custom-input flex-1" appearance="outline">
                             <mat-select placeholder="Xã/Phường" formControlName="ward">
-                                <mat-option *ngFor="let gender of listGender" [value]="gender.value">
-                                  {{ gender.label }}
+                                <mat-option *ngFor="let ward of wardsData" [value]="ward.value">
+                                  {{ ward.label }}
                                 </mat-option>
                             </mat-select>
                             <mat-error

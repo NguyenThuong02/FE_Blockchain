@@ -16,8 +16,8 @@ export class ManagermentService {
     return this.http.get(this.apiUrl + `/api/user/get-all-user?page=${page}&pageSize=${pageSize}`);
   }
 
-  getAllManagementTenant(page: number, pageSize: number): Observable<any> {
-    return this.http.get(this.apiUrl + `/api/user/get-all-user-tenant?page=${page}&pageSize=${pageSize}`);
+  getAllManagement(page: number, pageSize: number): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/user/get-all-users?page=${page}&pageSize=${pageSize}`);
   }
 
   updateAccountManagement(body: any): Observable<any> {
@@ -26,5 +26,9 @@ export class ManagermentService {
 
   addAccountManagementOwner(body?: any): Observable<any> {
     return this.http.post(this.apiUrl + `/api/user/register`, body);
+  }
+
+  disableAccount(id?: any): Observable<any> {
+    return this.http.post(this.apiUrl + `/api/user/disable-user/${id}`, {});
   }
 }

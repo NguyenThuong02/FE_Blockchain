@@ -65,12 +65,12 @@
       </ng-template>
       <ng-template #rows let-row let-index="index">
         <td class="!text-center">{{ index + 1 + (params.page - 1) * params.pageSize }}</td>
-        <td scope="col" >{{ row.tenantName }}</td>
+        <td scope="col" >{{ row.fullname }}</td>
         <td scope="col" >{{ row.userName }}</td>
         <td scope="col" >{{ row.email }}</td>
-        <td scope="col" >{{ row.numberPhone }}</td>
-        <td scope="col" >{{ row.numberPhone }}</td>
-        <td scope="col" >{{ row.roleUser }}</td>
+        <td scope="col" >{{ row.cellPhone }}</td>
+        <td scope="col" >{{ row.birthday }}</td>
+        <td scope="col" >{{ row.address }}</td>
         <td scope="col" [ngClass]="{'text-green-500': row.status === 'Đang hoạt động', 'text-red-600': row.status === 'Không hoạt động'}">
           {{ row.status }}
         </td>

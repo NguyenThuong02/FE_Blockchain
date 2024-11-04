@@ -33,6 +33,7 @@ import {
 } from 'ng-zorro-antd/dropdown';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { edit } from '../../shared/components/iconAntd/iconAddOnAntd.component';
+import { AccountService } from '../../core/api/account.service';
 
 
 @Component({
@@ -102,6 +103,7 @@ export class MainComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private OauthService: OAuthService,
     private nzContextMenuService: NzContextMenuService,
+    private accountService: AccountService,
     private router: Router,
     private authService2: SocialAuthService,
   ) {
@@ -164,7 +166,7 @@ export class MainComponent implements OnInit, OnChanges {
         clearInterval(idInterval);
       }
     }, 300);
-
+    this.checkPasswordStatus();
     MainComponent.getData();
     if (this.OauthService.hasValidIdToken()) {
       this.OauthService.refreshToken().then(() => {
@@ -179,6 +181,12 @@ export class MainComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
+
+  checkPasswordStatus(): void {
+    this.accountService.checkPasswordStatus().subscribe((response) => {
+      console.log("checkPasswordStatus", response);
+    });
+  }
 
   getDeviceType = () => {
     const ua = navigator.userAgent;

@@ -86,21 +86,12 @@ export class ManagementListComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    
+    this.viewListUser();
   }
 
-  viewListUserManager() {
+  viewListUser() {
     this.isLoading = true;
-    this.managermentService.getAllManagementOwner(this.params.page, this.params.pageSize).subscribe(res => {
-      this.isLoading = false;
-      this.listUserManagements = res.data;
-      this.totalCount = res.totalItems;
-    })
-  }
-
-  viewListUserTenant() {
-    this.isLoading = true;
-    this.managermentService.getAllManagementTenant(this.params.page, this.params.pageSize).subscribe(res => {
+    this.managermentService.getAllManagement(this.params.page, this.params.pageSize).subscribe(res => {
       this.isLoading = false;
       this.listUserManagements = res.data;
       this.totalCount = res.totalItems;
@@ -135,10 +126,10 @@ export class ManagementListComponent implements OnInit{
 
   changePage(e: number) {
     this.params.page = e;
-    this.viewListUserManager();
+    this.viewListUser();
   }
   changePageSize(e: number) {
     this.params.pageSize = e;
-    this.viewListUserManager();
+    this.viewListUser();
   }
 }

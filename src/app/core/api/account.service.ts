@@ -35,4 +35,8 @@ export class AccountService {
   checkOTP(body: any): Observable<any> {
     return this.http.post(this.apiUrl + '/api/user/check-otp', body);
   }
+
+  checkPasswordStatus(): Observable<{ requiresChange: boolean }> {
+    return this.http.get<{ requiresChange: boolean }>('/api/user/check-password-first-time');
+  }
 }

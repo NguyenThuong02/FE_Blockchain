@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { ManagementAddComponent } from '../management-add/management-add.component';
+import { AccountDisableComponent } from './account-disable/account-disable.component';
 
 @Component({
   selector: 'app-management-list',
@@ -28,13 +29,16 @@ import { ManagementAddComponent } from '../management-add/management-add.compone
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    ManagementAddComponent
+    ManagementAddComponent,
+    AccountDisableComponent
   ],
   templateUrl: './management-list.component.html',
   styleUrl: './management-list.component.scss'
 })
 export class ManagementListComponent implements OnInit{
   public isLoading: boolean = false;
+  public idManagement: any = '';
+  public nameManagement: any = '';
   public totalCount: number = 10;
   public listUserManagements : any = [];
   public role: string;
@@ -113,6 +117,19 @@ export class ManagementListComponent implements OnInit{
   handelOpenPopUpEditManagement(id: string) {
     console.log("Id: ", id)
     this.isVisiblePopUpEditManagement = true;
+  }
+
+  openDisablePopup(id?: string, name?: any) {
+    this.isVisible = true;
+    this.nameManagement = name;
+    this.idManagement = id;
+  }
+  isVisible: boolean = false;
+  handleChangeVisible(data: any) {
+    this.isVisible = data.visible;
+    if (data.isSuccess == true) {
+      this.viewListUser();
+    }
   }
 
   handleCancel() {

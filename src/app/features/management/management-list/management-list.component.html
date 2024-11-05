@@ -74,7 +74,7 @@
         <td scope="col" [ngClass]="{'text-green-500': row.status === 'Active', 'text-red-600': row.status === 'Không hoạt động'}">
           {{row.status === 'Active' ? 'Hoạt động' : 'Không hoạt động'}}
         </td>
-        <td (click)="handelOpenPopUpEditManagement(row.id)" scope="col" class="!text-center cursor-pointer">
+        <td (click)="openDisablePopup(row?.id, row?.userName)" scope="col" class="!text-center cursor-pointer">
           <i class="fa-solid fa-user-xmark text-myRed"></i>
         </td>
       </ng-template>
@@ -84,3 +84,5 @@
 <app-management-add *ngIf="isVisiblePopUpAddManagement"
 [isVisiblePopUpAddManagement]="isVisiblePopUpAddManagement"
 (visiblePopUpAddManagement)="handelVisiblePopUpAddManagement($event)"></app-management-add>
+
+<app-account-disable [isVisible]="isVisible" [nameManagement]="nameManagement" [idManagement]="idManagement" (changeVisibleDelete)="handleChangeVisible($event)"></app-account-disable>

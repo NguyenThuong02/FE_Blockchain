@@ -40,4 +40,7 @@ export class AccountService {
     return this.http.get(this.apiUrl + '/api/user/check-password-first-time');
   }
 
+  disableAccount(id: any): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/user/disable-account', { id });
+  }
 }

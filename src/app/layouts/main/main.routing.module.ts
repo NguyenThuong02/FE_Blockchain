@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './main.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RolesGuard } from '../../core/guards/roles.guard';
 // import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
           import('../../features/management/management.routing.module').then(
             (m) => m.ManagementRoutingModule,
           ),
+          canActivate: [RolesGuard],
       },
       {
         path: 'level-management',
@@ -34,6 +36,7 @@ const routes: Routes = [
           import('../../features/level-management/level-management.routing.module').then(
             (m) => m.LevelManagementRoutingModule,
           ),
+          canActivate: [RolesGuard],
       },
       {
         path: 'slection-management',
@@ -41,6 +44,7 @@ const routes: Routes = [
           import('../../features/slection-management/slection-management.routing.module').then(
             (m) => m.SlectionManagementRoutingModule,
           ),
+          canActivate: [RolesGuard],
       },
       {
         path: 'slection-ticket',

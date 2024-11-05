@@ -3,7 +3,7 @@
         <div class="w-[292px] bg-[#4F4F4F] h-full rounded-lg">
             <div class="flex flex-col items-center text-center  mt-[60px] gap-2">
                 <img [src]="avatarPreview" class="size-[212px] rounded-full" alt="">
-                <span class="font-bold font-Lexend text-white text-2xl text-wrap">{{nameOwner}}</span>
+                <span class="font-bold font-Lexend text-white text-2xl text-wrap">{{fullName}}</span>
                 <span class="text-base font-semibold text-white">&#64;{{nameOwner}}</span>
             </div>
             <div class="mt-2 text-base">
@@ -93,15 +93,15 @@
                                 (click)="showAlerEmail()">i</span></span>
                         <div class="flex relative">
                             <mat-form-field class="custom-input   w-full" appearance="outline">
-                                <input placeholder="Nhập Email" class="!w-[85%]" matInput formControlName="email" />
+                                <input placeholder="Nhập Email" class="!w-[100%]" matInput formControlName="email" />
                                 <mat-error
                                     *ngIf="form.get('email')?.errors?.['email']&& (form.get('email')?.dirty || form.get('email')?.touched)"
                                     class="text-red-600">
                                     {{'PopUpRegister.wrongEmail'|translate}}
                                 </mat-error>
                             </mat-form-field>
-                            <span class="absolute text-[12px] top-[36%] right-2 translate-y-[-50%] hover:opacity-70 cursor-pointer"
-                                (click)="handleConfirmEmail()">Xác nhận</span>
+                            <!-- <span class="absolute text-[12px] top-[36%] right-2 translate-y-[-50%] hover:opacity-70 cursor-pointer"
+                                (click)="handleConfirmEmail()">Xác nhận</span> -->
                         </div>
                     </div>
                 </div>

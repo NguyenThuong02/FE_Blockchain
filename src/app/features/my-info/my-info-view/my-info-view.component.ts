@@ -13,6 +13,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { phoneNumberValidator } from '../../../shared/validate/check-phone-number.directive';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AddressService } from '../../../core/api/address.service';
+import { AccountService } from '../../../core/api/account.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ import { AddressService } from '../../../core/api/address.service';
 })
 export class MyInfoViewComponent implements OnInit {
   requiredMsg: string = '';
+  fullName: string = '';
   isLoadingSaveEdit: boolean = false;
   isEdit: boolean = false;
   idOwner: any;
@@ -60,6 +62,7 @@ export class MyInfoViewComponent implements OnInit {
       private message: NzMessageService,
       private modal: NzModalService,
       private cdr: ChangeDetectorRef,
+      private accountService: AccountService,
       private addressService: AddressService
   ) {
       this.translate
@@ -81,6 +84,7 @@ export class MyInfoViewComponent implements OnInit {
         localStorage.getItem('id_token_claims_obj') || '{}',
       )?.name;
       this.getCity();
+      this.getViewInfo();
   }
   
   handleEdit(): void {
@@ -105,6 +109,32 @@ export class MyInfoViewComponent implements OnInit {
       workPlace: [null],
       personalNote: [null],
   });
+
+  getViewInfo(): void {
+    this.accountService.getViewInfo().subscribe({
+      next: (res) => {
+        this.fullName = res.fullname;
+        this.form.patchValue({
+          fullName: res.fullname,
+          dob: new Date(res.dob),
+          phoneNumber: res.phoneNumber,
+          email: res.email,
+          provice: res.provice,
+          district: res.district,
+          ward: res.ward,
+          idNumber: res.idNumber,
+          dateOfIssue: new Date(res.dateOfIssue),
+          placeOfIssue: res.placeOfIssue,
+          workPlace: res.workPlace,
+          personalNote: res.personalNote,
+        });
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.message.error('Xoá thất bại!');
+      },
+    })
+  }
 
   confirmModal?: NzModalRef;
   showAlerEmail(): void {

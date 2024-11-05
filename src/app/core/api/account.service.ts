@@ -17,7 +17,7 @@ export class AccountService {
   }
 
   getViewInfo(): Observable<any> {
-    return this.http.get(this.apiUrl + `/api/user/get-user-id`);
+    return this.http.get(this.apiUrl + `/api/user/UserInfo`);
   }
 
   updateInfo(body: any): Observable<any> {
@@ -36,8 +36,8 @@ export class AccountService {
     return this.http.post(this.apiUrl + '/api/user/check-otp', body);
   }
 
-  checkPasswordStatus(): Observable<{ requiresChange: boolean }> {
-    return this.http.get<{ requiresChange: boolean }>('/api/user/check-password-first-time');
+  checkPasswordStatus(): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/user/check-password-first-time');
   }
 
   changeNewPassword(body: any): Observable<any> {

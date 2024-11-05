@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
+import { PositionService } from '../../../core/api/position.service';
 
 @Component({
   selector: 'app-popup-delete',
@@ -32,19 +33,20 @@ export class PopupDeleteComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private message: NzMessageService,
+    private positionService: PositionService,
   ) {}
 
   handleOk(): void {
-    // this.tractorService.deleteTractor(this.id).subscribe({
-    //   next: (res) => {
-    //     this.message.success('Xoá thành công!');
-    //     this.changeVisibleDelete.emit({ visible: false, isSuccess: true });
-    //     this.cdr.detectChanges();
-    //   },
-    //   error: (err) => {
-    //     this.message.error('Xoá thất bại!');
-    //   },
-    // });
+    this.positionService.deletePosition(this.idLevelManagement).subscribe({
+      next: (res) => {
+        this.message.success('Xoá thành công!');
+        this.changeVisibleDelete.emit({ visible: false, isSuccess: true });
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.message.error('Xoá thất bại!');
+      },
+    });
   }
 
   handleCancel(): void {

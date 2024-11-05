@@ -45,6 +45,7 @@ export class LevelManagementListComponent implements OnInit{
   public listPosition: any = [];
   public searchQuery: string = '';
   public role: string;
+  public mode: 'create' | 'edit' = 'create';
   public params = {
     page: 1,
     pageSize:10
@@ -94,12 +95,14 @@ export class LevelManagementListComponent implements OnInit{
     this.cdr.detectChanges();
   }
   handelOpenPopUpAddLevelManagement() {
+    this.mode = 'create';
     this.isVisiblePopUpAddLevelManagement = true;
     this.cdr.detectChanges();
   }
 
   handelOpenPopUpEditManagement(id: string) {
     this.idLevelManagement = id;
+    this.mode = 'edit';
     this.isVisiblePopUpAddLevelManagement = true;
     this.cdr.detectChanges();
   }

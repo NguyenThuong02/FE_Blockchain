@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -38,10 +38,12 @@ import { PositionService } from '../../../core/api/position.service';
   templateUrl: './level-management-add.component.html',
   styleUrl: './level-management-add.component.scss'
 })
-export class LevelManagementAddComponent implements OnInit{
+export class LevelManagementAddComponent implements OnInit, OnChanges{
   @Input() isVisiblePopUpAddLevelManagement: boolean = true;
   @Input() idLevelManagement: any;
+  @Input() mode: 'create' | 'edit';
   @Output() visiblePopUpAddLevelManagement = new EventEmitter<boolean>();
+  public edit: boolean = false;
 
   listStatus = [
     {
@@ -67,8 +69,26 @@ export class LevelManagementAddComponent implements OnInit{
     private modal: NzModalService,
     private message: NzMessageService,
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['idLevelManagement']) {
+      if(this.idLevelManagement && this.mode === 'edit') {
+        this.edit = true;
+        this.viewPosition();
+      } else {
+        this.edit = false;
+        this.form.reset(); 
+      }
+    }
+  }
   ngOnInit(): void {
     this.form.controls['isAdmin'].disable();
+    if(this.idLevelManagement && this.mode === 'edit') {
+      this.edit = true;
+      this.viewPosition();
+    } else {
+      this.edit = false;
+      this.form.reset(); 
+    }
   }
 
   handleOk(): void {
@@ -91,6 +111,45 @@ export class LevelManagementAddComponent implements OnInit{
     }, (err) => {
       const errorMessage = err.error ? err.error.split('|')[1] : 'Có lỗi xảy ra';
       this.message.error(errorMessage);
+    })
+  }
+
+  viewPosition(): void {
+    this.positionService.viewPosition(this.idLevelManagement).subscribe({
+      next: (res) => {
+        this.form.patchValue({
+          levelName: res.data.positionName,
+          description: res.data.positionDescription,
+          status: res.data.status,
+        });
+      },
+      error: (err) => {
+        this.message.error('Có lỗi xảy ra');
+      }
+    })
+  }
+
+  handleEdit(): void {
+    const body = {
+      id: this.idLevelManagement,
+      positionName: this.form.get('levelName')?.value,
+      positionDescription: this.form.get('description')?.value,
+      status: this.form.get('status')?.value,
+    };
+    if (this.form.invalid) {
+      this.form.get('levelName')?.markAsTouched();
+      this.form.get('description')?.markAsTouched();
+      this.form.get('status')?.markAsTouched()
+      return;
+    }
+    this.positionService.updatePosition(body).subscribe({
+      next: (res) => {
+        this.message.success('Cập nhật chức vụ thành công');
+        this.visiblePopUpAddLevelManagement.emit(false);
+      },
+      error: (err) => {
+        this.message.error('Có lỗi xảy ra');
+      }
     })
   }
 

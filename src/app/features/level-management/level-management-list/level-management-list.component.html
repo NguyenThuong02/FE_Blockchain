@@ -46,7 +46,7 @@
 </div>
 
 <app-level-management-add *ngIf="isVisiblePopUpAddLevelManagement"
-[idLevelManagement] = "idLevelManagement"
+[idLevelManagement] = "idLevelManagement" [mode]="mode"
 [isVisiblePopUpAddLevelManagement]="isVisiblePopUpAddLevelManagement"
 (visiblePopUpAddLevelManagement)="handelVisiblePopUpAddLevelManagement($event)"></app-level-management-add>
 

@@ -15,6 +15,10 @@ export class PositionService {
     return this.http.post(this.apiUrl + `/api/position/create`, body);
   }
 
+  viewPosition(id?: any): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/position/view/` + id);
+  }
+
   updatePosition(body?: any): Observable<any> {
     return this.http.put(this.apiUrl + `/api/position/update`, body);
   }

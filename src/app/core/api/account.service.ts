@@ -25,7 +25,7 @@ export class AccountService {
   }
 
   changePassword(body: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/user/change-password', body);
+    return this.http.put(this.apiUrl + '/api/user/change-password', body);
   }
 
   checkEmail(body: any): Observable<any> {
@@ -40,7 +40,4 @@ export class AccountService {
     return this.http.get(this.apiUrl + '/api/user/check-password-first-time');
   }
 
-  changeNewPassword(body: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/user/change-password', body);
-  }
 }

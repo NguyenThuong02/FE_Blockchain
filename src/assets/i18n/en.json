@@ -137,6 +137,7 @@
   },
   "Login": {
     "username": "Username",
+    "text": "Please login to access the system!",
     "password": "Password",
     "forgotPass": "Forgot password?",
     "login": "Login",

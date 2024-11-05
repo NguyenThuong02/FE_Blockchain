@@ -141,6 +141,7 @@
   },
   "Login": {
     "username": "Tên đăng nhập",
+    "text": "Vui lòng đăng nhập để truy cập hệ thống!",
     "password": "Mật khẩu",
     "forgotPass": "Quên mật khẩu?",
     "login": "Đăng nhập",

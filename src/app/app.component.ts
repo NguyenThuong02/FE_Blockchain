@@ -76,18 +76,27 @@ export class AppComponent implements OnInit {
     private iconService: NzIconService,
     private cdr: ChangeDetectorRef,
   ) {
-    this.translate.setDefaultLang('vi');
-    this.translate.use(localStorage.getItem('lang') || 'vi');
     this.iconService.addIconLiteral('filterIcon:antd', filterIcon);
     this.iconService.addIconLiteral('sortIcon:antd', sortIcon);
     this.iconService.addIconLiteral('keySquareIcon:antd', keySquareIcon);
     this.iconService.addIconLiteral('arrowsIcon:antd', arrowsIcon);
-    if (navigator.language.includes('vi')) {
-      this.translate.use('vi');
-      this.language = 'vi';
-    } else if (navigator.language.includes('en')) {
-      this.translate.use('en');
-      this.language = 'en';
+    // this.translate.setDefaultLang('vi');
+    // this.translate.use(localStorage.getItem('lang') || 'vi');
+    // if (navigator.language.includes('vi')) {
+    //   this.translate.use('vi');
+    //   this.language = 'vi';
+    // } else if (navigator.language.includes('en')) {
+    //   this.translate.use('en');
+    //   this.language = 'en';
+    // }
+    if (!localStorage.getItem('lang')) {
+      if (navigator.language.includes('vi')) {
+        this.translate.setDefaultLang('vi');
+      } else if (navigator.language.includes('en')) {
+        this.translate.setDefaultLang('en');
+      }
+    } else {
+      this.translate.setDefaultLang(localStorage.getItem('lang')!);
     }
   }
   ngOnInit(): void {

@@ -99,3 +99,7 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
+
+<app-change-password *ngIf="isVisiblePopUpChangePassword"
+[isVisiblePopUpChangePassword]="isVisiblePopUpChangePassword"
+(visiblePopUpChangePassword)="handelVisiblePopUpChangePassword($event)"></app-change-password>

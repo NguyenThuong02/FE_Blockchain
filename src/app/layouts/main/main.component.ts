@@ -34,6 +34,8 @@ import {
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { edit } from '../../shared/components/iconAntd/iconAddOnAntd.component';
 import { AccountService } from '../../core/api/account.service';
+import { ChangePasswordComponent } from '../../features/setting/change-password/change-password.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -58,6 +60,7 @@ import { AccountService } from '../../core/api/account.service';
     FormsModule,
     TabComponent,
     TranslateModule,
+    ChangePasswordComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -105,6 +108,7 @@ export class MainComponent implements OnInit, OnChanges {
     private nzContextMenuService: NzContextMenuService,
     private accountService: AccountService,
     private router: Router,
+    private message: NzMessageService,
     private authService2: SocialAuthService,
   ) {
     if (navigator.language.includes('vi')) {
@@ -183,9 +187,21 @@ export class MainComponent implements OnInit, OnChanges {
 
 
   checkPasswordStatus(): void {
-    this.accountService.checkPasswordStatus().subscribe((response) => {
-      console.log("checkPasswordStatus", response);
+    this.accountService.checkPasswordStatus().subscribe({
+      next: (res) => {
+        if (res && (res.status === 200 || res.status === 201)) {
+          return;
+        }
+      },
+      error: (err) => {
+        this.isVisiblePopUpChangePassword = true;
+        this.message.error('Bạn chưa đổi mật khẩu mặc định, vui lòng đổi mật khẩu');
+      },
     });
+  }
+  isVisiblePopUpChangePassword: boolean = false;
+  handelVisiblePopUpChangePassword(e: boolean) {
+    this.isVisiblePopUpChangePassword = e;
   }
 
   getDeviceType = () => {

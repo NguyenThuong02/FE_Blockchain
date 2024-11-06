@@ -71,8 +71,8 @@
         <td scope="col" >{{ row.cellPhone }}</td>
         <td scope="col" >{{ row.birthday | date: 'dd/MM/yyyy' }}</td>
         <td scope="col" >{{ row.address }}</td>
-        <td scope="col" [ngClass]="{'text-green-500': row.status === 'Active', 'text-red-600': row.status === 'Không hoạt động'}">
-          {{row.status === 'Active' ? 'Hoạt động' : 'Không hoạt động'}}
+        <td scope="col" [ngClass]="{'text-green-500': row.status === 'Active', 'text-red-600': row.status === 'Disabled'}">
+          {{row.status === 'Active' ? 'Hoạt động' : 'Vô hiệu hoá'}}
         </td>
         <td (click)="openDisablePopup(row?.id, row?.userName)" scope="col" class="!text-center cursor-pointer">
           <i class="fa-solid fa-user-xmark text-myRed"></i>

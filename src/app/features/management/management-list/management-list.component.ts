@@ -105,6 +105,7 @@ export class ManagementListComponent implements OnInit{
   isVisiblePopUpAddManagement: boolean = false;
   handelVisiblePopUpAddManagement(e: boolean) {
     this.isVisiblePopUpAddManagement = e;
+    this.viewListUser();
   }
   handelOpenPopUpAddManagement() {
     this.isVisiblePopUpAddManagement = true;

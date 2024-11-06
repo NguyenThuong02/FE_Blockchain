@@ -3,7 +3,7 @@
 
     <ng-template #modalContent>
         <div class="text-start border-b border-primary pb-2 text-primary font-medium text-[22px]">
-            <span>Thêm mới người dùng</span>
+            <span>{{edit ? 'Thông tin người dùng' : 'Thêm mới người dùng'}}</span>
         </div>
 
         <div class="flex flex-col mt-5 gap-2 h-fit w-full pb-2 overflow-auto">
@@ -162,7 +162,7 @@
             </form>
         </div>
         <div class="flex gap-3 justify-center">
-            <button nz-button nzType="primary"
+            <button *ngIf="!edit" nz-button nzType="primary"
                 class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
                 (click)="handleOk()">Thêm mới</button>
             <button nz-button

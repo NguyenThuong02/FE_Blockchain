@@ -31,4 +31,8 @@ export class ManagermentService {
   disableAccount(id?: any): Observable<any> {
     return this.http.post(this.apiUrl + `/api/user/disable-user/${id}`, {});
   }
+
+  getUserById(id?: any): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/user/get-user/${id}`);
+  }
 }

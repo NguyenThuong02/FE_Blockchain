@@ -41,6 +41,7 @@ export class ManagementListComponent implements OnInit{
   public nameManagement: any = '';
   public totalCount: number = 10;
   public listUserManagements : any = [];
+  public mode: 'create' | 'edit' = 'create';
   public role: string;
   public params = {
     page: 1,
@@ -108,6 +109,13 @@ export class ManagementListComponent implements OnInit{
     this.viewListUser();
   }
   handelOpenPopUpAddManagement() {
+    this.mode = 'create';
+    this.isVisiblePopUpAddManagement = true;
+  }
+
+  handleDetail(id?: any):void {
+    this.idManagement = id;
+    this.mode = 'edit';
     this.isVisiblePopUpAddManagement = true;
   }
 

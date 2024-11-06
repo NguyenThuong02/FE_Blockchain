@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -37,12 +37,15 @@ import { phoneNumberValidator } from '../../../shared/validate/check-phone-numbe
   templateUrl: './management-add.component.html',
   styleUrl: './management-add.component.scss'
 })
-export class ManagementAddComponent implements OnInit {
+export class ManagementAddComponent implements OnInit, OnChanges {
   @Input() isVisiblePopUpAddManagement: boolean = true;
+  @Input() idManagement: any = ''; 
+  @Input() mode: 'create' | 'edit';
   @Output() visiblePopUpAddManagement = new EventEmitter<boolean>();
   public hideOldPass: boolean = true;
   public hidePass: boolean = true;
   public hideRePass: boolean = true;
+  public edit: boolean = false;
 
   listGender = [
     {
@@ -86,8 +89,26 @@ export class ManagementAddComponent implements OnInit {
     private message: NzMessageService,
     private managermentService: ManagermentService,
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['idManagement']) {
+      if(this.idManagement && this.mode === 'edit') {
+        this.edit = true;
+        this.viewInfoUser();
+      } else {
+        this.edit = false;
+        this.form.reset(); 
+      }
+    }
+  }
   ngOnInit(): void {
     this.form.controls['isAdmin'].disable();
+    if(this.idManagement && this.mode === 'edit') {
+      this.edit = true;
+      this.viewInfoUser();
+    } else {
+      this.edit = false;
+      this.form.reset(); 
+    }
   }
 
   handleOk(): void {
@@ -126,6 +147,25 @@ export class ManagementAddComponent implements OnInit {
       const errorMessage = err.error ? err.error.split('|')[1] : 'Có lỗi xảy ra';
       this.message.error(errorMessage);
     })
+  }
+
+  viewInfoUser(): void {
+    this.managermentService.getUserById(this.idManagement).subscribe({
+      next: (res) => {
+        this.form.patchValue({
+          username: res.userName,
+          fullName: res.fullname,
+          cellPhone: res.cellPhone,
+          identityCardNumber: res.identityCardNumber,
+          identityCardDate: res.identityCardDate,
+          gender: res.gender,
+          email: res.email,
+        });
+      },
+      error: (err) => {
+        this.message.error('Lấy dữ liệu người dùng thất bại!');
+      }
+    });
   }
 
   handleCancel(): void {

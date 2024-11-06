@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NzIconModule, NzIconService } from 'ng-zorro-antd/icon';
 import { settingsIcon } from '../../shared/components/iconAntd/iconAddOnAntd.component';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { timeZoneList } from '../../core/enums/timeZone.enum';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AccountService } from '../../core/api/account.service';
 
 @Component({
   selector: 'app-setting',
@@ -25,13 +26,15 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
 })
-export class SettingComponent {
+export class SettingComponent implements OnInit {
   public language: string = 'vi';
+  public infoAccount: any = {};
   constructor(
     private iconService: NzIconService,
     private translate: TranslateService, 
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private accountService: AccountService
   ) {
     this.iconService.addIconLiteral('settingsIcon:antd', settingsIcon);
     this.lang = localStorage.getItem('lang') || this.translate.getDefaultLang();
@@ -40,6 +43,9 @@ export class SettingComponent {
     if (time) {
       this.timeZone = time[0].split(' ')[0];
     }
+  }
+  ngOnInit(): void {
+    this.viewInfo();
   }
 
   timeZoneList = timeZoneList;
@@ -56,6 +62,18 @@ export class SettingComponent {
 
   changeTimeZone(e: any) {
     console.log(e);
+  }
+
+  viewInfo(): void {
+    this.accountService.getViewInfo().subscribe({
+      next: (res) => {
+        this.infoAccount = res;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   isVisiblePopUpChangePassword: boolean = false;

@@ -56,5 +56,8 @@
 <app-check-password *ngIf="isVisibleCheckPassword" [isVisiblePopUpCheckPassword]="isVisibleCheckPassword"
 (isVisiblePopUpOpen)="handleShowPopUpForgotPassWord($event)"></app-check-password>
 
+<app-check-email *ngIf="isVisibleCheckEmail" [isVisiblePopUpCheckEmail]="isVisibleCheckEmail"
+(isVisiblePopUpOpen)="handleShowCheckEmail($event)"></app-check-email>
+
 <app-check-insert-otp *ngIf="isVisibleInsertOTP" [isVisiblePopUpInsertOTP]="isVisibleInsertOTP"
 (isVisiblePopUpOpen)="handleShowInsertOTPPopUp($event)"></app-check-insert-otp>

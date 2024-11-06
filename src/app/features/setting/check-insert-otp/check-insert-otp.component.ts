@@ -77,7 +77,6 @@ export class CheckInsertOtpComponent {
 
   handleOk(): void {
     const body = {
-      userName: '',
       otp: this.ngOtpInputRef.currentVal
     }
     if(this.ngOtpInputRef.currentVal === null || this.ngOtpInputRef.currentVal.length !== 6){

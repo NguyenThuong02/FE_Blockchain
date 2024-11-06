@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { AccountService } from '../../core/api/account.service';
 import { CheckPasswordComponent } from './check-password/check-password.component';
 import { CheckInsertOtpComponent } from './check-insert-otp/check-insert-otp.component';
+import { CheckEmailComponent } from './check-email/check-email.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { CheckInsertOtpComponent } from './check-insert-otp/check-insert-otp.com
     ReactiveFormsModule,
     ChangePasswordComponent,
     CheckPasswordComponent,
+    CheckEmailComponent,
     CheckInsertOtpComponent,
 ],
   templateUrl: './setting.component.html',
@@ -93,11 +95,18 @@ export class SettingComponent implements OnInit {
   isVisibleCheckPassword = false;
   handleShowPopUpForgotPassWord(e: any) {
     this.isVisibleCheckPassword = e.thisPopUp;
-    this.isVisibleInsertOTP = e.nextPopUp;
+    this.isVisibleCheckEmail = e.nextPopUp;
     this.cdr.detectChanges();
   }
   handleOpenPopUpForgotPassWord() {
     this.isVisibleCheckPassword = true;
+  }
+
+  isVisibleCheckEmail = false;
+  handleShowCheckEmail(e: any) {
+    this.isVisibleCheckEmail = e.thisPopUp;
+    this.isVisibleInsertOTP = e.nextPopUp;
+    this.cdr.detectChanges();
   }
 
   isVisibleInsertOTP = false;

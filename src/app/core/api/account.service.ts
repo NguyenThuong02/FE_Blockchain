@@ -29,11 +29,11 @@ export class AccountService {
   }
 
   checkEmail(body: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/user/check-email', body);
+    return this.http.post(this.apiUrl + '/api/user/send-otp', body);
   }
 
   checkOTP(body: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/user/check-otp', body);
+    return this.http.post(this.apiUrl + '/api/user/verify-otp', body);
   }
 
   checkPasswordStatus(): Observable<any> {

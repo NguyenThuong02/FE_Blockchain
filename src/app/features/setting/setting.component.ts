@@ -10,6 +10,7 @@ import { timeZoneList } from '../../core/enums/timeZone.enum';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AccountService } from '../../core/api/account.service';
 import { CheckPasswordComponent } from './check-password/check-password.component';
+import { CheckOldEmailComponent } from './check-old-email/check-old-email.component';
 
 @Component({
   selector: 'app-setting',
@@ -23,7 +24,8 @@ import { CheckPasswordComponent } from './check-password/check-password.componen
     NzFormModule,
     ReactiveFormsModule,
     ChangePasswordComponent,
-    CheckPasswordComponent
+    CheckPasswordComponent,
+    CheckOldEmailComponent
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
@@ -88,15 +90,19 @@ export class SettingComponent implements OnInit {
 
   // Change email
   isVisibleCheckPassword = false;
+  handleShowPopUpForgotPassWord(e: any) {
+    this.isVisibleCheckPassword = e.thisPopUp;
+    this.isVisibleInsertOTP = e.nextPopUp;
+    this.cdr.detectChanges();
+  }
   handleOpenPopUpForgotPassWord() {
     this.isVisibleCheckPassword = true;
   }
 
-  // public isVisibleCheckPassword: boolean = false; 
-  // public isVisibleInsertOTP = false;
-  // handleShowCheckPassword(e: any) {
-  //   this.isVisibleCheckPassword = e.thisPopUp;
-  //   this.isVisibleInsertOTP = e.nextPopUp;
-  //   this.cdr.detectChanges();
-  // }
+  isVisibleInsertOTP = false;
+  handleShowInsertOTPPopUp(e: any) {
+    this.isVisibleInsertOTP = e.thisPopUp;
+    // this.isVisibleChangePass = e.nextPopUp;
+    this.cdr.detectChanges();
+  }
 }

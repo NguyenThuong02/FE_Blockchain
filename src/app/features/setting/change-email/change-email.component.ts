@@ -48,27 +48,23 @@ export class ChangeEmailComponent {
   });
 
   handleOK(): void {
-    // const body = {
-    //   newEmail: this.form.get('email')?.value,
-    // }
-    // if (this.form.valid) {
-    //   this.accountService.changeNewEmail(body).subscribe(res => {
-    //     this.message.success("Xác thực email mới thành công!")
-    //     this.isVisiblePopUpOpen.emit({
-    //       thisPopUp: false,
-    //       nextPopUp: true,
-    //     });
-    //   }, 
-    //   (err) =>{
-    //     this.message.error("Xác thực email mới không thành công!")
-    //   })
-    // } else {
-    //   this.form.markAllAsTouched(); 
-    // }
-    this.isVisiblePopUpOpen.emit({
-      thisPopUp: false,
-      nextPopUp: true,
-    });
+    const body = {
+      newEmail: this.form.get('email')?.value,
+    }
+    if (this.form.valid) {
+      this.accountService.changeNewEmail(body).subscribe(res => {
+        this.message.success("Xác thực email mới thành công!")
+        this.isVisiblePopUpOpen.emit({
+          thisPopUp: false,
+          nextPopUp: true,
+        });
+      }, 
+      (err) =>{
+        this.message.error("Xác thực email mới không thành công!")
+      })
+    } else {
+      this.form.markAllAsTouched(); 
+    }
   }
   
 

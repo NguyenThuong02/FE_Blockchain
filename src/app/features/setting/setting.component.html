@@ -64,3 +64,6 @@
 
 <app-change-email *ngIf="isVisibleChangeEmail" [isVisiblePopUpChangeEmail]="isVisibleChangeEmail"
 (isVisiblePopUpOpen)="handleShowChangeEmail($event)"></app-change-email>
+
+<app-insert-otp-new-email *ngIf="isVisiblePopUpNewOTP" [isVisiblePopUpNewOTP]="isVisiblePopUpNewOTP"
+(isVisiblePopUpOpen)="handleShowNewOTPPopUp($event)"></app-insert-otp-new-email>

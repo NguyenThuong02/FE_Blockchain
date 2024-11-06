@@ -13,6 +13,7 @@ import { CheckPasswordComponent } from './check-password/check-password.componen
 import { CheckInsertOtpComponent } from './check-insert-otp/check-insert-otp.component';
 import { CheckEmailComponent } from './check-email/check-email.component';
 import { ChangeEmailComponent } from './change-email/change-email.component';
+import { InsertOtpNewEmailComponent } from './insert-otp-new-email/insert-otp-new-email.component';
 
 
 @Component({
@@ -30,7 +31,8 @@ import { ChangeEmailComponent } from './change-email/change-email.component';
     CheckPasswordComponent,
     CheckEmailComponent,
     CheckInsertOtpComponent,
-    ChangeEmailComponent
+    ChangeEmailComponent,
+    InsertOtpNewEmailComponent
 ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
@@ -121,7 +123,13 @@ export class SettingComponent implements OnInit {
   isVisibleChangeEmail = false;
   handleShowChangeEmail(e: any) {
     this.isVisibleChangeEmail = e.thisPopUp;
-    // this.isVisibleChangePass = e.nextPopUp;
+    this.isVisiblePopUpNewOTP = e.nextPopUp;
+    this.cdr.detectChanges();
+  }
+
+  isVisiblePopUpNewOTP = false;
+  handleShowNewOTPPopUp(e: any) {
+    this.isVisiblePopUpNewOTP = e.thisPopUp;
     this.cdr.detectChanges();
   }
 }

@@ -9,6 +9,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { timeZoneList } from '../../core/enums/timeZone.enum';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AccountService } from '../../core/api/account.service';
+import { CheckPasswordComponent } from './check-password/check-password.component';
 
 @Component({
   selector: 'app-setting',
@@ -21,7 +22,8 @@ import { AccountService } from '../../core/api/account.service';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    CheckPasswordComponent
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
@@ -83,4 +85,18 @@ export class SettingComponent implements OnInit {
   handelOpenPopUpChangePassword() {
     this.isVisiblePopUpChangePassword = true;
   }
+
+  // Change email
+  isVisibleCheckPassword = false;
+  handleOpenPopUpForgotPassWord() {
+    this.isVisibleCheckPassword = true;
+  }
+
+  // public isVisibleCheckPassword: boolean = false; 
+  // public isVisibleInsertOTP = false;
+  // handleShowCheckPassword(e: any) {
+  //   this.isVisibleCheckPassword = e.thisPopUp;
+  //   this.isVisibleInsertOTP = e.nextPopUp;
+  //   this.cdr.detectChanges();
+  // }
 }

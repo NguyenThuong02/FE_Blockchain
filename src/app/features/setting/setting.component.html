@@ -42,7 +42,9 @@
                     {{infoAccount.email === null ? infoAccount?.newEmail : infoAccount.email}}
                 </div>
             </div>
-            <div class="text-white bg-primary text-[16px] px-4 py-2 rounded-xl shadow-shadow-timeword cursor-pointer">Thay đổi email</div>
+            <div 
+            (click)="handleOpenPopUpForgotPassWord()"
+            class="text-white bg-primary text-[16px] px-4 py-2 rounded-xl shadow-shadow-timeword cursor-pointer">Thay đổi email</div>
         </div>
     </div>
 </div>
@@ -50,3 +52,6 @@
 <app-change-password *ngIf="isVisiblePopUpChangePassword"
 [isVisiblePopUpChangePassword]="isVisiblePopUpChangePassword"
 (visiblePopUpChangePassword)="handelVisiblePopUpChangePassword($event)"></app-change-password>
+
+<app-check-password *ngIf="isVisibleCheckPassword" [isVisiblePopUpCheckPassword]="isVisibleCheckPassword"
+(isVisiblePopUpOpen)="handleOpenPopUpForgotPassWord()"></app-check-password>

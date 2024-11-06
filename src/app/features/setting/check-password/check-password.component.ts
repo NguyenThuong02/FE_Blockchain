@@ -45,17 +45,8 @@ export class CheckPasswordComponent {
     private message: NzMessageService,
   ) {}
 
-  showOldPass(e: any) {
-    const inputPass = document.querySelector(
-      '#inputPassChangeOldPassword',
-    ) as HTMLInputElement;
-    if (inputPass?.type === 'password') {
-      inputPass.type = 'text';
-      this.hideOldPass = false;
-    } else {
-      inputPass.type = 'password';
-      this.hideOldPass = true;
-    }
+  toggleShowOldPass() {
+    this.hideOldPass = !this.hideOldPass;
   }
 
   public form: FormGroup = this.fb.group({

@@ -123,10 +123,11 @@ export class SettingComponent implements OnInit {
   isVisibleChangeEmail = false;
   handleShowChangeEmail(e: any) {
     this.isVisibleChangeEmail = e.thisPopUp;
-    this.isVisiblePopUpNewOTP = e.nextPopUp;
+    // this.isVisiblePopUpNewOTP = e.nextPopUp;
     this.cdr.detectChanges();
   }
 
+  // Bỏ luồng check OTP emai mới
   isVisiblePopUpNewOTP = false;
   handleShowNewOTPPopUp(e: any) {
     this.isVisiblePopUpNewOTP = e.thisPopUp;

@@ -61,3 +61,6 @@
 
 <app-check-insert-otp *ngIf="isVisibleInsertOTP" [isVisiblePopUpInsertOTP]="isVisibleInsertOTP"
 (isVisiblePopUpOpen)="handleShowInsertOTPPopUp($event)"></app-check-insert-otp>
+
+<app-change-email *ngIf="isVisibleChangeEmail" [isVisiblePopUpChangeEmail]="isVisibleChangeEmail"
+(isVisiblePopUpOpen)="handleShowChangeEmail($event)"></app-change-email>

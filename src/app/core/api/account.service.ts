@@ -43,4 +43,8 @@ export class AccountService {
   disableAccount(id?: any): Observable<any> {
     return this.http.post(this.apiUrl + `/api/user/disable-account/${id}`, {});
   }
+
+  changeNewEmail(body: any): Observable<any> {
+    return this.http.put(this.apiUrl + '/api/user/change-email', body);
+  }
 }

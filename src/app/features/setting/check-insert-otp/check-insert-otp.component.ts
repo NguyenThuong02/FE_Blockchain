@@ -78,22 +78,26 @@ export class CheckInsertOtpComponent {
   }
 
   handleOk(): void {
-    const body = {
-      otp: this.ngOtpInputRef.currentVal
-    }
-    if(this.ngOtpInputRef.currentVal === null || this.ngOtpInputRef.currentVal.length !== 6){
-      this.message.error("Nhập đầy đủ mã OTP!")
-      return;
-    } else {
-      this.accountService.checkOTP(body).subscribe(res => {
-        this.isVisiblePopUpOpen.emit({
-          thisPopUp: false,
-          nextPopUp: true,
-        })
-      }, (err) => {
-        this.message.error("Mã OTP không hợp lệ!")
-      })
-    }
+    // const body = {
+    //   otp: this.ngOtpInputRef.currentVal
+    // }
+    // if(this.ngOtpInputRef.currentVal === null || this.ngOtpInputRef.currentVal.length !== 6){
+    //   this.message.error("Nhập đầy đủ mã OTP!")
+    //   return;
+    // } else {
+    //   this.accountService.checkOTP(body).subscribe(res => {
+    //     this.isVisiblePopUpOpen.emit({
+    //       thisPopUp: false,
+    //       nextPopUp: true,
+    //     })
+    //   }, (err) => {
+    //     this.message.error("Mã OTP không hợp lệ!")
+    //   })
+    // }
+    this.isVisiblePopUpOpen.emit({
+      thisPopUp: false,
+      nextPopUp: true,
+    })
   }
   size: NzSelectSizeType = 'default';
   handleCancel(): void {

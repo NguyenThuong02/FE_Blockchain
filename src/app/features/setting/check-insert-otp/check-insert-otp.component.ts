@@ -28,7 +28,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { AccountService } from '../../../core/api/account.service';
 
 @Component({
-  selector: 'app-check-old-email',
+  selector: 'app-check-insert-otp',
   standalone: true,
   imports: [
     NzModalModule,
@@ -44,10 +44,10 @@ import { AccountService } from '../../../core/api/account.service';
     NzRadioModule,
     NgOtpInputModule
   ],
-  templateUrl: './check-old-email.component.html',
-  styleUrl: './check-old-email.component.scss'
+  templateUrl: './check-insert-otp.component.html',
+  styleUrl: './check-insert-otp.component.scss'
 })
-export class CheckOldEmailComponent {
+export class CheckInsertOtpComponent {
   isConfirmLoading = false;
   @ViewChild('ngOtpInput') ngOtpInputRef:any;
   @Input() isVisiblePopUpInsertOTP: boolean = false;

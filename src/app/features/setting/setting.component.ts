@@ -10,7 +10,8 @@ import { timeZoneList } from '../../core/enums/timeZone.enum';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AccountService } from '../../core/api/account.service';
 import { CheckPasswordComponent } from './check-password/check-password.component';
-import { CheckOldEmailComponent } from './check-old-email/check-old-email.component';
+import { CheckInsertOtpComponent } from './check-insert-otp/check-insert-otp.component';
+
 
 @Component({
   selector: 'app-setting',
@@ -25,8 +26,8 @@ import { CheckOldEmailComponent } from './check-old-email/check-old-email.compon
     ReactiveFormsModule,
     ChangePasswordComponent,
     CheckPasswordComponent,
-    CheckOldEmailComponent
-  ],
+    CheckInsertOtpComponent,
+],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
 })

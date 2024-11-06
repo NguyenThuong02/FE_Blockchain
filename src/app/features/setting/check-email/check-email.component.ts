@@ -48,23 +48,27 @@ export class CheckEmailComponent {
   });
 
   handleOK(): void {
-    const body = {
-      email: this.form.get('email')?.value,
-    }
-    if (this.form.valid) {
-      this.accountService.checkEmail(body).subscribe(res => {
-        this.message.success("Xác thực email thành công!")
-        this.isVisiblePopUpOpen.emit({
-          thisPopUp: false,
-          nextPopUp: true,
-        });
-      }, 
-      (err) =>{
-        this.message.error("Xác thực email không thành công!")
-      })
-    } else {
-      this.form.markAllAsTouched(); 
-    }
+    // const body = {
+    //   email: this.form.get('email')?.value,
+    // }
+    // if (this.form.valid) {
+    //   this.accountService.checkEmail(body).subscribe(res => {
+    //     this.message.success("Xác thực email thành công!")
+    //     this.isVisiblePopUpOpen.emit({
+    //       thisPopUp: false,
+    //       nextPopUp: true,
+    //     });
+    //   }, 
+    //   (err) =>{
+    //     this.message.error("Xác thực email không thành công!")
+    //   })
+    // } else {
+    //   this.form.markAllAsTouched(); 
+    // }
+    this.isVisiblePopUpOpen.emit({
+      thisPopUp: false,
+      nextPopUp: true,
+    });
   }
   
 

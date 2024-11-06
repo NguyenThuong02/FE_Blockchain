@@ -73,7 +73,9 @@ export class CheckInsertOtpComponent {
     private cdr: ChangeDetectorRef,
     private message: NzMessageService,
     private accountService: AccountService,
-  ) {}
+  ) {
+    this.timer(2);
+  }
 
   handleOk(): void {
     const body = {
@@ -99,5 +101,33 @@ export class CheckInsertOtpComponent {
       thisPopUp: false,
       nextPopUp: false,
     });
+  }
+
+  display: any;
+  isLast10Seconds = false;
+  timer(minute: any) {
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = "0";
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? "0" : "";
+
+    const timer = setInterval(() => {
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = "0" + statSec;
+      } else textSec = statSec;
+
+      this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+      this.isLast10Seconds = seconds <= 10;
+      if (seconds == 0) {
+        console.log("finished");
+        clearInterval(timer);
+      }
+    }, 1000);
   }
 }

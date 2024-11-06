@@ -6,8 +6,14 @@
             <span>{{'PopUpInsertOTP.insertOTP'|translate}}</span>
         </div>
 
+        <div 
+        [ngClass]="{'text-red-500': isLast10Seconds}"
+        class="text-center font-semibold text-[22px]">
+            {{display}}
+        </div>
+
         <div class="flex flex-col gap-2 items-center h-fit lg:px-[30px] lg:pb-2 overflow-auto">
-            <span>{{'PopUpForgotPassword.reciveOTP'|translate}}</span>
+            <span class="text-[#888] text-[14px] font-normal">Nhận mã OTP từ email cũ của bạn!</span>
             <div class="flex gap-4">
                 <ng-otp-input #ngOtpInput [config]="otpConfig"></ng-otp-input>
             </div>

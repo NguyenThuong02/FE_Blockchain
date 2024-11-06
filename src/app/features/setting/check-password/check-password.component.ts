@@ -60,22 +60,21 @@ export class CheckPasswordComponent {
       password: this.form.get('password')?.value,
     }
     if (this.form.valid) {
-      // this.accountService.checkEmail(body).subscribe({
-      //   next: (res: any) => {
-      //     this.message.success("Xác thực mật khẩu thành công!")
-      //     this.isVisiblePopUpOpen.emit({
-      //       thisPopUp: false,
-      //       nextPopUp: true,
-      //     });
-      //   },
-      //   error: (err: any) => {
-      //     this.message.error("Xác thực mật khẩu thất bại!")
-      //   }
-      // })
-      this.isVisiblePopUpOpen.emit({
-        thisPopUp: false,
-        nextPopUp: true,
-      });
+      this.isConfirmLoading = true;
+      this.accountService.checkPassword(body).subscribe({
+        next: (res: any) => {
+          this.message.success("Xác thực mật khẩu thành công!")
+          this.isVisiblePopUpOpen.emit({
+            thisPopUp: false,
+            nextPopUp: true,
+          });
+          this.isConfirmLoading = false;
+        },
+        error: (err: any) => {
+          this.message.error("Xác thực mật khẩu thất bại!")
+          this.isConfirmLoading = false;
+        }
+      })
     } else {
       this.form.markAllAsTouched(); 
     }

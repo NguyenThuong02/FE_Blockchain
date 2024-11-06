@@ -52,15 +52,18 @@ export class ChangeEmailComponent {
       newEmail: this.form.get('email')?.value,
     }
     if (this.form.valid) {
+      this.isConfirmLoading = true;
       this.accountService.changeNewEmail(body).subscribe(res => {
         this.message.success("Xác thực email mới thành công!")
         this.isVisiblePopUpOpen.emit({
           thisPopUp: false,
           nextPopUp: true,
         });
+        this.isConfirmLoading = false;
       }, 
       (err) =>{
-        this.message.error("Xác thực email mới không thành công!")
+        this.message.error("Xác thực email mới không thành công!");
+        this.isConfirmLoading = false;
       })
     } else {
       this.form.markAllAsTouched(); 

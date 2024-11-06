@@ -52,15 +52,18 @@ export class CheckEmailComponent {
       email: this.form.get('email')?.value,
     }
     if (this.form.valid) {
+      this.isConfirmLoading = true;
       this.accountService.checkEmail(body).subscribe(res => {
         this.message.success("Xác thực email thành công!")
         this.isVisiblePopUpOpen.emit({
           thisPopUp: false,
           nextPopUp: true,
         });
+        this.isConfirmLoading = false;
       }, 
       (err) =>{
         this.message.error("Xác thực email không thành công!")
+        this.isConfirmLoading = false;
       })
     } else {
       this.form.markAllAsTouched(); 

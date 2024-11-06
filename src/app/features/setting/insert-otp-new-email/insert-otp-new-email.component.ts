@@ -85,13 +85,16 @@ export class InsertOtpNewEmailComponent {
       this.message.error("Nhập đầy đủ mã OTP!")
       return;
     } else {
+      this.isConfirmLoading = true;
       this.accountService.checkOTP(body).subscribe(res => {
         this.isVisiblePopUpOpen.emit({
           thisPopUp: false,
           nextPopUp: true,
         })
+        this.isConfirmLoading = false;
       }, (err) => {
         this.message.error("Mã OTP không hợp lệ!")
+        this.isConfirmLoading = false;
       })
     }
   }

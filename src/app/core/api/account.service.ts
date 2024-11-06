@@ -47,4 +47,8 @@ export class AccountService {
   changeNewEmail(body: any): Observable<any> {
     return this.http.put(this.apiUrl + '/api/user/change-email', body);
   }
+
+  checkPassword(body: any): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/user/check-password', body);
+  }
 }

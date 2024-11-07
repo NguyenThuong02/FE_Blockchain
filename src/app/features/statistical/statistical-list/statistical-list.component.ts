@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ChartColumnsComponent } from '../chart-columns/chart-columns.component';
 import { ChartCircleComponent } from '../chart-circle/chart-circle.component';
 import { SheducerComponent } from '../sheducer/sheducer.component';
+import { PagiComponent } from '../../../shared/components/pagi/pagi.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-statistical-list',
@@ -11,14 +13,21 @@ import { SheducerComponent } from '../sheducer/sheducer.component';
     CommonModule,
     ChartColumnsComponent,
     ChartCircleComponent,
-    SheducerComponent
+    SheducerComponent,
+    PagiComponent,
+    NzSpinModule
   ],
   templateUrl: './statistical-list.component.html',
   styleUrl: './statistical-list.component.scss'
 })
 export class StatisticalListComponent {
   public chartType: any = 'columns'
-  
+  public isLoading: boolean = false;
+  public totalCount: number = 10;
+  public param = {
+    pageNumber: 1,
+    pageSize: 10,
+  };
   public slectionArray: any = [
     {
       name: 'Bầu cử chủ tịch nước Việt Nam',
@@ -51,8 +60,28 @@ export class StatisticalListComponent {
       status: false
     },
   ];
-
+  public listCandidate: any = [
+    {
+      id: '1',
+      fullName: 'Nguyễn Văn A',
+      email: '',
+    }
+  ];
   handleChangeChart(name: string) {
     this.chartType = name;
+  }
+
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  changePage(page: number): void {
+    this.currentPage = page;
+    this.param.pageNumber = page;
+  }
+
+  changePageSize(page: number): void {
+    if (page) {
+      this.itemsPerPage = page;
+      this.param.pageSize = page;
+    }
   }
 }

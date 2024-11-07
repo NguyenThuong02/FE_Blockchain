@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ChartColumnsComponent } from '../chart-columns/chart-columns.component';
 import { ChartCircleComponent } from '../chart-circle/chart-circle.component';
+import { SheducerComponent } from '../sheducer/sheducer.component';
 
 @Component({
   selector: 'app-statistical-list',
@@ -9,7 +10,8 @@ import { ChartCircleComponent } from '../chart-circle/chart-circle.component';
   imports: [
     CommonModule,
     ChartColumnsComponent,
-    ChartCircleComponent
+    ChartCircleComponent,
+    SheducerComponent
   ],
   templateUrl: './statistical-list.component.html',
   styleUrl: './statistical-list.component.scss'

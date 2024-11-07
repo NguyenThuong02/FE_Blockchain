@@ -44,6 +44,7 @@
     "@ngx-formly/ng-zorro-antd": "^6.2.2",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "angular-calendar-scheduler": "^18.0.2",
     "angular-oauth2-oidc": "^17.0.2",
     "angular-oauth2-oidc-jwks": "^17.0.2",
     "angular-resizable-element": "^7.0.2",

@@ -131,7 +131,7 @@ export class MyInfoViewComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.message.error('Xoá thất bại!');
+        this.message.error('Lỗi không hiển thị thông tin');
       },
     })
   }

@@ -96,7 +96,7 @@ export class ManagementAddComponent implements OnInit, OnChanges {
         this.viewInfoUser();
       } else {
         this.edit = false;
-        this.form.reset(); 
+        // this.form.reset(); 
       }
     }
   }
@@ -107,7 +107,7 @@ export class ManagementAddComponent implements OnInit, OnChanges {
       this.viewInfoUser();
     } else {
       this.edit = false;
-      this.form.reset(); 
+      // this.form.reset(); 
     }
   }
 
@@ -156,6 +156,8 @@ export class ManagementAddComponent implements OnInit, OnChanges {
           username: res.userName,
           fullName: res.fullname,
           cellPhone: res.cellPhone,
+          birthday: res.birthday,
+          address: res.address,
           identityCardNumber: res.identityCardNumber,
           identityCardDate: res.identityCardDate,
           gender: res.gender,

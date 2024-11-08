@@ -79,8 +79,8 @@
                     <span class="font-medium">Danh sách các ứng viên thâm gia</span>
                     <mat-form-field class="custom-input " appearance="outline">
                         <mat-select formControlName="candidates" multiple>
-                            <mat-option *ngFor="let candidate of listCandidate" [value]="candidate.value">
-                              {{ candidate.label }}
+                            <mat-option *ngFor="let candidate of filteredCandidates" [value]="candidate.id">
+                              {{ candidate.userName }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -89,8 +89,8 @@
                     <span class="font-medium">Danh sách các cử tri tham gia</span>
                     <mat-form-field class="custom-input " appearance="outline">
                         <mat-select formControlName="voters" multiple>
-                            <mat-option *ngFor="let voter of listVoter" [value]="voter.value">
-                              {{ voter.label }}
+                            <mat-option *ngFor="let voter of filteredVoters" [value]="voter.id">
+                              {{ voter.userName }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

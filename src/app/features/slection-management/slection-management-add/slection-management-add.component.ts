@@ -71,8 +71,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
     term: [''],
     startDateTerm: [''],
     endDateTerm: [''],
-    candidates: [''],
-    voters: [''],
+    candidates: [[]],
+    voters: [[]],
   });
 
   constructor(
@@ -84,6 +84,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idSlectionManagement']) {
+      this.viewListUser();
+      this.setupFormListeners();
       if(this.idSlectionManagement && this.mode === 'edit') {
         this.edit = true;
       } else {
@@ -93,6 +95,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
     }
   }
   ngOnInit(): void {
+    this.viewListUser();
+    this.setupFormListeners();
     this.form.controls['isAdmin'].disable();
     if(this.idSlectionManagement && this.mode === 'edit') {
       this.edit = true;
@@ -100,6 +104,30 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
       this.edit = false;
       this.form.reset(); 
     }
+  }
+
+  viewListUser() {
+    this.managermentService.getAllManagement(1, 999).subscribe(res => {
+      this.listCandidate = res.data;
+      this.listVoter = res.data;
+      this.updateFilteredLists();
+    });
+  }
+  filteredCandidates: any = [];
+  filteredVoters: any = [];
+  setupFormListeners() {
+    this.form.get('candidates')?.valueChanges.subscribe(() => this.updateFilteredLists());
+    this.form.get('voters')?.valueChanges.subscribe(() => this.updateFilteredLists());
+  }
+
+  updateFilteredLists() {
+    const selectedCandidates = this.form.get('candidates')?.value || [];
+    const selectedVoters = this.form.get('voters')?.value || [];
+
+    this.filteredCandidates = this.listCandidate.filter((candidate: any) => !selectedVoters.includes(candidate.id));
+    this.filteredVoters = this.listVoter.filter((voter: any) => !selectedCandidates.includes(voter.id));
+
+    this.cdr.markForCheck();
   }
 
   handleOk(): void {

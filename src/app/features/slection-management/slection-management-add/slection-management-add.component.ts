@@ -55,7 +55,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   public form: FormGroup = this.fb.group({
     name: [''],
     position: [null],
-    number: [null],
+    number: [0],
     startDateSlection: [''],
     endDateSlection: [''],
     term: [''],
@@ -151,7 +151,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   handleOk(): void {
     const body = {
       voteName: this.form.get('name')?.value,
-      maxCandidateVote: this.form.get('number')?.value,
+      maxCandidateVote: Number(this.form.get('number')?.value),
       createDate: new Date(),
       startDate: this.form.get('startDateSlection')?.value,
       expiredDate: this.form.get('endDateSlection')?.value,

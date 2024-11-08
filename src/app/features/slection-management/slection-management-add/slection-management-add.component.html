@@ -20,8 +20,8 @@
                         <span class="font-medium">Chức vụ</span>
                         <mat-form-field class="custom-input " appearance="outline">
                             <mat-select formControlName="position">
-                                <mat-option *ngFor="let level of listLevel" [value]="level.value">
-                                  {{ level.label }}
+                                <mat-option *ngFor="let level of listLevel" [value]="level.id">
+                                  {{ level.positionName }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -61,17 +61,17 @@
                     <div class="flex flex-col flex-1">
                         <span class="font-medium">Ngày bắt đầu nhiệm kỳ</span>
                         <mat-form-field class="custom-input " appearance="outline">
-                            <input formControlName="startDateTerm" matInput [matDatepicker]="picker1" />
-                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
+                            <input formControlName="startDateTerm" matInput [matDatepicker]="picker3" />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div class="flex flex-col flex-1">
                         <span class="font-medium">Ngày kết thúc nhiệm kỳ</span>
                         <mat-form-field class="custom-input " appearance="outline">
-                            <input formControlName="endDateTerm" matInput [matDatepicker]="picker2" />
-                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
+                            <input formControlName="endDateTerm" matInput [matDatepicker]="picker4" />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
                         </mat-form-field>
                     </div>
                 </div>

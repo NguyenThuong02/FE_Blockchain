@@ -48,11 +48,11 @@ export class MyInfoViewComponent implements OnInit {
   wardsData: any = [];
   public listGender: any = [
     {
-      value: 0,
+      value: true,
       label: 'Nam',
     },
     {
-      value: 1,
+      value: false,
       label: 'Nữ',
     },
   ];
@@ -97,16 +97,15 @@ export class MyInfoViewComponent implements OnInit {
   }
   public form: FormGroup = this.fb.group({
       fullName: [null, Validators.required],
+      userName: [null, Validators.required],
       dob: [null, Validators.required],
       phoneNumber: [null, [Validators.required, phoneNumberValidator()]],
       email: [null, [Validators.required, Validators.email]],
-      provice: [null, Validators.required],
-      district: [null, Validators.required],
-      ward: [null, Validators.required],
+      address: [null, Validators.required],
+      gender: [true, Validators.required],
       idNumber: [null, Validators.required],
       dateOfIssue: [null, Validators.required],
       placeOfIssue: [null, Validators.required],
-      workPlace: [null],
       personalNote: [null],
   });
 
@@ -116,16 +115,18 @@ export class MyInfoViewComponent implements OnInit {
         this.fullName = res.fullname;
         this.form.patchValue({
           fullName: res.fullname,
-          dob: new Date(res.dob),
-          phoneNumber: res.phoneNumber,
+          userName: res.userName,
+          dob: res.birthday,
+          gender: res.gender,
+          phoneNumber: res.cellPhone,
           email: res.email,
           provice: res.provice,
           district: res.district,
           ward: res.ward,
-          idNumber: res.idNumber,
-          dateOfIssue: new Date(res.dateOfIssue),
-          placeOfIssue: res.placeOfIssue,
-          workPlace: res.workPlace,
+          idNumber: res.identityCardNumber,
+          dateOfIssue: res.identityCardDate,
+          placeOfIssue: res.identityCardPlace,
+          address: res.address,
           personalNote: res.personalNote,
         });
         this.cdr.detectChanges();

@@ -119,7 +119,7 @@ export class MyInfoViewComponent implements OnInit {
           dob: res.birthday,
           gender: res.gender,
           phoneNumber: res.cellPhone,
-          email: res.email,
+          email: res.newEmail === null ? res.email : res.newEmail,
           provice: res.provice,
           district: res.district,
           ward: res.ward,

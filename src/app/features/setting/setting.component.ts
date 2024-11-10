@@ -124,6 +124,7 @@ export class SettingComponent implements OnInit {
   handleShowChangeEmail(e: any) {
     this.isVisibleChangeEmail = e.thisPopUp;
     // this.isVisiblePopUpNewOTP = e.nextPopUp;
+    this.viewInfo();
     this.cdr.detectChanges();
   }
 

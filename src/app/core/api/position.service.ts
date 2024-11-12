@@ -30,4 +30,8 @@ export class PositionService {
   getAllPosition(page: number, pageSize: number): Observable<any> {
     return this.http.get(this.apiUrl + `/api/position/view-list?page=${page}&pageSize=${pageSize}`);
   }
+
+  slectionPosition(page: number, pageSize: number): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/position/select-position?page=${page}&pageSize=${pageSize}`);
+  }
 }

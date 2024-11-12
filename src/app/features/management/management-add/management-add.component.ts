@@ -160,6 +160,7 @@ export class ManagementAddComponent implements OnInit, OnChanges {
           address: res.address,
           identityCardNumber: res.identityCardNumber,
           identityCardDate: res.identityCardDate,
+          identityCardPlace: res.identityCardPlace,
           gender: res.gender,
           email: res.email,
         });

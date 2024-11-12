@@ -101,7 +101,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   }
 
   viewListUser() {
-    this.managermentService.getAllManagement(1, 999).subscribe(res => {
+    this.managermentService.getAllCandidateVoter(1, 999).subscribe(res => {
       this.listCandidate = res.data;
       this.listVoter = res.data;
       this.updateFilteredLists();
@@ -143,7 +143,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   }
 
   viewPosition() {
-    this.positionService.getAllPosition(1, 999).subscribe(res => {
+    this.positionService.slectionPosition(1, 999).subscribe(res => {
       this.listLevel = res.data;
     });
   }

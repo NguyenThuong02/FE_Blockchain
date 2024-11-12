@@ -35,4 +35,8 @@ export class ManagermentService {
   getUserById(id?: any): Observable<any> {
     return this.http.get(this.apiUrl + `/api/user/get-user/${id}`);
   }
+
+  getAllCandidateVoter(page: number, pageSize: number): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/user/select-candidates?page=${page}&pageSize=${pageSize}`);
+  }
 }

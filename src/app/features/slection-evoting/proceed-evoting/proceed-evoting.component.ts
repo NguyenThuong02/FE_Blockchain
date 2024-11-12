@@ -45,15 +45,15 @@ export class ProceedEvotingComponent implements OnInit{
   @Output() visiblePopUpEvoting = new EventEmitter<boolean>();
 
   candidates = [
-    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2000', age: 23 },
-    { id: 2, name: 'Nguyễn Anh Tuấn', birthdate: '05/10/2000', age: 22 },
-    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2000', age: 22 },
-    { id: 4, name: 'Nguyễn Văn Hậu', birthdate: '24/08/2000', age: 22 },
-    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
-    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2000', age: 23 },
-    { id: 2, name: 'Nguyễn Anh Tuấn', birthdate: '05/10/2000', age: 22 },
-    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2000', age: 22 },
-    { id: 4, name: 'Nguyễn Văn Hậu', birthdate: '24/08/2000', age: 22 },
+    { id: 1, name: 'Phạm Thuỳ Linh', birthdate: '14/06/2001', age: 23 },
+    { id: 2, name: 'Nguyễn Tiến Đạt', birthdate: '05/10/2002', age: 22 },
+    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2002', age: 22 },
+    { id: 4, name: 'Nguyễn Thanh Thưởng', birthdate: '14/08/2002', age: 22 },
+    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 27 },
+    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2002', age: 23 },
+    { id: 2, name: 'Nguyễn Duy Anh', birthdate: '05/10/2002', age: 22 },
+    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2002', age: 22 },
+    { id: 4, name: 'Nguyễn Thanh Thưởng', birthdate: '14/08/2002', age: 22 },
     { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
   ];
 

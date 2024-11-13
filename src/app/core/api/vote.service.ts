@@ -14,4 +14,16 @@ export class VoteService {
   createVote(body?: any): Observable<any> {
     return this.http.post(this.apiUrl + `/api/vote/create`, body);
   }
+
+  viewListVote(): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-list`);
+  }
+
+  listViewVoter(id: any): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-voters/${id}`);
+  }
+
+  listViewCandidate(id: any): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-candidates/${id}`);
+  }
 }

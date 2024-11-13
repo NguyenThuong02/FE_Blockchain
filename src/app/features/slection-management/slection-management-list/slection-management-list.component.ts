@@ -13,6 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { SlectionManagementAddComponent } from '../slection-management-add/slection-management-add.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { DetailCtvComponent } from './detail-ctv/detail-ctv.component';
+import { VoteService } from '../../../core/api/vote.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-slection-management-list',
@@ -46,7 +48,7 @@ export class SlectionManagementListComponent implements OnInit{
   public idSlectionManagement: any = '';
   public nameSlection: any = '';
   public selectedView: string = 'candidate'; 
-  public listUserManagements: any = [];
+  public listVote: any = [];
   public listStatus: any = [
     {
       label: 'Tất cả',
@@ -61,74 +63,8 @@ export class SlectionManagementListComponent implements OnInit{
       value: 2
     },
   ];
-  public listSlection: any = [
-    {
-      id: '1',
-      fullName: 'Nguyễn Văn A',
-      array: [
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-      ],
-      email: '',
-    },
-    {
-      id: '2',
-      fullName: 'Nguyễn Văn B',
-      email: '',
-    }
-  ]
   public searchQuery: string = '';
   public role: string;
-  public params = {
-    page: 1,
-    pageSize:10
-  }
 
   form: FormGroup = this.fb.group({
     name: [''],
@@ -139,24 +75,51 @@ export class SlectionManagementListComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private managermentService: ManagermentService,
+    private voteService: VoteService,
+    private message: NzMessageService,
   ){}
   
   ngOnInit(): void {
-    
+    this.viewListVote();
   }
 
   selectView(view: string): void {
     this.selectedView = view;
   }
 
-  viewListLevelManager() {
+  listVoter(id: any) {
+    this.voteService.listViewVoter(id).subscribe({
+      next: (res) => {
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  listCandidates(id: any) {
+    this.voteService.listViewCandidate(id).subscribe({
+      next: (res) => {
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  viewListVote() {
     this.isLoading = true;
-    this.managermentService.getAllManagementOwner(this.params.page, this.params.pageSize).subscribe(res => {
-      this.isLoading = false;
-      // this.listUserManagements = res.data;
-      this.totalCount = res.totalItems;
-    })
+    this.voteService.viewListVote().subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.listVote = res.data;
+        this.listVoter(res.data[0].id);
+        this.listCandidates(res.data[0].id);
+        this.totalCount = res.totalItems;
+        this.cdr.detectChanges();
+        this.message.success('Lấy danh sách cuộc bầu cử thành công!');
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.message.error('Lỗi hệ thống');
+      }
+    });
   }
 
   isVisiblePopUpAddSlectionManagement: boolean = false;
@@ -187,7 +150,7 @@ export class SlectionManagementListComponent implements OnInit{
   handleChangeVisible(data: any) {
     this.isVisible = data.visible;
     if (data.isSuccess == true) {
-      this.viewListLevelManager();
+      this.viewListVote();
     }
   }
 
@@ -206,14 +169,5 @@ export class SlectionManagementListComponent implements OnInit{
 
   handleSearch() {
 
-  }
-
-  changePage(e: number) {
-    this.params.page = e;
-    this.viewListLevelManager();
-  }
-  changePageSize(e: number) {
-    this.params.pageSize = e;
-    this.viewListLevelManager();
   }
 }

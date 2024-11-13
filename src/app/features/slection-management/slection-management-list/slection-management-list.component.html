@@ -34,14 +34,14 @@
         <h3 class="text-primary text-[18px] font-medium">Danh sách cuộc bầu cử</h3>
         <div (click)="handelOpenPopUpAddSlectionManagement()" class="px-[12px] py-[8px] rounded-[6px] cursor-pointer bg-primary text-[#fff]" >Thêm cuộc bầu cử mới</div>
     </div>
-    <ng-container *ngFor="let slection of listSlection, let i = index">
+    <ng-container *ngFor="let slection of listVote, let i = index">
         <div class="flex flex-col w-full mb-10 bg-white shadow-shadow-timeword">
             <div class="w-full flex gap-2 justify-between">
-              <div class="text-center flex-1 py-2 bg-primary text-white font-medium">{{slection.fullName}}</div>
+              <div class="text-center flex-1 py-2 bg-primary text-white font-medium">{{slection.voteName}}</div>
               <div (click)="handelOpenPopUpSlectionManagement(slection?.id)" class="text-center py-2 px-2 rounded-lg bg-[#666] text-white font-medium cursor-pointer hover:scale-110">
                 <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
               </div>
-              <div (click)="openDeletePopup(slection?.id, slection?.fullName)" class="text-center py-2 px-3 rounded-lg bg-myRed text-white font-medium cursor-pointer hover:scale-110">
+              <div (click)="openDeletePopup(slection?.id, slection?.voteName)" class="text-center py-2 px-3 rounded-lg bg-myRed text-white font-medium cursor-pointer hover:scale-110">
                 <i class="fa-regular fa-trash-can"></i>
               </div>
             </div>
@@ -49,16 +49,16 @@
                 <div class="w-[40%] flex flex-col h-auto justify-between pb-3 px-2 bg-white">
                     <div class="w-full text-center py-2 border-b font-medium border-[#ccc]">Thông tin chung</div>
                     <ul class="w-full *:text-[14px] py-1">
-                        <li class="mb-1">Thời gian bắt đầu bầu cử: </li>
-                        <li class="mb-1">Thời gian kết thúc bầu cử: </li>
-                        <li class="mb-1">Số ứng viên tối đa cử tri được bầu: </li>
-                        <li class="mb-1">Trạng thái</li>
+                        <li class="mb-1">Thời gian bắt đầu bầu cử: {{slection.startDate | date: 'dd/MM/yyyy'}}</li>
+                        <li class="mb-1">Thời gian kết thúc bầu cử: {{slection.expiredDate | date: 'dd/MM/yyyy'}}</li>
+                        <li class="mb-1">Số ứng viên tối đa cử tri được bầu: {{slection.maxCandidateVote}}</li>
+                        <li class="mb-1">Trạng thái: </li>
                     </ul>
                     <div class="w-full text-center py-2 border-t font-medium border-b border-[#ccc]">Thông tin nhiệm kỳ</div>
                     <ul class="w-full *:text-[14px] py-1">
-                        <li class="mb-1">Tên nhiệm kỳ: </li>
-                        <li class="mb-1">Thời gian bắt đầu nhiệm kỳ: </li>
-                        <li class="mb-1">Thời gian kết thúc nhiệm kỳ: </li>
+                        <li class="mb-1">Tên nhiệm kỳ: <span class="font-semibold">{{slection.tenure}}</span></li>
+                        <li class="mb-1">Thời gian bắt đầu nhiệm kỳ: {{slection.startDateTenure | date: 'dd/MM/yyyy'}} </li>
+                        <li class="mb-1">Thời gian kết thúc nhiệm kỳ: {{slection.endDateTenure | date: 'dd/MM/yyyy'}} </li>
                     </ul>
                 </div>
 

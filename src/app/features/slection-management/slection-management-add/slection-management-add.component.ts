@@ -102,8 +102,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
 
   viewListUser() {
     this.managermentService.getAllCandidateVoter(1, 999).subscribe(res => {
-      this.listCandidate = res.data;
-      this.listVoter = res.data;
+      this.listCandidate = res;
+      this.listVoter = res;
       this.updateFilteredLists();
     });
   }
@@ -153,6 +153,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
       voteName: this.form.get('name')?.value,
       maxCandidateVote: Number(this.form.get('number')?.value),
       createDate: new Date(),
+      status: 'Active',
+      extraData: 'String',
       startDate: this.form.get('startDateSlection')?.value,
       expiredDate: this.form.get('endDateSlection')?.value,
       positionId: this.form.get('position')?.value,

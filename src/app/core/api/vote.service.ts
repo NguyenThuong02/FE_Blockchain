@@ -26,4 +26,8 @@ export class VoteService {
   listViewCandidate(id: any): Observable<any> {
     return this.http.get(this.apiUrl + `/api/vote/View-candidates/${id}`);
   }
+
+  deleteVote(id: any): Observable<any> {
+    return this.http.delete(this.apiUrl + `/api/vote/delete/${id}`);
+  }
 }

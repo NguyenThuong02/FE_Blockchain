@@ -37,7 +37,7 @@
     <ng-container *ngFor="let slection of listVote, let i = index">
         <div class="flex flex-col w-full mb-10 bg-white shadow-shadow-timeword">
             <div class="w-full flex gap-2 justify-between">
-              <div class="text-center flex-1 py-2 bg-primary text-white font-medium">{{slection.voteName}}</div>
+              <div class="text-center flex-1 py-2 bg-primary text-white font-medium uppercase text-[18px]">{{slection.voteName}}</div>
               <div (click)="handelOpenPopUpSlectionManagement(slection?.id)" class="text-center py-2 px-2 rounded-lg bg-[#666] text-white font-medium cursor-pointer hover:scale-110">
                 <span nz-icon nzType="edit:antd" class="icon text-[20px]" nzTheme="outline"></span>
               </div>

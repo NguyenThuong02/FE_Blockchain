@@ -81,6 +81,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
       this.viewPosition();
       if(this.idSlectionManagement && this.mode === 'edit') {
         this.edit = true;
+        this.viewDetailVote();
       } else {
         this.edit = false;
         this.form.reset(); 
@@ -94,6 +95,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
     this.form.controls['isAdmin'].disable();
     if(this.idSlectionManagement && this.mode === 'edit') {
       this.edit = true;
+      this.viewDetailVote();
     } else {
       this.edit = false;
       this.form.reset(); 
@@ -177,7 +179,57 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
     });
   }
 
-  handleEdit(): void {}
+  viewDetailVote(): void {
+    this.voteService.detailVote(this.idSlectionManagement).subscribe({
+      next: (res) => {
+        this.form.patchValue({
+          name: res.data.voteName,
+          position: res.data.positionId,
+          number: res.data.maxCandidateVote,
+          startDateSlection: res.data.startDate,
+          endDateSlection: res.data.expiredDate,
+          term: res.data.tenure,
+          startDateTerm: res.data.startDateTenure,
+          endDateTerm: res.data.endDateTenure,
+          candidates: res.data.candidates,
+          voters: res.data.voters,
+        });
+      },
+      error: (err) => {
+        this.message.error('Đã xảy ra lỗi!');
+      },
+    });
+  }
+
+  handleEdit(): void {
+    const body = {
+      id: this.idSlectionManagement,
+      voteName: this.form.get('name')?.value,
+      maxCandidateVote: Number(this.form.get('number')?.value),
+      createDate: new Date(),
+      status: 'Active',
+      extraData: 'String',
+      startDate: this.form.get('startDateSlection')?.value,
+      expiredDate: this.form.get('endDateSlection')?.value,
+      positionId: this.form.get('position')?.value,
+      tenure: this.form.get('term')?.value,
+      startDateTenure: this.form.get('startDateTerm')?.value,
+      endDateTenure: this.form.get('endDateTerm')?.value,
+      candidates: this.form.get('candidates')?.value,
+      candidateNames:  this.candidateNames,
+      voters: this.form.get('voters')?.value,
+      voterNames: this.voterNames
+    };
+    this.voteService.updateVote(body).subscribe({
+      next: (res) => {
+        this.message.success('Chỉnh sửa cuộc bầu cử thành công');
+        this.visiblePopUpAddSlectionManagement.emit(false);
+      },
+      error: (err) => {
+        this.message.error('Đã xảy ra lỗi!');
+      },
+    });
+  }
 
   handleCancel(): void {
     this.visiblePopUpAddSlectionManagement.emit(false);

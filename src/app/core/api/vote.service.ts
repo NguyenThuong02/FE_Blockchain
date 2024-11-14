@@ -30,4 +30,12 @@ export class VoteService {
   deleteVote(id: any): Observable<any> {
     return this.http.delete(this.apiUrl + `/api/vote/delete/${id}`);
   }
+
+  detailVote(id: any): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-detail/${id}`);
+  }
+
+  updateVote(body?: any): Observable<any> {
+    return this.http.put(this.apiUrl + `/api/vote/update`, body);
+  }
 }

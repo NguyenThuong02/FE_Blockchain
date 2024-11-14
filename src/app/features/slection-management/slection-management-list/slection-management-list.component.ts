@@ -108,9 +108,26 @@ export class SlectionManagementListComponent implements OnInit{
     this.voteService.viewListVote().subscribe({
       next: (res) => {
         this.isLoading = false;
-        this.listVote = res.data;
-        this.listVoter(res.data[0].id);
-        this.listCandidates(res.data[0].id);
+        this.listVote = res.data.map((vote: any) => {
+          return {
+            ...vote,
+            candidates: [], // Khởi tạo danh sách ứng viên
+            voters: []      // Khởi tạo danh sách cử tri
+          };
+        });
+        
+        // Tải danh sách ứng viên và cử tri cho mỗi cuộc bầu cử
+        this.listVote.forEach((vote: any) => {
+          this.voteService.listViewCandidate(vote.id).subscribe((candidateRes) => {
+            vote.candidates = candidateRes.data;
+            this.cdr.detectChanges();
+          });
+          this.voteService.listViewVoter(vote.id).subscribe((voterRes) => {
+            vote.voters = voterRes.data;
+            this.cdr.detectChanges();
+          });
+        });
+  
         this.totalCount = res.totalItems;
         this.cdr.detectChanges();
         this.message.success('Lấy danh sách cuộc bầu cử thành công!');
@@ -121,6 +138,7 @@ export class SlectionManagementListComponent implements OnInit{
       }
     });
   }
+  
 
   isVisiblePopUpAddSlectionManagement: boolean = false;
   handelVisiblePopUpAddSlectionManagement(e: boolean) {

@@ -19,6 +19,10 @@ export class VoteService {
     return this.http.get(this.apiUrl + `/api/vote/View-list`);
   }
 
+  viewListVoteForUser(): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-list-for-user`);
+  }
+
   listViewVoter(id: any): Observable<any> {
     return this.http.get(this.apiUrl + `/api/vote/View-voters/${id}`);
   }

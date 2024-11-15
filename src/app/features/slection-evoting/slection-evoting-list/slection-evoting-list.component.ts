@@ -12,6 +12,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { DetailCtvComponent } from '../../slection-management/slection-management-list/detail-ctv/detail-ctv.component';
 import { ProceedEvotingComponent } from '../proceed-evoting/proceed-evoting.component';
+import { VoteService } from '../../../core/api/vote.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-slection-evoting-list',
@@ -46,88 +48,19 @@ export class SlectionEvotingListComponent {
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
   public listUserManagements: any = [];
+  public listVote: any = []
   public listStatus: any = [
     {
-      label: 'Tất cả',
-      value: 0
-    },
-    {
       label: 'Đang hoạt động',
-      value: 1
+      value: 'Active'
     },
     {
       label: 'Hết hạn',
-      value: 2
+      value: 'Disable'
     },
   ];
-  public listSlection: any = [
-    {
-      id: '1',
-      fullName: 'Bầu cử chủ tịch nước Việt Nam, Quốc hội khóa XV',
-      array: [
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-        {
-          id: 'A',
-          fullName: 'Array 1',
-        },
-        {
-          id: 'B',
-          fullName: 'Array 2',
-        },
-        {
-          id: 'C',
-          fullName: 'Array 3',
-        },
-        {
-          id: 'D',
-          fullName: 'Array 4',
-        },
-      ],
-      email: '',
-    },
-    {
-      id: '2',
-      fullName: 'Bầu cử Tổng thống Mỹ',
-      email: '',
-    }
-  ]
   public searchQuery: string = '';
   public role: string;
-  public params = {
-    page: 1,
-    pageSize:10
-  }
 
   form: FormGroup = this.fb.group({
     name: [''],
@@ -139,20 +72,48 @@ export class SlectionEvotingListComponent {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private managermentService: ManagermentService,
+    private voteService: VoteService,
+    private message: NzMessageService,
   ){}
   
   ngOnInit(): void {
-    
+    this.viewListVote();
   }
 
-  viewListLevelManager() {
+  viewListVote() {
     this.isLoading = true;
-    this.managermentService.getAllManagementOwner(this.params.page, this.params.pageSize).subscribe(res => {
-      this.isLoading = false;
-      // this.listUserManagements = res.data;
-      this.totalCount = res.totalItems;
-    })
+    this.voteService.viewListVoteForUser().subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.listVote = res.data.map((vote: any) => {
+          return {
+            ...vote,
+            candidates: [], // Khởi tạo danh sách ứng viên
+            voters: []      // Khởi tạo danh sách cử tri
+          };
+        });
+        
+        // Tải danh sách ứng viên và cử tri cho mỗi cuộc bầu cử
+        this.listVote.forEach((vote: any) => {
+          this.voteService.listViewCandidate(vote.id).subscribe((candidateRes) => {
+            vote.candidates = candidateRes.data;
+            this.cdr.detectChanges();
+          });
+          this.voteService.listViewVoter(vote.id).subscribe((voterRes) => {
+            vote.voters = voterRes.data;
+            this.cdr.detectChanges();
+          });
+        });
+  
+        this.totalCount = res.totalItems;
+        this.cdr.detectChanges();
+        this.message.success('Lấy danh sách cuộc bầu cử thành công!');
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.message.error('Lỗi hệ thống');
+      }
+    });
   }
 
   openResult(id: any) {
@@ -184,14 +145,5 @@ export class SlectionEvotingListComponent {
 
   handleSearch() {
 
-  }
-
-  changePage(e: number) {
-    this.params.page = e;
-    this.viewListLevelManager();
-  }
-  changePageSize(e: number) {
-    this.params.pageSize = e;
-    this.viewListLevelManager();
   }
 }

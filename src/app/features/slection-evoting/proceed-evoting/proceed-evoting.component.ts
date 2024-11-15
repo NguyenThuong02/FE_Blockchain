@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -14,6 +14,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ManagermentService } from '../../../core/api/managerment.service';
 import { rePassValidator } from '../../../shared/validate/check-repass.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { VoteService } from '../../../core/api/vote.service';
 
 @Component({
   selector: 'app-proceed-evoting',
@@ -38,24 +39,14 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   templateUrl: './proceed-evoting.component.html',
   styleUrl: './proceed-evoting.component.scss'
 })
-export class ProceedEvotingComponent implements OnInit{
+export class ProceedEvotingComponent implements OnInit, OnChanges{
   @Input() isVisibleEvoting: boolean = true;
   @Input() nameEvoting: any;
   @Input() idEvoting: any;
   @Output() visiblePopUpEvoting = new EventEmitter<boolean>();
+  public isLoading: boolean = false;
 
-  candidates = [
-    { id: 1, name: 'Phạm Thuỳ Linh', birthdate: '14/06/2001', age: 23 },
-    { id: 2, name: 'Nguyễn Tiến Đạt', birthdate: '05/10/2002', age: 22 },
-    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2002', age: 22 },
-    { id: 4, name: 'Nguyễn Thanh Thưởng', birthdate: '14/08/2002', age: 22 },
-    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 27 },
-    { id: 1, name: 'Trương Thị Quý', birthdate: '14/06/2002', age: 23 },
-    { id: 2, name: 'Nguyễn Duy Anh', birthdate: '05/10/2002', age: 22 },
-    { id: 3, name: 'Đào Hải Long', birthdate: '11/09/2002', age: 22 },
-    { id: 4, name: 'Nguyễn Thanh Thưởng', birthdate: '14/08/2002', age: 22 },
-    { id: 5, name: 'Nguyễn Đắc Duy', birthdate: '01/03/1998', age: 25 },
-  ];
+  candidates: any = [];
 
   selectedCandidates: any[] = [];
 
@@ -68,9 +59,21 @@ export class ProceedEvotingComponent implements OnInit{
     private cdr: ChangeDetectorRef,
     private message: NzMessageService,
     private modal: NzModalService,
+    private voteService: VoteService,
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['idEvoting']) {
+      if(this.idEvoting) {
+        this.viewListVote();
+      }
+    }
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(this.idEvoting) {
+      this.viewListVote();
+    }
+  }
 
   handleOk(): void {
     console.log("Các ứng viên đã chọn: ", this.selectedCandidates);
@@ -82,6 +85,17 @@ export class ProceedEvotingComponent implements OnInit{
 
   handleCancel(): void {
     this.visiblePopUpEvoting.emit(false);
+  }
+
+  viewListVote() {
+    this.isLoading = true;
+    this.voteService.listViewCandidate(this.idEvoting).subscribe({
+      next: res => {
+        this.isLoading = false;
+        this.candidates = res.data;
+        console.log("Candisdates: ", this.candidates);
+      }
+    });
   }
 
   toggleCandidateSelection(candidate: any) {

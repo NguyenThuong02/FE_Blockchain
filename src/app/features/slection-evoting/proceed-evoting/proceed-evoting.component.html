@@ -1,7 +1,7 @@
 <nz-modal nzWidth="800px" [(nzVisible)]="isVisibleEvoting" nzCentered [nzContent]="modalContent"
           [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-template #modalContent>
-        <div class="text-start border-b border-primary pb-2 text-primary font-medium text-[22px]">
+        <div class="text-start border-b border-primary pb-2 text-primary uppercase font-medium text-[22px]">
             {{nameEvoting}}
         </div>
         <div class="text-sm text-center w-full text-orange-400 py-2">
@@ -14,7 +14,7 @@
                 <ul [ngClass]="{'scrollable-list': candidates.length > 5}">
                     <li *ngFor="let candidate of candidates" 
                     [ngClass]="{'opacity-50 cursor-not-allowed': selectedCandidates.length >= 3 && !selectedCandidates.includes(candidate)}"
-                    class="flex items-center border rounded-lg gap-2 mb-2"
+                    class="flex items-center border rounded-lg py-1 gap-2 mb-3"
                     (click)="handleMaxSelection(candidate)"
                     >
                         <mat-checkbox [checked]="selectedCandidates.includes(candidate)" 
@@ -23,9 +23,9 @@
                         >
                         </mat-checkbox>
                         <div>
-                            <div>{{ candidate.name }}</div>
+                            <div>{{ candidate?.fullname }}</div>
                             <div class="text-sm text-gray-500">
-                                {{ candidate.birthdate }} ({{ candidate.age }} tuổi)
+                               {{candidate?.userName}} ({{ candidate?.birthday | date: 'dd/MM/yyyy'}})
                             </div>
                         </div>
                     </li>
@@ -36,11 +36,11 @@
             <div class="w-1/2 px-2">
                 <div class="text-center font-medium text-[18px] pb-2">Danh sách ứng viên bầu chọn</div>
                 <ul>
-                    <li *ngFor="let candidate of selectedCandidates" class="flex items-center justify-between border border-green-500 rounded-lg gap-2 mb-2">
+                    <li *ngFor="let candidate of selectedCandidates" class="flex items-center justify-between border border-green-500 rounded-lg gap-2 py-1 mb-3">
                         <div>
-                            <div>{{ candidate.name }}</div>
+                            <div>{{ candidate.fullname }}</div>
                             <div class="text-sm text-gray-500">
-                                {{ candidate.birthdate }} ({{ candidate.age }} tuổi)
+                                {{candidate?.userName}} ({{ candidate?.birthday | date: 'dd/MM/yyyy'}})
                             </div>
                         </div>
                         <button nz-button nzType="link" nzDanger (click)="removeCandidate(candidate)">

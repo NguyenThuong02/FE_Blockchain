@@ -44,6 +44,7 @@ export class SlectionEvotingListComponent {
   public idCtv: any = '';
   public idEvoting: any = '';
   public nameEvoting: any = '';
+  public numberVote: any;
   public mode: 'create' | 'edit' = 'create';
   public totalCount: number = 10;
   public idSlectionManagement: any = '';
@@ -120,9 +121,10 @@ export class SlectionEvotingListComponent {
     this.router.navigate([`/slection-ticket/result/${id}`]);
   }
 
-  openEvotingPopup(id: string, name?: string) {
+  openEvotingPopup(id: string, name?: string, numberVote?: any) {
     this.idEvoting = id;
     this.nameEvoting = name;
+    this.numberVote = numberVote;
     this.isVisibleEvoting = true;
   }
 

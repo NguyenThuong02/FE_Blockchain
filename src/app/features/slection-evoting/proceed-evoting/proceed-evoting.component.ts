@@ -42,6 +42,7 @@ import { VoteService } from '../../../core/api/vote.service';
 export class ProceedEvotingComponent implements OnInit, OnChanges{
   @Input() isVisibleEvoting: boolean = true;
   @Input() nameEvoting: any;
+  @Input() numberVote: any;
   @Input() idEvoting: any;
   @Output() visiblePopUpEvoting = new EventEmitter<boolean>();
   public isLoading: boolean = false;
@@ -64,6 +65,7 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idEvoting']) {
       if(this.idEvoting) {
+        this.selectedCandidates = [];
         this.viewListVote();
       }
     }
@@ -102,10 +104,10 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
     if (this.selectedCandidates.includes(candidate)) {
       this.removeCandidate(candidate);
     } else {
-      if (this.selectedCandidates.length < 3) {
+      if (this.selectedCandidates.length < this.numberVote) {
         this.selectedCandidates.push(candidate);
       } else {
-        this.message.warning("Bạn chỉ có thể bầu chọn tối đa 3 ứng viên.");
+        this.message.warning(`Bạn chỉ có thể bầu chọn tối đa ${this.numberVote} ứng viên.`);
       }
     }
   }
@@ -115,8 +117,8 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
   }
 
   handleMaxSelection(candidate: any) {
-    if (this.selectedCandidates.length >= 3 && !this.selectedCandidates.includes(candidate)) {
-      this.message.warning("Bạn chỉ có thể bầu chọn tối đa 3 ứng viên.");
+    if (this.selectedCandidates.length >= this.numberVote && !this.selectedCandidates.includes(candidate)) {
+      this.message.warning(`Bạn chỉ có thể bầu chọn tối đa ${this.numberVote} ứng viên.`);
     }
   }
 }

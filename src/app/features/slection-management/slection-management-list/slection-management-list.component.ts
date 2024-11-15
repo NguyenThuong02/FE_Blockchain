@@ -51,12 +51,16 @@ export class SlectionManagementListComponent implements OnInit{
   public listVote: any = [];
   public listStatus: any = [
     {
-      label: 'Đang hoạt động',
-      value: 'Active'
+      label: 'Chưa bắt đầu',
+      value: '0'
     },
     {
-      label: 'Hết hạn',
-      value: 'Disable'
+      label: 'Đang diễn ra',
+      value: '1'
+    },
+    {
+      label: 'Đã kết thúc',
+      value: '2'
     },
   ];
   public searchQuery: string = '';

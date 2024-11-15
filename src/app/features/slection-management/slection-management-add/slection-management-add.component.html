@@ -95,13 +95,18 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
+                <div *ngIf="statusBolean" class="text-orange-400 flex gap-2 items-center">
+                    <i class="fa-solid fa-triangle-exclamation text-orange-400"></i>
+                    <span  *ngIf="statusValue === 'Active'">Cuộc bầu cử đang diễn ra, không thể chỉnh sửa</span>
+                    <span  *ngIf="statusValue === '2'">Cuộc bầu cử đang diễn ra, không thể chỉnh sửa</span>
+                </div>
             </form>
         </div>
         <div class="flex gap-3 justify-center">
             <button *ngIf="!edit" nz-button nzType="primary"
                 class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
                 (click)="handleOk()">Thêm mới</button>
-            <button *ngIf="edit" nz-button nzType="primary"
+            <button *ngIf="edit && !statusBolean" nz-button nzType="primary"
                 class="!bg-primary w-[120px] border-none rounded-lg hover:opacity-60 hover:bg-primary text-white hover:text-black"
                 (click)="handleEdit()">Chỉnh sửa</button>
             <button nz-button

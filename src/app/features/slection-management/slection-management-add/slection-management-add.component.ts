@@ -51,6 +51,8 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   public listLevel: any = [];
   public candidateNames: any = [];
   public voterNames: any = [];
+  public statusBolean: boolean = false;
+  public statusValue: any;
 
   public form: FormGroup = this.fb.group({
     name: [''],
@@ -182,6 +184,9 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
   viewDetailVote(): void {
     this.voteService.detailVote(this.idSlectionManagement).subscribe({
       next: (res) => {
+        if (res && res.status !== undefined) {
+          this.setFormState(res.data.status); 
+        }
         this.form.patchValue({
           name: res.data.voteName,
           position: res.data.positionId,
@@ -201,13 +206,31 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
     });
   }
 
+  setFormState(status: any) {
+    this.statusValue = status;
+    if (status === 'Active' || status === '2') {
+      this.statusBolean = true;
+      if(status === '2') {
+        this.message.warning('Cuộc bầu cử đã kết thúc hoặc đang diễn ra, không thể chỉnh sửa!');
+      } else if (status === 'Active') {
+        this.message.warning('Cuộc bầu cử đang diễn ra, không thể chỉnh sửa!');
+      }
+      this.form.disable(); 
+      this.cdr.detectChanges();
+    } else if (status === '0') {
+      this.statusBolean = false;
+      this.form.enable(); 
+      this.cdr.detectChanges();
+    }
+  }
+
   handleEdit(): void {
     const body = {
       id: this.idSlectionManagement,
       voteName: this.form.get('name')?.value,
       maxCandidateVote: Number(this.form.get('number')?.value),
       createDate: new Date(),
-      status: 'Active',
+      status: null,
       extraData: 'String',
       startDate: this.form.get('startDateSlection')?.value,
       expiredDate: this.form.get('endDateSlection')?.value,

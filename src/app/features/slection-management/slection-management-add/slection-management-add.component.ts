@@ -157,7 +157,7 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
       voteName: this.form.get('name')?.value,
       maxCandidateVote: Number(this.form.get('number')?.value),
       createDate: new Date(),
-      status: 'Active',
+      status: null,
       extraData: 'String',
       startDate: this.form.get('startDateSlection')?.value,
       expiredDate: this.form.get('endDateSlection')?.value,
@@ -208,11 +208,11 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
 
   setFormState(status: any) {
     this.statusValue = status;
-    if (status === 'Active' || status === '2') {
+    if (status === '1' || status === '2') {
       this.statusBolean = true;
       if(status === '2') {
-        this.message.warning('Cuộc bầu cử đã kết thúc hoặc đang diễn ra, không thể chỉnh sửa!');
-      } else if (status === 'Active') {
+        this.message.warning('Cuộc bầu cử đã kết thúc, không thể chỉnh sửa!');
+      } else if (status === '1') {
         this.message.warning('Cuộc bầu cử đang diễn ra, không thể chỉnh sửa!');
       }
       this.form.disable(); 

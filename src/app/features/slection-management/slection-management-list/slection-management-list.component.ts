@@ -143,6 +143,7 @@ export class SlectionManagementListComponent implements OnInit{
   isVisiblePopUpAddSlectionManagement: boolean = false;
   handelVisiblePopUpAddSlectionManagement(e: boolean) {
     this.isVisiblePopUpAddSlectionManagement = e;
+    this.viewListVote();
     this.cdr.detectChanges();
   }
   handelOpenPopUpAddSlectionManagement() {

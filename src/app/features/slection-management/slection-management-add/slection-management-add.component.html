@@ -97,8 +97,8 @@
                 </div>
                 <div *ngIf="statusBolean" class="text-orange-400 flex gap-2 items-center">
                     <i class="fa-solid fa-triangle-exclamation text-orange-400"></i>
-                    <span  *ngIf="statusValue === 'Active'">Cuộc bầu cử đang diễn ra, không thể chỉnh sửa</span>
-                    <span  *ngIf="statusValue === '2'">Cuộc bầu cử đang diễn ra, không thể chỉnh sửa</span>
+                    <span  *ngIf="statusValue === '1'">Cuộc bầu cử đang diễn ra, không thể chỉnh sửa</span>
+                    <span  *ngIf="statusValue === '2'">Cuộc bầu cử đã kết thúc, không thể chỉnh sửa</span>
                 </div>
             </form>
         </div>

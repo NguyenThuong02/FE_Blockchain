@@ -39,4 +39,9 @@ export class ManagermentService {
   getAllCandidateVoter(page: number, pageSize: number): Observable<any> {
     return this.http.get(this.apiUrl + `/api/user/select-candidates?page=${page}&pageSize=${pageSize}`);
   }
+
+  uploadImage(formData: FormData): Observable<{ filename: string }> {
+    return this.http.post<{ filename: string }>('https://be.youth.com.vn/api/upload/UploadImage', formData);
+  }
+  
 }

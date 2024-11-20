@@ -46,6 +46,9 @@ export class ManagementAddComponent implements OnInit, OnChanges {
   public hidePass: boolean = true;
   public hideRePass: boolean = true;
   public edit: boolean = false;
+  avatarUrl: string | null = null;
+  identityCardUrl: string | null = null;
+
 
   listGender = [
     {
@@ -80,6 +83,8 @@ export class ManagementAddComponent implements OnInit, OnChanges {
     gender: [true, Validators.required],
     cellPhone: [null, [phoneNumberValidator()]],
     isAdmin: [false],
+    avatarUrl: [''], // Control for avatar
+    identityCardUrl: ['']
   });
 
   constructor(
@@ -111,6 +116,36 @@ export class ManagementAddComponent implements OnInit, OnChanges {
     }
   }
 
+  handleFileChange(event: Event, type: 'avatar' | 'identityCard'): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.uploadFile(file, type);
+    }
+  }
+  
+  uploadFile(file: File, type: 'avatar' | 'identityCard'): void {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    this.managermentService.uploadImage(formData).subscribe(
+      (response) => {
+        if (type === 'avatar') {
+          this.avatarUrl = response.filename;
+          this.form.get('avatarUrl')?.setValue(this.avatarUrl);
+        } else {
+          this.identityCardUrl = response.filename;
+          this.form.get('identityCardUrl')?.setValue(this.identityCardUrl);
+        }
+        this.message.success('Upload thành công!');
+      },
+      (error) => {
+        this.message.error('Upload thất bại. Vui lòng thử lại!');
+      }
+    );
+  }
+  
+
   handleOk(): void {
     const body = {
       userName: this.form.get('username')?.value,
@@ -123,6 +158,8 @@ export class ManagementAddComponent implements OnInit, OnChanges {
       address: this.form.get('address')?.value,
       birthday: this.form.get('birthday')?.value,
       gender: this.form.get('gender')?.value,
+      imageUrl: this.avatarUrl,
+      urlIdentityCardImage: this.identityCardUrl,
       isAdmin: this.form.get('isAdmin')?.value,
     };
     if (this.form.invalid) {
@@ -163,7 +200,11 @@ export class ManagementAddComponent implements OnInit, OnChanges {
           identityCardPlace: res.identityCardPlace,
           gender: res.gender,
           email: res.email,
+          avatarUrl: res?.imageUrl, 
+          identityCardUrl: res?.urlIdentityCardImage 
         });
+        this.avatarUrl = res.avatarUrl;
+        this.identityCardUrl = res.identityCardUrl;
       },
       error: (err) => {
         this.message.error('Lấy dữ liệu người dùng thất bại!');

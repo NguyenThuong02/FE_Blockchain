@@ -42,4 +42,8 @@ export class VoteService {
   updateVote(body?: any): Observable<any> {
     return this.http.put(this.apiUrl + `/api/vote/update`, body);
   }
+
+  submitVote(body?: any): Observable<any> {
+    return this.http.post(this.apiUrl + `/api/vote/submit-vote`, body);
+  }
 }

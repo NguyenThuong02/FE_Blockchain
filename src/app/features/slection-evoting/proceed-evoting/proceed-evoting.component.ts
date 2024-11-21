@@ -15,6 +15,7 @@ import { ManagermentService } from '../../../core/api/managerment.service';
 import { rePassValidator } from '../../../shared/validate/check-repass.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { VoteService } from '../../../core/api/vote.service';
+import * as forge from 'node-forge';
 
 @Component({
   selector: 'app-proceed-evoting',
@@ -22,7 +23,6 @@ import { VoteService } from '../../../core/api/vote.service';
   imports: [
     FormsModule,
     MatInput,
-    MatLabel,
     CommonModule,
     NzModalComponent,
     NzModalModule,
@@ -47,7 +47,7 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
   @Output() visiblePopUpEvoting = new EventEmitter<boolean>();
   public isLoading: boolean = false;
 
-  candidates: any = [];
+  candidates: any[] = [];
 
   selectedCandidates: any[] = [];
 
@@ -71,6 +71,12 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
     }
   }
 
+    // Khóa công khai RSA (cần cung cấp từ phía server)
+    public publicKey: any = 
+    `-----BEGIN PUBLIC KEY-----
+    MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsCubyCqM64n0V5lVrZkAdykimbk5Qii5y1Flgz1iPJG3RU7RbPKkw/Jggr6E1Krq1zp4YoQqYm6yVJxTHWiXcIgRV2kBSN4ZCj2N/i39uhjucOJccUnLmOcc8lmsAiQnIxX+1eKPOSEN4iLyAOFhSRIwx2iRJNMXUjUzcbeNY+quDN8OR0vIv1xpMMhDDAZZESvRQoZ4PZPxMOCd0X30ehSR3GwU3KCcxpqjxs38/9WU51gNEYoG93DgCj8yupfvyXkhv5qxEEWtcFdRBRgNTiiyAPlD+9rpL65FM8evKEG+r5lFcuJRYt/vMG2vGKdph+96WDcrnNNmq3suq2lOWiXqQpgTYtFRdw0uZGu434j/2UYfnOa6eAcqZhrCxMSKSfNw6OVU3cKk6kglLPnMtY4+3vJive2cF409uAogRJAz+mvmtiW5K/eoiK2qWq2KP5qB60AfSyBhgQpwgkCMLLwm1nZbcpSE1qK3FNUAzkNiack5v7E1Ew27mhcE7g0fQIARIFZO9eS/CtHB+P1XjVtENErndfLTdK3Dbxtz83ZIXe3IMYQ6JkK9g4hZeRubt6ZkiqG/nhj4510Kk1cI+WtIp8w4SQc8dfRAvEyvnjmO1VSPfIqUsH81lnWXZDK4MLo0ZhGgK3u5F+/LdZBcDGmzQbM18gL6y54F+lipvEcCAwEAAQ==
+    -----END PUBLIC KEY-----`;
+
   ngOnInit(): void {
     if(this.idEvoting) {
       this.viewListVote();
@@ -78,11 +84,27 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
   }
 
   handleOk(): void {
-    console.log("Các ứng viên đã chọn: ", this.selectedCandidates);
-    if (this.form.invalid) {
-      this.form.get('privateKey')?.markAsTouched();
-      return;
-    }
+    const payload = {
+      VoteId: this.idEvoting,
+      BitcoinAddress: '',
+      VoterId: '',
+      Candidates: this.selectedCandidates.map(candidate => candidate.id), 
+      PrivateKey: this.form.get('privateKey')?.value, 
+    };
+    const payloadJson = JSON.stringify(payload);
+    var rsa = forge.pki.publicKeyFromPem(this.publicKey);
+    var encryptedPayload = window.btoa(rsa.encrypt(payloadJson));  
+    console.log("Encrypted payload: ", encryptedPayload);
+    this.voteService.submitVote({encruptData: encryptedPayload}).subscribe({
+      next: res => {
+        this.message.success("Bầu cử thành công.");
+        this.visiblePopUpEvoting.emit(false);
+      },
+      error: err => {
+        this.message.error("Bầu cử thất bại. Vui lòng thử lại sau.");
+        console.error("Error submitting vote: ",)
+      }
+    });
   }
 
   handleCancel(): void {
@@ -94,11 +116,16 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
     this.voteService.listViewCandidate(this.idEvoting).subscribe({
       next: res => {
         this.isLoading = false;
-        this.candidates = res.data;
-        console.log("Candisdates: ", this.candidates);
+        this.candidates = Array.isArray(res.data) ? res.data : [];
+        console.log("Candidates: ", this.candidates);
+      },
+      error: err => {
+        this.isLoading = false;
+        this.candidates = [];
+        console.error("Error fetching candidates: ", err);
       }
     });
-  }
+}
 
   toggleCandidateSelection(candidate: any) {
     if (this.selectedCandidates.includes(candidate)) {

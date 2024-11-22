@@ -14,6 +14,7 @@ import { phoneNumberValidator } from '../../../shared/validate/check-phone-numbe
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AddressService } from '../../../core/api/address.service';
 import { AccountService } from '../../../core/api/account.service';
+import { ManagermentService } from '../../../core/api/managerment.service';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class MyInfoViewComponent implements OnInit {
   cityData: any = [];
   districtData: any = [];
   wardsData: any = [];
+  identityCardUrl: string | null = null;
   public listGender: any = [
     {
       value: true,
@@ -63,7 +65,8 @@ export class MyInfoViewComponent implements OnInit {
       private modal: NzModalService,
       private cdr: ChangeDetectorRef,
       private accountService: AccountService,
-      private addressService: AddressService
+      private addressService: AddressService,
+      private managermentService: ManagermentService,
   ) {
       this.translate
           .get('settings.securityTab.noEmty')
@@ -106,7 +109,8 @@ export class MyInfoViewComponent implements OnInit {
       idNumber: [null, Validators.required],
       dateOfIssue: [null, Validators.required],
       placeOfIssue: [null, Validators.required],
-      personalNote: [null],
+      avatarUrl: [''], // Control for avatar
+      identityCardUrl: ['']
   });
 
   getViewInfo(): void {
@@ -129,12 +133,42 @@ export class MyInfoViewComponent implements OnInit {
           address: res.address,
           personalNote: res.personalNote,
         });
+        this.avatarPreview = res.imageUrl;
         this.cdr.detectChanges();
       },
       error: (err) => {
         this.message.error('Lỗi không hiển thị thông tin');
       },
     })
+  }
+
+  handleFileChange(event: Event, type: 'avatar' | 'identityCard'): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.uploadFile(file, type);
+    }
+  }
+  
+  uploadFile(file: File, type: 'avatar' | 'identityCard'): void {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    this.managermentService.uploadImage(formData).subscribe(
+      (response) => {
+        if (type === 'avatar') {
+          // this.avatarUrl = response.filename;
+          // this.form.get('avatarUrl')?.setValue(this.avatarUrl);
+        } else {
+          this.identityCardUrl = response.filename;
+          this.form.get('identityCardUrl')?.setValue(this.identityCardUrl);
+        }
+        this.message.success('Upload thành công!');
+      },
+      (error) => {
+        this.message.error('Upload thất bại. Vui lòng thử lại!');
+      }
+    );
   }
 
   confirmModal?: NzModalRef;

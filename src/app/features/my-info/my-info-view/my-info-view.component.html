@@ -198,10 +198,12 @@
                 <div class="flex flex-col w-full mb-20">
                     <span class="mb-2"
                     [ngClass]="!isEdit ? 'font-normal text-[#888]' : 'font-medium text-textColor' "
-                    >Ghi chú cá nhân</span>
-                    <mat-form-field class="custom-input " appearance="outline">
-                        <textarea matInput placeholder="Nhập ghi chú cá nhân" formControlName="personalNote" rows="5"></textarea>
-                    </mat-form-field>
+                    >Căn cước công dân</span>
+                    <div class="h-[200px] border-dashed border-2 rounded-lg border-[#000] flex items-center justify-center">
+                      <img *ngIf="identityCardUrl" [src]="identityCardUrl" alt="Ảnh căn cước" class="h-full w-full object-cover" />
+                      <span *ngIf="!identityCardUrl" class="text-gray-400">Chưa có ảnh</span>
+                    </div>
+                    <input type="file" (change)="handleFileChange($event, 'identityCard')" class="mt-2" [disabled]="!isEdit"/>
                 </div>
             </form>
             <div class="flex justify-center items-center mt-6 h-[76px]">

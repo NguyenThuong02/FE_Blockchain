@@ -27,7 +27,7 @@
                         <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Ảnh đại diện" class="h-full w-full object-cover" />
                         <span *ngIf="!avatarUrl" class="text-gray-400">Chưa có ảnh</span>
                       </div>
-                      <input type="file" (change)="handleFileChange($event, 'avatar')" class="mt-2" />
+                      <input type="file" (change)="handleFileChange($event, 'avatar')" class="mt-2" [disabled]="edit"/>
                     </div>
                     <div class="flex flex-col w-full flex-1">
                       <span class="font-medium">Căn cước công dân</span>
@@ -35,7 +35,7 @@
                         <img *ngIf="identityCardUrl" [src]="identityCardUrl" alt="Ảnh căn cước" class="h-full w-full object-cover" />
                         <span *ngIf="!identityCardUrl" class="text-gray-400">Chưa có ảnh</span>
                       </div>
-                      <input type="file" (change)="handleFileChange($event, 'identityCard')" class="mt-2" />
+                      <input type="file" (change)="handleFileChange($event, 'identityCard')" class="mt-2" [disabled]="edit"/>
                     </div>
                 </div>  
                 <div class="flex w-full flex-1 gap-3 mt-3">
@@ -100,8 +100,6 @@
                                     {{'PopUpRegister.wrongEmail'|translate}}
                                 </mat-error>
                             </mat-form-field>
-                            <span class="absolute top-[36%] right-2 translate-y-[-50%] hover:opacity-70 cursor-pointer"
-                                (click)="handleConfirmEmail()">Xác nhận</span>
                         </div>
                     </div>
                 </div>

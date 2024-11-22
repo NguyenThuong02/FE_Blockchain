@@ -21,7 +21,6 @@ import { phoneNumberValidator } from '../../../shared/validate/check-phone-numbe
   imports: [
     FormsModule,
     MatInput,
-    MatLabel,
     CommonModule,
     NzModalComponent,
     NzModalModule,
@@ -203,8 +202,8 @@ export class ManagementAddComponent implements OnInit, OnChanges {
           avatarUrl: res?.imageUrl, 
           identityCardUrl: res?.urlIdentityCardImage 
         });
-        this.avatarUrl = res.avatarUrl;
-        this.identityCardUrl = res.identityCardUrl;
+        this.avatarUrl = res.imageUrl;
+        this.identityCardUrl = res.identityCardImage;
       },
       error: (err) => {
         this.message.error('Lấy dữ liệu người dùng thất bại!');

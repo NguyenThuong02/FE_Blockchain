@@ -181,9 +181,17 @@ export class MyInfoViewComponent implements OnInit {
   handleSubmit(): void {
       if (this.form.invalid) {
           this.form.markAsDirty()
+      } else {
+
       }
-      console.log(this.form.invalid);
-      console.log(this.form.value)
+      const body = {
+        fullname: this.form.get('fullName')?.value,
+        userName: this.form.get('userName')?.value,
+        birthday: this.form.get('dob')?.value,
+        imgAvt: this.avatarPreview,
+        identityCardUrl: this.identityCardUrl,
+    }
+    console.log("Body", body);
   }
   handleCancel(): void {
       

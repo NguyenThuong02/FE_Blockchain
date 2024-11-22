@@ -48,6 +48,7 @@ export class MyInfoViewComponent implements OnInit {
   districtData: any = [];
   wardsData: any = [];
   identityCardUrl: string | null = null;
+  avatarPreview:string = "../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp"
   public listGender: any = [
     {
       value: true,
@@ -109,9 +110,13 @@ export class MyInfoViewComponent implements OnInit {
       idNumber: [null, Validators.required],
       dateOfIssue: [null, Validators.required],
       placeOfIssue: [null, Validators.required],
-      avatarUrl: [''], // Control for avatar
       identityCardUrl: ['']
   });
+
+    // avatar change
+  public avatarChangeForm: FormGroup = this.fb.group({
+      image: [null]
+  }) 
 
   getViewInfo(): void {
     this.accountService.getViewInfo().subscribe({
@@ -132,8 +137,10 @@ export class MyInfoViewComponent implements OnInit {
           placeOfIssue: res.identityCardPlace,
           address: res.address,
           personalNote: res.personalNote,
+          identityCardUrl: res.identityCardImage,
         });
         this.avatarPreview = res.imageUrl;
+        this.identityCardUrl = res.identityCardImage;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -157,8 +164,8 @@ export class MyInfoViewComponent implements OnInit {
     this.managermentService.uploadImage(formData).subscribe(
       (response) => {
         if (type === 'avatar') {
-          // this.avatarUrl = response.filename;
-          // this.form.get('avatarUrl')?.setValue(this.avatarUrl);
+          this.avatarPreview = response.filename;
+          this.avatarChangeForm.get('image')?.setValue(this.avatarPreview);
         } else {
           this.identityCardUrl = response.filename;
           this.form.get('identityCardUrl')?.setValue(this.identityCardUrl);
@@ -171,18 +178,6 @@ export class MyInfoViewComponent implements OnInit {
     );
   }
 
-  confirmModal?: NzModalRef;
-  showAlerEmail(): void {
-    this.confirmModal = this.modal.confirm({
-      nzTitle: 'Thông báo',
-      nzContent:
-        'Bạn không thể xác minh tài khoản thông qua email nếu bỏ trống',
-      nzOnOk: () => {},
-    });
-  }
-  handleConfirmEmail() {
-    console.log('confirm email');
-  }
   handleSubmit(): void {
       if (this.form.invalid) {
           this.form.markAsDirty()
@@ -194,58 +189,7 @@ export class MyInfoViewComponent implements OnInit {
       
   }
 
-  // avatar change
-  public avatarChangeForm: FormGroup = this.fb.group({
-      image: [null, [Validators.required]]
-  }) 
   
-  avatarPreview:string = "../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp"
-  oldAvatar!: string
-  avatarFileName:string | null = null
-  avatarNotMatchRegex: boolean = false
-  allowUploadAvatar: boolean = false
-
-  onAvatarSelected(event: Event) {
-      const target = event.target as HTMLInputElement;
-      if (target.files && target.files.length > 0) {
-          if (/\.(jpe?g|png|gif)$/i.test(target.files[0].name)){
-              this.oldAvatar = this.avatarPreview
-              this.avatarFileName = target.files[0].name
-              const reader = new FileReader()
-              reader.onload = (e:any) => {
-                  this.avatarPreview = e.target.result;
-              }
-              reader.readAsDataURL(target.files[0])
-              this.avatarNotMatchRegex = false;
-              this.allowUploadAvatar = true;
-          } else {
-              this.avatarNotMatchRegex = true;
-              this.allowUploadAvatar = false;
-          }
-      } else {
-          this.message.error("No file selected")
-      }
-  }
-
-  uploadAvatarChange() {
-      console.log('clicked')
-      if(this.avatarChangeForm.invalid){
-          this.avatarNotMatchRegex = true;
-          this.allowUploadAvatar = true;
-      } else {
-          this.avatarChangeForm.reset()
-          this.avatarNotMatchRegex = false;
-          this.allowUploadAvatar = false
-      }
-  }
-
-  cancelUploadAvatar(){
-      this.avatarChangeForm.reset()
-      this.avatarNotMatchRegex = false;
-      this.allowUploadAvatar = false
-      this.avatarPreview = this.oldAvatar
-  }
-
   changeCity(data: any) {
     this.getDistricts(data);
   }

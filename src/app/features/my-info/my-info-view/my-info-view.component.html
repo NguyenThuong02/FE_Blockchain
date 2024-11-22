@@ -9,8 +9,7 @@
             <div class="mt-2 text-base">
                 <form class="flex justify-between items-center px-8" [formGroup]="avatarChangeForm">
                     <Label for="avatarImage" 
-                        class="cursor-pointer w-full text-center text-[#7dbefa] text-base"
-                        [ngClass]="{'hidden' : allowUploadAvatar}">
+                        class="cursor-pointer w-full text-center text-[#7dbefa] text-base">
                         Chỉnh sửa ảnh đại diện
                     </Label>
                     <input 
@@ -18,14 +17,10 @@
                         id="avatarImage" 
                         name="avatarImage" 
                         class="hidden" 
-                        (change)="onAvatarSelected($event)"
-                        formControlName="image">
-                    <div *ngIf="allowUploadAvatar" class="w-full flex justify-between">
-                        <button type="button" (click)="cancelUploadAvatar()" class="ml-2">{{'Button.cancel' | translate}}</button>
-                        <button type="button" (click)="uploadAvatarChange()" class="ml-2 text-[#1890FF]">{{'Button.save' | translate}}</button>
-                    </div>
+                        formControlName="image"
+                        (change)="handleFileChange($event, 'avatar')"
+                    >
                 </form>
-                <p *ngIf="avatarNotMatchRegex && !allowUploadAvatar" class="text-danger text-center">{{ 'profile.avatarUploadMessage' | translate}}</p>
             </div>
         </div>
         <div class="flex-1 pt-8 px-[50px] bg-[#F7F9FC] rounded-lg pb-3 overflow-y-auto">
@@ -121,8 +116,7 @@
                         <span class="mb-2"
                         [ngClass]="!isEdit ? 'font-normal text-[#888]' : 'font-medium text-textColor' "
                                 >Email<span
-                                class="text-red-500 text-[8px] cursor-pointer translate-y-[-5px] px-1 ml-1 inline-block border border-red-500"
-                                (click)="showAlerEmail()">i</span></span>
+                                class="text-red-500 text-[8px] cursor-pointer translate-y-[-5px] px-1 ml-1 inline-block border border-red-500">i</span></span>
                         <div class="flex relative">
                             <mat-form-field class="custom-input   w-full" appearance="outline">
                                 <input placeholder="Nhập Email" class="!w-[100%]" matInput formControlName="email" />
@@ -199,7 +193,7 @@
                     <span class="mb-2"
                     [ngClass]="!isEdit ? 'font-normal text-[#888]' : 'font-medium text-textColor' "
                     >Căn cước công dân</span>
-                    <div class="h-[200px] border-dashed border-2 rounded-lg border-[#000] flex items-center justify-center">
+                    <div class="h-[250px] border-dashed border-2 rounded-lg border-[#000] flex items-center justify-center">
                       <img *ngIf="identityCardUrl" [src]="identityCardUrl" alt="Ảnh căn cước" class="h-full w-full object-cover" />
                       <span *ngIf="!identityCardUrl" class="text-gray-400">Chưa có ảnh</span>
                     </div>

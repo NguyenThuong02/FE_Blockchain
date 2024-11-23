@@ -84,7 +84,7 @@
                             <div class="text-center text-[14px] font-normal">{{array.newEmail === null ? array.email.substring(0, 25) + '...' : array.newEmail.substring(0, 25) + '...'}}</div>
                             <div class="text-center text-[14px] font-normal">SĐT: {{array.cellPhone}}</div>
                             <div class="text-center text-[14px] font-normal">Ngày sinh: {{array.birthday | date: 'dd/MM/yyyy'}}</div>
-                            <div class="text-center text-[14px] font-normal">Sinh sống: {{array.address.split(', ').pop()}}</div>
+                            <div class="text-center text-[14px] font-normal">Sinh sống: {{array?.address?.split(', ').pop()}}</div>
                           </div>
                           <div (click)="openDetailPopup(array.id)" class="w-full border-t text-[12px] hover:scale-110 text-myRed hover:cursor-pointer pt-2 text-center">Xem chi tiết</div>
                         </div>
@@ -98,7 +98,7 @@
                             <div class="text-center text-[14px] font-normal">{{array.newEmail === null ? array.email.substring(0, 25) + '...' : array.newEmail.substring(0, 25) + '...'}}</div>
                             <div class="text-center text-[14px] font-normal">SĐT: {{array.cellPhone}}</div>
                             <div class="text-center text-[14px] font-normal">Ngày sinh: {{array.birthday | date: 'dd/MM/yyyy'}}</div>
-                            <div class="text-center text-[14px] font-normal">Sinh sống: {{array.address.split(', ').pop()}}</div>
+                            <div class="text-center text-[14px] font-normal">Sinh sống: {{array?.address?.split(', ').pop()}}</div>
                           </div>
                           <div (click)="openDetailPopup(array.id)" class="w-full border-t text-[12px] hover:scale-110 text-myRed hover:cursor-pointer pt-2 text-center">Xem chi tiết</div>
                         </div>

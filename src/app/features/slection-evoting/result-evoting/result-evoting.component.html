@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div *ngIf="chartType === 'columns'">
-                <app-chart-evoting></app-chart-evoting>
+                <app-chart-evoting [listCandidate]='listCandidate'></app-chart-evoting>
             </div>
             <div *ngIf="chartType === 'circle'" class="w-full h-full flex justify-center">
                 <app-chart-circle-evoting class="mt-9"></app-chart-circle-evoting>

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -34,8 +34,9 @@ export type ChartOptions = {
   templateUrl: './chart-evoting.component.html',
   styleUrl: './chart-evoting.component.scss'
 })
-export class ChartEvotingComponent {
+export class ChartEvotingComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
+  @Input() listCandidate: any = [];
   public chartOptions: Partial<ChartOptions>;
 
   constructor() {
@@ -43,7 +44,7 @@ export class ChartEvotingComponent {
       series: [
         {
           name: "Số lượng phiếu bầu",
-          data: [9, 4, 6, 2]
+          data: []
         }
       ],
       chart: {
@@ -74,12 +75,7 @@ export class ChartEvotingComponent {
       },
 
       xaxis: {
-        categories: [
-          "Nguyễn Thưởng",
-          "Nguyễn Văn Đức",
-          "Ngô Minh Trang",
-          "Phạm Thị Hà",
-        ],
+        categories: [],
         position: "top",
         labels: {
           offsetY: -2
@@ -137,4 +133,29 @@ export class ChartEvotingComponent {
       }
     };
   }
-}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listCandidate'] && this.listCandidate) {
+      // Lấy danh sách fullName từ listCandidate
+      const candidateNames = this.listCandidate.map((candidate: any) => candidate.fullName);
+  
+      // Lấy danh sách totalBallot từ listCandidate
+      const totalBallots = this.listCandidate.map((candidate: any) => candidate.totalBallot);
+  
+      // Cập nhật categories và series trong chartOptions
+      this.chartOptions = {
+        ...this.chartOptions,
+        xaxis: {
+          ...this.chartOptions?.xaxis,
+          categories: candidateNames,
+        },
+        series: [
+          {
+            ...this.chartOptions?.series,
+            data: totalBallots,
+          },
+        ],
+      };
+    }
+  }
+  
+} 

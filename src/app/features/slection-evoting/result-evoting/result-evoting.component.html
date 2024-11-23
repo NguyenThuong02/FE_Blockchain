@@ -13,7 +13,7 @@
                 <ul class="text-[16px] *:mb-[4px] *:ml-3 mt-2">
                     <li><i class="fa-solid fa-right-long text-primary"></i> Thời gian bắt đầu cuộc bầu cử: {{infoVote.startDate | date: 'dd/MM/yyyy'}}</li>
                     <li><i class="fa-solid fa-right-long text-primary"></i> Thời gian kết thúc cuộc bầu cử: {{infoVote.expiredDate | date: 'dd/MM/yyyy'}}</li>
-                    <li><i class="fa-solid fa-right-long text-primary"></i> Chức vụ: Chủ tịch nước Việt Nam</li>
+                    <li><i class="fa-solid fa-right-long text-primary"></i> Chức vụ: {{infoVote.positionName}}</li>
                     <li><i class="fa-solid fa-right-long text-primary"></i> Trạng thái: 
                       <div 
                       [ngClass]="{'bg-green-500': infoVote.status === '1', 'bg-red-500': infoVote.status === '2', 'bg-orange-400': infoVote.status === '0'}"
@@ -119,20 +119,20 @@
                           <td class="px-2">
                             {{((currentPage - 1) * itemsPerPage + (index + 1))}}
                           </td>
-                          <td >
+                          <td class="text-start">
                             {{item?.fullName}}
                           </td>
-                          <td >
-                            {{item?.brand}}
+                          <td class="text-start">
+                            {{item?.newEmail === null ? item?.email : item?.newEmail}}
                           </td>
                           <td >
-                            {{item?.status}}
+                            {{item?.cellPhone}}
                           </td>
                           <td >
-                            {{item?.action}}
+                            {{item?.birthday | date: 'dd/MM/yyyy'}}
                           </td>
-                          <td >
-                            4
+                          <td class="text-myRed font-semibold">
+                            {{item?.totalBallot}}
                           </td>
                         </tr>
                       </tbody> 
@@ -175,19 +175,19 @@
                             {{((currentPage - 1) * itemsPerPage + (index + 1))}}
                           </td>
                           <td >
-                            {{item?.fullName}}
+                            {{item?.fullname}}
                           </td>
                           <td >
-                            {{item?.brand}}
+                            {{item?.newEmail === null ? item?.email : item?.newEmail}}
                           </td>
                           <td >
-                            {{item?.status}}
+                            {{item?.cellPhone}}
                           </td>
                           <td >
-                            {{item?.action}}
+                            {{item?.birthday | date: 'dd/MM/yyyy'}}
                           </td>
-                          <td >
-                            4
+                          <td [ngClass]="item?.status === true ? 'font-medium text-green-500' : 'font-medium text-myRed'">
+                            {{item?.status === true ? 'Đã bầu' : 'Chưa bầu'}}
                           </td>
                         </tr>
                       </tbody> 

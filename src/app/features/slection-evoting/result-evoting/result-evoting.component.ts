@@ -43,21 +43,8 @@ export class ResultEvotingComponent implements OnInit {
     pageSize: 10,
   };
 
-  public listCandidate: any = [
-    {
-      id: '1',
-      fullName: 'Nguyễn Văn A',
-      email: '',
-    }
-  ];
-
-  public listVoters: any = [
-    {
-      id: '1',
-      fullName: 'Nguyễn Văn B',
-      email: '',
-    }
-  ];
+  public listCandidate: any = [];
+  public listVoters: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -76,6 +63,18 @@ export class ResultEvotingComponent implements OnInit {
     this.voteService.detailVote(id).subscribe({
       next: (res) => {
         this.infoVote = res.data
+        if(this.infoVote) {
+          this.voteService.listViewCandidate(id).subscribe((candidateRes) => {
+            this.listCandidate = candidateRes.data;
+            this.cdr.detectChanges();
+          });
+          this.voteService.listViewVoter(id).subscribe((voterRes) => {
+            this.listVoters = voterRes.data;
+            this.cdr.detectChanges();
+          });
+        } else {
+
+        }
       },
       error: (err) => {
         this.message.error('Có lỗi xảy ra, vui lòng thử lại sau!');

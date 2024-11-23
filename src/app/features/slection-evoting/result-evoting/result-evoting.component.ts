@@ -34,6 +34,7 @@ export class ResultEvotingComponent implements OnInit {
   public chartType: any = 'columns'
   public type: any = 'candidate'
   public isLoading: boolean = false;
+  isCandidateDataReady = false; 
   public idVote: any = '';
   public infoVote: any = {};
   public totalCount: number = 10;
@@ -66,6 +67,7 @@ export class ResultEvotingComponent implements OnInit {
         if(this.infoVote) {
           this.voteService.listViewCandidate(id).subscribe((candidateRes) => {
             this.listCandidate = candidateRes.data;
+            this.isCandidateDataReady = true; 
             this.cdr.detectChanges();
           });
           this.voteService.listViewVoter(id).subscribe((voterRes) => {
@@ -73,10 +75,11 @@ export class ResultEvotingComponent implements OnInit {
             this.cdr.detectChanges();
           });
         } else {
-
+          this.isCandidateDataReady = false; 
         }
       },
       error: (err) => {
+        this.isCandidateDataReady = false; 
         this.message.error('Có lỗi xảy ra, vui lòng thử lại sau!');
       }
     })

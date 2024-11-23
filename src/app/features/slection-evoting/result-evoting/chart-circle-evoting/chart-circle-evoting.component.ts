@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 import { ApexLegend, ApexStroke, ChartComponent, NgApexchartsModule } from "ng-apexcharts";
 
 import {
@@ -26,13 +26,14 @@ export type ChartOptions = {
   templateUrl: './chart-circle-evoting.component.html',
   styleUrl: './chart-circle-evoting.component.scss'
 })
-export class ChartCircleEvotingComponent {
+export class ChartCircleEvotingComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
+  @Input() listCandidate: any = [];
   public chartOptions: Partial<ChartOptions>;
 
   constructor() {
     this.chartOptions = {
-      series: [9, 4, 6, 2],
+      series: [],
       chart: {
         width: 380,
         type: "pie",
@@ -44,8 +45,8 @@ export class ChartCircleEvotingComponent {
           opacity: 0.5           
         }
       },
-      labels: ["Nguyễn Thưởng", "Ngô Minh Trang", "Nguyễn Văn Đức", "Phạm Thị Hà"],
-      colors: ["#008ffb", "#feaf1a", "#259e66", "#e60e1b"],
+      labels: [],
+      colors: [],
       legend: {
         position: "bottom",       // Đặt chú thích ở dưới biểu đồ
         horizontalAlign: "left",  // Căn chỉnh chú thích về bên trái
@@ -72,5 +73,37 @@ export class ChartCircleEvotingComponent {
         }
       ]
     };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listCandidate'] && this.listCandidate) {
+      // Truy xuất danh sách fullName và thiết lập labels
+      const labels = this.listCandidate.map((candidate: any) => candidate.fullName);
+
+      // Tạo series giả định (ví dụ: số phiếu bầu)
+      const series = this.listCandidate.map((candidate: any) => candidate.totalBallot);
+
+      // Tạo mảng màu sắc ngẫu nhiên tương ứng
+      const colors = labels.map(() => this.getRandomColor());
+
+      // Cập nhật biểu đồ
+      this.chartOptions = {
+        ...this.chartOptions,
+        labels,
+        series,
+        colors
+      };
+    }
+  }
+
+  /**
+   * Hàm tạo màu ngẫu nhiên
+   */
+  private getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

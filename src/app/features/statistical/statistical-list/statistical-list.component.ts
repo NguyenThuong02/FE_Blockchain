@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ChartColumnsComponent } from '../chart-columns/chart-columns.component';
 import { ChartCircleComponent } from '../chart-circle/chart-circle.component';
 import { SheducerComponent } from '../sheducer/sheducer.component';
 import { PagiComponent } from '../../../shared/components/pagi/pagi.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { VoteService } from '../../../core/api/vote.service';
 
 @Component({
   selector: 'app-statistical-list',
@@ -20,46 +22,19 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
   templateUrl: './statistical-list.component.html',
   styleUrl: './statistical-list.component.scss'
 })
-export class StatisticalListComponent {
+export class StatisticalListComponent implements OnInit {
   public chartType: any = 'columns'
   public isLoading: boolean = false;
   public totalCount: number = 10;
+  public idOwner: any;
+  public nameOwner: any;
+  public canActive: boolean = false;
+  public role: string;
   public param = {
     pageNumber: 1,
     pageSize: 10,
   };
-  public slectionArray: any = [
-    {
-      name: 'Bầu cử chủ tịch nước Việt Nam',
-      startDate: '10-10-2021',
-      endDate: '10-10-2021',
-      status: false
-    },
-    {
-      name: 'Bầu cử tổng thống Mỹ',
-      startDate: '10-10-2021',
-      endDate: '10-10-2021',
-      status: true
-    },
-    {
-      name: 'Bầu cử bí thư Tỉnh uỷ',
-      startDate: '10-10-2021',
-      endDate: '10-10-2021',
-      status: true
-    },
-    {
-      name: 'Bầu cử uỷ ban xã',
-      startDate: '10-10-2021',
-      endDate: '10-10-2021',
-      status: false
-    },
-    {
-      name: 'Bầu cử quốc hội khoá IXX',
-      startDate: '10-10-2021',
-      endDate: '10-10-2021',
-      status: false
-    },
-  ];
+  public slectionArray: any = [];
   public listCandidate: any = [
     {
       id: '1',
@@ -67,6 +42,54 @@ export class StatisticalListComponent {
       email: '',
     }
   ];
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private voteService: VoteService,
+    private message: NzMessageService,
+  ){}
+
+  ngOnInit(): void {
+    this.idOwner = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.sub;
+    this.nameOwner = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.name;
+    this.role = JSON.parse(
+      localStorage.getItem('id_token_claims_obj') || '{}',
+    )?.role;
+    if(this.role[0] === 'Administrator'){
+      this.canActive = true;
+      this.viewVoteforAdmin();
+    } else if(this.role[0] === 'User') {
+      this.canActive = false;
+      this.viewVoteforUser();
+    }
+  }
+
+  viewVoteforAdmin() {
+    this.voteService.viewListVote().subscribe({
+      next: (res) => {
+        this.slectionArray = res.data;
+      },
+      error: (err) => {
+        this.message.error('Lỗi hệ thống');
+      }
+    })
+  }
+
+  viewVoteforUser() {
+    this.voteService.viewListVoteForUser().subscribe({
+      next: (res) => {
+        this.slectionArray = res.data;
+      },
+      error: (err) => {
+        this.message.error('Lỗi hệ thống');
+      }
+    })
+  }
+
   handleChangeChart(name: string) {
     this.chartType = name;
   }

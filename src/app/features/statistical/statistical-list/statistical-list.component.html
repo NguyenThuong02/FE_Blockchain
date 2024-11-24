@@ -11,17 +11,17 @@
             <div *ngFor="let array of slectionArray , let i2 = index" class="w-full border-b border-[#ccc]">
                 <div class="w-full p-2 flex justify-between items-center rounded-lg hover:bg-green-300">
                     <div class="flex flex-col gap-2 justify-between items-start h-full">
-                        <div class="font-medium text-[16px]">{{array.name}}</div>
+                        <div class="font-medium text-[16px]">{{array.voteName}}</div>
                         <div class="font-normal text-[12px] text-[#888]">
-                            <span>Thời gian bắt đầu: {{array.startDate}}</span>
+                            <span>Thời gian bắt đầu: {{array.startDate | date: 'dd/MM/yyyy'}}</span>
                             <span> / </span>
-                            <span>Thời gian kết thúc: {{array.endDate}}</span>
+                            <span>Thời gian kết thúc: {{array.expiredDate | date: 'dd/MM/yyyy'}}</span>
                         </div>
                     </div>
                     <div class="rounded-xl px-2 py-1 shadow-shadow-timeword text-white"
-                    [ngClass]="array.status === true ? 'bg-green-500' : 'bg-red-500'"
+                    [ngClass]="{'bg-green-500': array.status === '1', 'bg-red-500': array.status === '2', 'bg-orange-400': array.status === '0'}"
                     >
-                        {{array.status === true ? 'Đang diễn ra' : 'Chưa diễn ra'}}
+                        {{array.status === '1' ? 'Đang diễn ra' : array.status === '2' ? 'Đã kết thúc' : array.status === '0' ? 'Chưa bắt đầu' : ''}}
                     </div>
                 </div>
             </div>

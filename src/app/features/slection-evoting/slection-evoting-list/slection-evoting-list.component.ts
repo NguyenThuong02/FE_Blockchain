@@ -125,11 +125,17 @@ export class SlectionEvotingListComponent {
     this.router.navigate([`/slection-ticket/result/${id}`]);
   }
 
-  openEvotingPopup(id: string, name?: string, numberVote?: any) {
+  openEvotingPopup(id: string, name?: string, numberVote?: any, status?: any) {
     this.idEvoting = id;
     this.nameEvoting = name;
     this.numberVote = numberVote;
-    this.isVisibleEvoting = true;
+    if(status === '0') {
+      this.message.warning('Cuộc bầu cử chưa được kích hoạt. Không thể tiến hành.');
+    } else if(status === '2') {
+      this.message.warning('Cuộc bầu cử đã hết hạn. Không thể tiến hành.');
+    } else if (status === '1') {
+      this.isVisibleEvoting = true;
+    }
   }
 
   handleChangeVotingVisible(data: any) {

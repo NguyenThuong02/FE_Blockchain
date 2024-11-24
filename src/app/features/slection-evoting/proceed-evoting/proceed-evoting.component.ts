@@ -101,8 +101,15 @@ export class ProceedEvotingComponent implements OnInit, OnChanges{
         this.visiblePopUpEvoting.emit(false);
       },
       error: err => {
-        this.message.error("Bầu cử thất bại. Vui lòng thử lại sau.");
-        console.error("Error submitting vote: ",)
+        const errorMessage = err?.error || err || '';
+
+        if (errorMessage.includes('This vote already exists')) {
+          this.message.error('Bạn đã bầu cử, không thể bầu cử lần nữa');
+        } else if (errorMessage.includes('The provided private key is not in a valid Base64 format')) {
+          this.message.error('Khoá bí mật không chính xác!');
+        } else {
+          this.message.error('Đã xảy ra lỗi, vui lòng thử lại!');
+        }
       }
     });
   }

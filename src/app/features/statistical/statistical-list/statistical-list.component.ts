@@ -30,6 +30,7 @@ export class StatisticalListComponent implements OnInit {
   public nameOwner: any;
   public canActive: boolean = false;
   public role: string;
+  public selectedVoteId: string | null = null;
   public param = {
     pageNumber: 1,
     pageSize: 10,
@@ -90,6 +91,11 @@ export class StatisticalListComponent implements OnInit {
     })
   }
 
+  selectVote(voteId: string): void {
+    this.selectedVoteId = voteId;
+    console.log("Selected Vote: ", this.selectedVoteId);
+  }
+  
   handleChangeChart(name: string) {
     this.chartType = name;
   }

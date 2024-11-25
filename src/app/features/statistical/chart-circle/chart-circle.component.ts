@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { ApexLegend, ApexStroke, ChartComponent, NgApexchartsModule } from "ng-apexcharts";
 
 import {
@@ -29,6 +29,7 @@ export type ChartOptions = {
 })
 export class ChartCircleComponent {
   @ViewChild("chart") chart: ChartComponent;
+  @Input() selectedVoteId: any;
   public chartOptions: Partial<ChartOptions>;
 
   constructor() {

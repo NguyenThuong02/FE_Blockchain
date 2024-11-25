@@ -9,7 +9,7 @@
         <div class="flex flex-col flex-1 gap-3">
             <div class="w-full font-medium text-start text-primary text-[18px]">Các cuộc bầu cử mới nhất</div>
             <div *ngFor="let array of slectionArray , let i2 = index" class="w-full border-b border-[#ccc]">
-                <div class="w-full p-2 flex justify-between items-center rounded-lg hover:bg-green-300">
+                <div (click)="selectVote(array.id)" class="w-full p-2 flex justify-between items-center rounded-lg cursor-pointer hover:bg-green-300">
                     <div class="flex flex-col gap-2 justify-between items-start h-full">
                         <div class="font-medium text-[16px]">{{array.voteName}}</div>
                         <div class="font-normal text-[12px] text-[#888]">
@@ -40,10 +40,10 @@
                 </div>
             </div>
             <div *ngIf="chartType === 'columns'">
-                <app-chart-columns></app-chart-columns>
+                <app-chart-columns [selectedVoteId]="selectedVoteId"></app-chart-columns>
             </div>
             <div *ngIf="chartType === 'circle'" class="w-full h-full flex justify-center">
-                <app-chart-circle></app-chart-circle>
+                <app-chart-circle [selectedVoteId]="selectedVoteId"></app-chart-circle>
             </div>
         </div>
     </div>

@@ -40,10 +40,10 @@
                 </div>
             </div>
             <div *ngIf="chartType === 'columns'">
-                <app-chart-columns [selectedVoteId]="selectedVoteId"></app-chart-columns>
+                <app-chart-columns [listDetailVote]="listDetailVote"></app-chart-columns>
             </div>
             <div *ngIf="chartType === 'circle'" class="w-full h-full flex justify-center">
-                <app-chart-circle [selectedVoteId]="selectedVoteId"></app-chart-circle>
+                <app-chart-circle [listDetailVote]="listDetailVote"></app-chart-circle>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -34,9 +34,9 @@ export type ChartOptions = {
   templateUrl: './chart-columns.component.html',
   styleUrl: './chart-columns.component.scss'
 })
-export class ChartColumnsComponent {
+export class ChartColumnsComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
-  @Input() selectedVoteId: any;
+  @Input() listDetailVote: any;
   public chartOptions: Partial<ChartOptions>;
 
   constructor() {
@@ -44,7 +44,7 @@ export class ChartColumnsComponent {
       series: [
         {
           name: "Số lượng phiếu bầu",
-          data: [9, 4, 6, 2]
+          data: []
         }
       ],
       chart: {
@@ -75,12 +75,7 @@ export class ChartColumnsComponent {
       },
 
       xaxis: {
-        categories: [
-          "Nguyễn Thưởng",
-          "Nguyễn Văn Đức",
-          "Ngô Minh Trang",
-          "Phạm Thị Hà",
-        ],
+        categories: [],
         position: "top",
         labels: {
           offsetY: -2
@@ -137,5 +132,24 @@ export class ChartColumnsComponent {
         }
       }
     };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listDetailVote'] && this.listDetailVote) {
+      const candidateNames = this.listDetailVote.map((candidate: any) => candidate.fullName);
+      const totalBallots = this.listDetailVote.map((candidate: any) => candidate.totalBallot);
+      this.chartOptions = {
+        ...this.chartOptions,
+        xaxis: {
+          ...this.chartOptions?.xaxis,
+          categories: candidateNames,
+        },
+        series: [
+          {
+            ...this.chartOptions?.series,
+            data: totalBallots,
+          },
+        ],
+      };
+    }
   }
 }

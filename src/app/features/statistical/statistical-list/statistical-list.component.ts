@@ -36,6 +36,7 @@ export class StatisticalListComponent implements OnInit {
     pageSize: 10,
   };
   public slectionArray: any = [];
+  public listDetailVote: any = [];
   public listCandidate: any = [
     {
       id: '1',
@@ -93,7 +94,10 @@ export class StatisticalListComponent implements OnInit {
 
   selectVote(voteId: string): void {
     this.selectedVoteId = voteId;
-    console.log("Selected Vote: ", this.selectedVoteId);
+    this.voteService.listViewCandidate(voteId).subscribe((candidateRes) => {
+      this.listDetailVote = candidateRes.data;
+      this.cdr.detectChanges();
+    });
   }
   
   handleChangeChart(name: string) {

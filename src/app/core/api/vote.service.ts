@@ -23,6 +23,14 @@ export class VoteService {
     return this.http.get(this.apiUrl + `/api/vote/View-list-for-user`);
   }
 
+  viewListVoteHistory(): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/History-vote`);
+  }
+
+  viewListVoteForCandidates(): Observable<any> {
+    return this.http.get(this.apiUrl + `/api/vote/View-list-for-candidate`);
+  }
+
   listViewVoter(id: any): Observable<any> {
     return this.http.get(this.apiUrl + `/api/vote/View-voters/${id}`);
   }

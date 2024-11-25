@@ -54,6 +54,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'slection-follow',
+        loadChildren: () =>
+          import('../../features/slection-follow/slection-follow.routing.module').then(
+            (m) => m.SlectionFollowRoutingModule,
+          ),
+      },
+      {
         path: 'user-infor/:id',
         loadChildren: () =>
           import('../../features/my-info/my-info.routing.module').then(

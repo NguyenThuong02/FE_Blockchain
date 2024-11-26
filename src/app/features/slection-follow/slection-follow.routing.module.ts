@@ -21,6 +21,13 @@ const routes: Routes = [
                   ),        
             },
             {
+                path: 'detail/:id',
+                loadComponent: () =>
+                  import('../slection-follow/slection-follow-list/slection-follow-detail/slection-follow-detail.component').then(
+                    (m) => m.SlectionFollowDetailComponent
+                  ),        
+            },
+            {
                 path:"**",
                 redirectTo:'/',
             },

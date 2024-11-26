@@ -3,10 +3,7 @@ import {
   Component,
   OnChanges,
   OnInit,
-  QueryList,
   SimpleChanges,
-  ViewChildren,
-  importProvidersFrom,
   inject,
 } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
@@ -21,7 +18,6 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { TabComponent } from '../../shared/components/tab/tab.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import 'zone.js';
 import { Store } from '@ngrx/store';
@@ -58,7 +54,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     RouterModule,
     MatSelectModule,
     FormsModule,
-    TabComponent,
     TranslateModule,
     ChangePasswordComponent
   ],

@@ -1,6 +1,6 @@
 <div class=" bg-bgGray w-full p-10">
     <div class="mb-8 flex justify-between items-center">
-        <h3 class="uppercase text-primary text-[18px] font-medium">TIẾN HÀNH BẦU CỬ</h3>
+        <h3 class="uppercase text-primary text-[20px] font-semibold">TIẾN HÀNH BẦU CỬ</h3>
     </div>
     <div class="bg-white pt-7 pb-3 px-5 mb-10 rounded-lg shadow-shadow-timeword">
         <ng-container >
@@ -31,8 +31,9 @@
         </ng-container>
       </div>
     <div class="mb-8 flex justify-start items-center">
-        <h3 class="text-primary text-[18px] font-medium">Danh sách cuộc bầu cử</h3>
-    
+      <h3 class="text-primary text-[20px] font-medium">Danh sách cuộc bầu cử 
+        <span class="text-[14px] text-[#999]">(mà bạn là cử tri)</span>
+      </h3>
     </div>
     <ng-container  *ngIf="listVote.length > 0; else noVotes">
       <ng-container *ngFor="let slection of listVote, let i = index">

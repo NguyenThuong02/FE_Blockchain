@@ -7,6 +7,7 @@ import { PagiComponent } from '../../../shared/components/pagi/pagi.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { VoteService } from '../../../core/api/vote.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-statistical-list',
@@ -25,7 +26,7 @@ import { VoteService } from '../../../core/api/vote.service';
 export class StatisticalListComponent implements OnInit {
   public chartType: any = 'columns'
   public isLoading: boolean = false;
-  public totalCount: number = 10;
+  public totalCount: number = 0;
   public idOwner: any;
   public nameOwner: any;
   public canActive: boolean = false;
@@ -42,6 +43,7 @@ export class StatisticalListComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private voteService: VoteService,
     private message: NzMessageService,
+    private router: Router,
   ){}
 
   ngOnInit(): void {
@@ -76,9 +78,10 @@ export class StatisticalListComponent implements OnInit {
   }
 
   viewVoteHistory() {
-    this.voteService.viewListVoteHistory().subscribe({
+    this.voteService.viewListVoteHistory(this.param.pageNumber, this.param.pageSize).subscribe({
       next: (res) => {
-        this.slectionArray = res.data;
+        this.slectionArray = res.data.data;
+        this.totalCount = res.data.totalItems
       },
       error: (err) => {
         this.message.error('Lỗi hệ thống');
@@ -92,6 +95,14 @@ export class StatisticalListComponent implements OnInit {
       this.listDetailVote = candidateRes.data;
       this.cdr.detectChanges();
     });
+  }
+
+  infoVote(voteId: string, role: string): void {
+    if(role === 'Voter') {
+      this.router.navigate([`/slection-ticket/result/${voteId}`]);
+    } else if (role === 'Candidate') {
+      this.router.navigate([`/slection-follow/detail/${voteId}`]);
+    }
   }
   
   handleChangeChart(name: string) {

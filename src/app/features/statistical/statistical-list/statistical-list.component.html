@@ -81,10 +81,12 @@
                               <td >
                                 {{item?.positionName}}
                               </td>
-                              <td >
-                                {{item?.status}}
+                              <td [ngClass]="{'text-green-500': item?.roleUser === 'Voter', 'text-red-500': item?.roleUser === 'Candidate'}"
+                              class="font-medium"
+                              >
+                                {{item?.roleUser === 'Voter' ? 'Cử tri' : item?.roleUser === 'Candidate' ? 'Ứng viên' : ''}}
                               </td>
-                              <td class="cursor-pointer">
+                              <td (click)="infoVote(item?.id, item?.roleUser)" class="cursor-pointer">
                                 <i class="fa-solid fa-circle-info text-yellow-500 text-[14px] hover:scale-105"></i>
                               </td>
                             </tr>

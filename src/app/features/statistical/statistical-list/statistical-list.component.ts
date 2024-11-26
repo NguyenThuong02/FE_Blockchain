@@ -61,7 +61,6 @@ export class StatisticalListComponent implements OnInit {
       this.viewVoteforAdmin();
     } else if(this.role[0] === 'User') {
       this.canActive = false;
-      // this.viewVoteforUser();
       this.viewVoteHistory();
     }
   }

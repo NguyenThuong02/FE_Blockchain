@@ -49,7 +49,8 @@
     </div>
 
     <div class="flex gap-6 mt-8">
-        <div class="w-[40%] max-h-[590px] bg-white rounded-lg shadow-shadow-timeword p-4">
+        <!-- Users -->
+        <div  *ngIf="!canActive" class="w-[40%] max-h-[590px] bg-white rounded-lg shadow-shadow-timeword p-4">
             <div class="w-full font-medium text-start text-primary text-[18px]">Lịch sử các cuộc bầu cử đã tham gia</div>
             <div>
                 <div [style.height]="'450px'"
@@ -100,6 +101,36 @@
                       (PageEvent)="changePage($event)" (PageSizeEvent)="changePageSize($event)"></app-pagi>
                   </div>
             </div>
+        </div>
+        <!-- Admin -->
+        <div *ngIf="canActive" class="w-[40%] flex flex-col gap-6">
+          <div class="w-full flex h-[100px] bg-white rounded-lg shadow-shadow-timeword">
+            <div class="h-full w-[100px] flex items-center justify-center bg-[#30cded] rounded-tl-lg rounded-bl-lg">
+              <i class="fa-solid fa-users text-white font-semibold text-[26px]"></i>
+            </div>
+            <div class="h-full flex-1 flex flex-col items-start justify-start p-4 rounded-lg">
+              <div class="text-[20px] font-normal">Người dùng</div>
+              <div class="text-[20px] font-semibold">12 <span class="text-[12px] font-normal text-red-500 cursor-pointer">(Chi tiết)</span></div>
+            </div>
+          </div>
+          <div class="w-full flex h-[100px] bg-white rounded-lg shadow-shadow-timeword">
+            <div class="h-full w-[100px] flex items-center justify-center bg-green-500 rounded-tl-lg rounded-bl-lg">
+              <i class="fa-solid fa-book-open-reader text-white font-semibold text-[26px]"></i>
+            </div>
+            <div class="h-full flex-1 flex flex-col items-start justify-start p-4 rounded-lg">
+              <div class="text-[20px] font-normal">Chức vụ</div>
+              <div class="text-[20px] font-semibold">12 <span class="text-[12px] font-normal text-red-500 cursor-pointer">(Chi tiết)</span></div>
+            </div>
+          </div>
+          <div class="w-full flex h-[100px] bg-white rounded-lg shadow-shadow-timeword">
+            <div class="h-full w-[100px] flex items-center justify-center bg-yellow-500 rounded-tl-lg rounded-bl-lg">
+              <i class="fa-solid fa-sitemap text-white font-semibold text-[26px]"></i>
+            </div>
+            <div class="h-full flex-1 flex flex-col items-start justify-start p-4 rounded-lg">
+              <div class="text-[20px] font-normal">Cuộc bầu cử</div>
+              <div class="text-[20px] font-semibold">12 <span class="text-[12px] font-normal text-red-500 cursor-pointer">(Chi tiết)</span></div>
+            </div>
+          </div>
         </div>
         <div class="w-[60%] min-h-[200px] flex flex-col gap-4 bg-white rounded-lg shadow-shadow-timeword p-4">
             <div class="w-full font-medium text-start text-primary text-[18px]">Lịch bầu cử</div>

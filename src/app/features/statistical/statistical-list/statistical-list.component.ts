@@ -37,13 +37,6 @@ export class StatisticalListComponent implements OnInit {
   };
   public slectionArray: any = [];
   public listDetailVote: any = [];
-  public listCandidate: any = [
-    {
-      id: '1',
-      fullName: 'Nguyễn Văn A',
-      email: '',
-    }
-  ];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -66,7 +59,8 @@ export class StatisticalListComponent implements OnInit {
       this.viewVoteforAdmin();
     } else if(this.role[0] === 'User') {
       this.canActive = false;
-      this.viewVoteforUser();
+      // this.viewVoteforUser();
+      this.viewVoteHistory();
     }
   }
 
@@ -81,8 +75,8 @@ export class StatisticalListComponent implements OnInit {
     })
   }
 
-  viewVoteforUser() {
-    this.voteService.viewListVoteForUser().subscribe({
+  viewVoteHistory() {
+    this.voteService.viewListVoteHistory().subscribe({
       next: (res) => {
         this.slectionArray = res.data;
       },

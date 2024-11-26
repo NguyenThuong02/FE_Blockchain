@@ -32,6 +32,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ResultEvotingComponent implements OnInit {
   public chartType: any = 'columns'
+  public leadingCandidate: any = null;
   public type: any = 'candidate'
   public isLoading: boolean = false;
   isCandidateDataReady = false; 
@@ -67,6 +68,11 @@ export class ResultEvotingComponent implements OnInit {
         if(this.infoVote) {
           this.voteService.listViewCandidate(id).subscribe((candidateRes) => {
             this.listCandidate = candidateRes.data;
+            
+            this.leadingCandidate = this.listCandidate.reduce((max: any, candidate: any) => 
+            candidate.totalBallot > max.totalBallot ? candidate : max
+          , this.listCandidate[0]);
+
             this.isCandidateDataReady = true; 
             this.cdr.detectChanges();
           });

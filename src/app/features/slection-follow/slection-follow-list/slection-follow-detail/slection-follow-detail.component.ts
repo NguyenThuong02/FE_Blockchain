@@ -31,6 +31,7 @@ export class SlectionFollowDetailComponent {
   isCandidateDataReady = false; 
   public idVote: any = '';
   public infoVote: any = {};
+  public leadingCandidate: any = null;
   public totalCount: number = 10;
   maxheight: string = '';
   public param = {
@@ -59,6 +60,9 @@ export class SlectionFollowDetailComponent {
         if(this.infoVote) {
           this.voteService.listViewCandidate(id).subscribe((candidateRes) => {
             this.listCandidate = candidateRes.data;
+            this.leadingCandidate = this.listCandidate.reduce((max: any, candidate: any) => 
+            candidate.totalBallot > max.totalBallot ? candidate : max
+          , this.listCandidate[0]);
             this.isCandidateDataReady = true; 
             this.cdr.detectChanges();
           });

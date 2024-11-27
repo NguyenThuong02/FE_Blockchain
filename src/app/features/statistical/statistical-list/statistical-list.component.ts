@@ -7,13 +7,16 @@ import { PagiComponent } from '../../../shared/components/pagi/pagi.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { VoteService } from '../../../core/api/vote.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ManagermentService } from '../../../core/api/managerment.service';
+import { PositionService } from '../../../core/api/position.service';
 
 @Component({
   selector: 'app-statistical-list',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     ChartColumnsComponent,
     ChartCircleComponent,
     SheducerComponent,
@@ -27,6 +30,9 @@ export class StatisticalListComponent implements OnInit {
   public chartType: any = 'columns'
   public isLoading: boolean = false;
   public totalCount: number = 0;
+  public totalUser: number = 0;
+  public totalPosition: number = 0;
+  public totalListVote: number = 0;
   public idOwner: any;
   public nameOwner: any;
   public canActive: boolean = false;
@@ -44,6 +50,8 @@ export class StatisticalListComponent implements OnInit {
     private voteService: VoteService,
     private message: NzMessageService,
     private router: Router,
+    private managermentService: ManagermentService,
+    private positionService: PositionService,
   ){}
 
   ngOnInit(): void {
@@ -59,6 +67,9 @@ export class StatisticalListComponent implements OnInit {
     if(this.role[0] === 'Administrator'){
       this.canActive = true;
       this.viewVoteforAdmin();
+      this.viewListUser();
+      this.viewListPosition();
+      this.viewListVote();
     } else if(this.role[0] === 'User') {
       this.canActive = false;
       this.viewVoteHistory();
@@ -102,6 +113,29 @@ export class StatisticalListComponent implements OnInit {
     } else if (role === 'Candidate') {
       this.router.navigate([`/slection-follow/detail/${voteId}`]);
     }
+  }
+
+  viewListUser() {
+    this.managermentService.getAllManagement(1, 99).subscribe(res => {
+      this.totalUser = res.totalItems;
+    })
+  }
+
+  viewListPosition() {
+    this.positionService.getAllPosition(1, 99).subscribe({
+      next: (res) => {
+        this.totalPosition = res.totalItems;
+      }
+    })
+  }
+
+  viewListVote() {
+    this.isLoading = true;
+    this.voteService.viewListVote().subscribe({
+      next: (res) => {
+        this.totalListVote = res.data.length;
+      }
+    })
   }
   
   handleChangeChart(name: string) {

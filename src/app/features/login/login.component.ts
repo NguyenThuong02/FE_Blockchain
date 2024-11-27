@@ -42,7 +42,6 @@ import { PopUpCheckPhoneComponent } from '../forgot-pass-word/pop-up-check-phone
   imports: [
     CommonModule,
     MatInput,
-    MatLabel,
     ReactiveFormsModule,
     MatFormFieldModule,
     NzCheckboxModule,
@@ -177,7 +176,11 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         this.isLoading = false;
-        this._snackBar.error(this.wrongUserNameOrPassword);
+        if (err?.error?.error_description.includes('The user account has been disabled.')) {
+          this._snackBar.error('Tài khoản của bạn đã bị vô hiệu hoá');
+        } else {
+          this._snackBar.error(this.wrongUserNameOrPassword);
+        }
       });
 
     this.OAuthService.events.subscribe((event) => {

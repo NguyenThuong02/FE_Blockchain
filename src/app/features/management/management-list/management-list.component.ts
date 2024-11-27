@@ -138,12 +138,11 @@ export class ManagementListComponent implements OnInit{
       this.isVisible = true;
       this.nameManagement = name;
     } else if (status === 'Disable') {
-      this.accountService.disableAccount(this.idManagement).subscribe({
+      this.accountService.activeAccount(this.idManagement).subscribe({
         next: (res) => {
+          this.viewListUser();
           this.cdr.detectChanges();
-        },
-        error: (err) => {
-          this.message.error('Gỡ vô hiệu hoá người dùng thất bại!');
+          this.message.success('Active account successfully!');
         },
       })
     }

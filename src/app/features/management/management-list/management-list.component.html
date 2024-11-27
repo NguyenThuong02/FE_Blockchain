@@ -74,8 +74,9 @@
         <td scope="col" [ngClass]="{'text-green-500': row.status === 'Active', 'text-red-600': row.status === 'Disabled'}">
           {{row.status === 'Active' ? 'Hoạt động' : 'Vô hiệu hoá'}}
         </td>
-        <td (click)="openDisablePopup(row?.id, row?.userName)" scope="col" class="!text-center cursor-pointer">
-          <i class="fa-solid fa-user-xmark text-myRed"></i>
+        <td (click)="openDisablePopup(row?.id, row?.userName, row?.status)" scope="col" class="!text-center cursor-pointer">
+          <i *ngIf="row.status === 'Active'" class="fa-solid fa-user-xmark text-myRed"></i>
+          <i *ngIf="row.status === 'Disabled'" class="fa-solid fa-user-check text-green-500"></i>
         </td>
       </ng-template>
     </app-share-table>

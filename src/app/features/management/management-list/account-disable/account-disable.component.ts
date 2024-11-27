@@ -44,7 +44,11 @@ export class AccountDisableComponent {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.message.error('Disable account failed!');
+        if (err.error.includes('User has voted in an active vote')) {
+          this.message.error('Người dùng đang trong cuộc bầu cử, không thể vô hiệu hoá');
+        } else {
+          this.message.error(`Lỗi: ${err.error}`);
+        }
       },
     })
   }

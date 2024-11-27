@@ -12,6 +12,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { ManagementAddComponent } from '../management-add/management-add.component';
 import { AccountDisableComponent } from './account-disable/account-disable.component';
+import { AccountService } from '../../../core/api/account.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-management-list',
@@ -88,6 +90,8 @@ export class ManagementListComponent implements OnInit{
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private managermentService: ManagermentService,
+    private accountService: AccountService,
+    private message: NzMessageService,
   ){}
   
   ngOnInit(): void {
@@ -128,10 +132,21 @@ export class ManagementListComponent implements OnInit{
     this.isVisiblePopUpEditManagement = true;
   }
 
-  openDisablePopup(id?: string, name?: any) {
-    this.isVisible = true;
-    this.nameManagement = name;
+  openDisablePopup(id?: string, name?: any, status?: any) {
     this.idManagement = id;
+    if(status === 'Active') {
+      this.isVisible = true;
+      this.nameManagement = name;
+    } else if (status === 'Disable') {
+      this.accountService.disableAccount(this.idManagement).subscribe({
+        next: (res) => {
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.message.error('Gỡ vô hiệu hoá người dùng thất bại!');
+        },
+      })
+    }
   }
   isVisible: boolean = false;
   handleChangeVisible(data: any) {

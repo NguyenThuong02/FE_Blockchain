@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DetailCtvComponent } from '../../slection-management/slection-management-list/detail-ctv/detail-ctv.component';
 import { VoteService } from '../../../core/api/vote.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-slection-follow-list',
@@ -25,6 +26,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     ShareTableModule,
     RouterModule,
     NzIconModule,
+    NzSpinModule,
     TranslateModule,
     MatInputModule,
     MatFormFieldModule,
@@ -61,6 +63,11 @@ export class SlectionFollowListComponent {
   ];
   public searchQuery: string = '';
   public role: string;
+  public isCandidatesLoading: boolean = true;
+  public isVotersLoading: boolean = true;
+  get isLoadingOK(): boolean {
+    return this.isCandidatesLoading || this.isVotersLoading;
+  }
 
   form: FormGroup = this.fb.group({
     name: [''],
@@ -98,13 +105,19 @@ export class SlectionFollowListComponent {
           
           // Tải danh sách ứng viên và cử tri cho mỗi cuộc bầu cử
           this.listVote.forEach((vote: any) => {
-            this.voteService.listViewCandidate(vote.id).subscribe((candidateRes) => {
-              vote.candidates = candidateRes.data;
-              this.cdr.detectChanges();
+            this.voteService.listViewCandidate(vote.id).subscribe({
+              next: (candidateRes) => {
+                vote.candidates = candidateRes.data;
+                this.cdr.detectChanges();
+                this.isCandidatesLoading = false;
+              }
             });
-            this.voteService.listViewVoter(vote.id).subscribe((voterRes) => {
-              vote.voters = voterRes.data;
-              this.cdr.detectChanges();
+            this.voteService.listViewVoter(vote.id).subscribe({
+              next: (voterRes) => {
+                vote.voters = voterRes.data;
+                this.cdr.detectChanges();
+                this.isVotersLoading = false;
+              }
             });
           });
         }

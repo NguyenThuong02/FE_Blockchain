@@ -15,6 +15,7 @@ import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { DetailCtvComponent } from './detail-ctv/detail-ctv.component';
 import { VoteService } from '../../../core/api/vote.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-slection-management-list',
@@ -27,6 +28,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     ShareTableModule,
     RouterModule,
     NzIconModule,
+    NzSpinModule,
     TranslateModule,
     MatInputModule,
     MatFormFieldModule,
@@ -49,6 +51,12 @@ export class SlectionManagementListComponent implements OnInit{
   public nameSlection: any = '';
   public selectedView: string = 'candidate'; 
   public listVote: any = [];
+  public isCandidatesLoading: boolean = true;
+  public isVotersLoading: boolean = true;
+  get isLoadingOK(): boolean {
+    return this.isCandidatesLoading || this.isVotersLoading;
+  }
+
   public listStatus: any = [
     {
       label: 'Chưa bắt đầu',
@@ -107,7 +115,6 @@ export class SlectionManagementListComponent implements OnInit{
     this.isLoading = true;
     this.voteService.viewListVote().subscribe({
       next: (res) => {
-        this.isLoading = false;
         this.listVote = res.data.map((vote: any) => {
           return {
             ...vote,
@@ -118,13 +125,19 @@ export class SlectionManagementListComponent implements OnInit{
         
         // Tải danh sách ứng viên và cử tri cho mỗi cuộc bầu cử
         this.listVote.forEach((vote: any) => {
-          this.voteService.listViewCandidate(vote.id).subscribe((candidateRes) => {
-            vote.candidates = candidateRes.data;
-            this.cdr.detectChanges();
+          this.voteService.listViewCandidate(vote.id).subscribe({
+            next: (candidateRes) => {
+              vote.candidates = candidateRes.data;
+              this.cdr.detectChanges();
+              this.isCandidatesLoading = false;
+            }
           });
-          this.voteService.listViewVoter(vote.id).subscribe((voterRes) => {
-            vote.voters = voterRes.data;
-            this.cdr.detectChanges();
+          this.voteService.listViewVoter(vote.id).subscribe({
+            next: (voterRes) => {
+              vote.voters = voterRes.data;
+              this.cdr.detectChanges();
+              this.isVotersLoading = false;
+            }
           });
         });
   

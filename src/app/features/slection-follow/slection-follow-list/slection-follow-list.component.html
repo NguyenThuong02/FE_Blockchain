@@ -75,7 +75,8 @@
                         </div>
                         <div class="media-scroller snaps-inline">
                             <div *ngFor="let array of slection.candidates, let i2 = index" class="media-element mt-2 flex flex-col items-center">
-                              <img class="rounded-[50%] object-cover h-[50px] w-[50px]" src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                              <img *ngIf="array.imageUrl === null" class="rounded-[50%] object-cover h-[50px] w-[50px]" src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                              <img *ngIf="array.imageUrl !== null" class="rounded-[50%] object-cover h-[50px] w-[50px]" [src]="array.imageUrl" alt="">
                               <div class="flex flex-col items-center gap-1">
                                 <div class="text-center text-[16px] font-medium">{{array.fullname}}</div>
                                 <div class="text-center text-[14px] font-normal">{{array.userName}}</div>
@@ -99,3 +100,5 @@
       </ng-template>
     </nz-spin>
 </div>
+
+<app-detail-ctv [isVisibleDetail]="isVisibleDetail" [idCtv]="idCtv" (visiblePopUpDetail)="handleChangeDetailVisible($event)"></app-detail-ctv>

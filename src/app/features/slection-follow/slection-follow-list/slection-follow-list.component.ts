@@ -32,6 +32,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
+    DetailCtvComponent
   ],
   templateUrl: './slection-follow-list.component.html',
   styleUrl: './slection-follow-list.component.scss'

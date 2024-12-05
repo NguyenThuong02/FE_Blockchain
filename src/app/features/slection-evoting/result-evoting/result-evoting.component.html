@@ -27,7 +27,8 @@
                 <div class="w-full font-medium text-primary text-[18px]">Người dẫn đầu</div>
                 <div class="w-full flex justify-between items-end my-3">
                     <div class="flex flex-col flex-1 items-center gap-2">
-                        <img src="../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" class="w-[100px] h-[100px] object-cover" />
+                        <img *ngIf="leadingCandidate.imageUrl === null" src="../../../assets/img/Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN.webp" class="w-[100px] h-[100px] object-cover" />
+                        <img *ngIf="leadingCandidate.imageUrl !== null" [src]="leadingCandidate.imageUrl" class="w-[100px] h-[100px] object-cover rounded-[50%]" />
                         <div class="text-[16px] font-medium">{{ leadingCandidate.fullName }}</div>
                     </div>
                     <div class="flex flex-col flex-1 justify-end items-center h-full">

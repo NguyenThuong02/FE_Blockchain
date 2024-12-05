@@ -95,6 +95,8 @@ export class MyInfoViewComponent implements OnInit {
       this.isEdit = !this.isEdit
       if( this.isEdit ){
           this.form.enable()
+          this.form.get('email')?.disable();
+          this.form.get('userName')?.disable();
       } else {
           this.form.disable();
       }
@@ -179,19 +181,33 @@ export class MyInfoViewComponent implements OnInit {
   }
 
   handleSubmit(): void {
-      if (this.form.invalid) {
-          this.form.markAsDirty()
-      } else {
-
-      }
+      // if (this.form.invalid) {
+      //     this.form.markAsDirty()
+      // } else {}
       const body = {
-        fullname: this.form.get('fullName')?.value,
-        userName: this.form.get('userName')?.value,
+        fullName: this.form.get('fullName')?.value,
+        gender: this.form.get('gender')?.value,
+        address: this.form.get('address')?.value,
         birthday: this.form.get('dob')?.value,
-        imgAvt: this.avatarPreview,
-        identityCardUrl: this.identityCardUrl,
+        cellPhone: this.form.get('phoneNumber')?.value,
+        imageUrl: this.avatarPreview,
+        identityCardImage: this.identityCardUrl,
+        identityCardNumber: this.form.get('idNumber')?.value,
+        identityCardDate: this.form.get('dateOfIssue')?.value,
+        identityCardPlace: this.form.get('placeOfIssue')?.value,
     }
-    console.log("Body", body);
+    this.accountService.updateInfo(body).subscribe({
+      next: (res) => {
+        this.message.success('Cập nhật thông tin thành công');
+        this.getViewInfo();
+        this.isEdit = false;
+        this.form.disable();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.message.error('Cập nhật thông tin thất bại');
+      },
+    });
   }
   handleCancel(): void {
       

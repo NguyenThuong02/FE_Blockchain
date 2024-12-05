@@ -15,6 +15,10 @@ export class VoteService {
     return this.http.post(this.apiUrl + `/api/vote/create`, body);
   }
 
+  sendEmail(body?: any): Observable<any> {
+    return this.http.post(this.apiUrl + `/api/vote/send-mail-candidate`, body);
+  }
+
   viewListVote(): Observable<any> {
     return this.http.get(this.apiUrl + `/api/vote/View-list`);
   }

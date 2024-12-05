@@ -16,6 +16,7 @@ import { rePassValidator } from '../../../shared/validate/check-repass.directive
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { VoteService } from '../../../core/api/vote.service';
 import { PositionService } from '../../../core/api/position.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-slection-management-add',
@@ -23,7 +24,6 @@ import { PositionService } from '../../../core/api/position.service';
   imports: [
     FormsModule,
     MatInput,
-    MatLabel,
     CommonModule,
     NzModalComponent,
     NzModalModule,
@@ -170,14 +170,16 @@ export class SlectionManagementAddComponent implements OnInit, OnChanges{
       voters: this.form.get('voters')?.value,
       voterNames: this.voterNames
     };
-    this.voteService.createVote(body).subscribe({
-      next: (res) => {
-        this.message.success('Tạo cuộc bầu cử mới thành công');
+    this.voteService.createVote(body).pipe(
+      switchMap(() => this.voteService.sendEmail(body))
+    ).subscribe({
+      next: () => {
+        this.message.success('Tạo cuộc bầu cử và gửi email thành công');
         this.visiblePopUpAddSlectionManagement.emit(false);
       },
       error: (err) => {
         this.message.error('Đã xảy ra lỗi!');
-      },
+      }
     });
   }
 
